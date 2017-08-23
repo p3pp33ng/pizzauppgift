@@ -32,6 +32,5 @@ namespace NackaPizzaOnline.Data
         public DbSet<DishIngredient> DishIngredients { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<User> Users { get; set; }
     }
 }
