@@ -1,12 +1,12 @@
 ﻿@model NackaPizzaOnline.Models.DishIngredient
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Ändra";
 }
 
-<h2>Edit</h2>
+<h2>Ändra</h2>
 
-<h4>DishIngredient</h4>
+<h4>Maträttsingedienser</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,14 +15,14 @@
             <input type="hidden" asp-for="DishId" />
             <input type="hidden" asp-for="IngredientId" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Spara" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Tillbaka</a>
 </div>
 
 @section Scripts {

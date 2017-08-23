@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<NackaPizzaOnline.Models.Ingredient>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ingrediens";
 }
 
-<h2>Index</h2>
+<h2>Ingrediens</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Lägga till</a>
 </p>
 <table class="table">
     <thead>
@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.PriceIfExtra)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IngredientId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IngredientId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IngredientId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IngredientId">Ändra</a> |
+                <a asp-action="Details" asp-route-id="@item.IngredientId">Detaljer</a> |
+                <a asp-action="Delete" asp-route-id="@item.IngredientId">Ta bort</a>
             </td>
         </tr>
 }

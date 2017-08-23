@@ -30,9 +30,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Dish" asp-action="Index">Meny</a></li>
+                    <li><a asp-area="" asp-controller=""></a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Ingredient" asp-action="Index">Lägga ingredienser</a></li>
+                        <li><a asp-area="" asp-controller="DishIngredient" asp-action="Index">Hantera ingedienser i maträtter</a></li>
+                    }                    
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
