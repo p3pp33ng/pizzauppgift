@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NackaPizzaOnline</title>
+    <title>@ViewData["Title"] - Nacka Pizzeria Online</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -31,9 +31,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Dish" asp-action="Index">Meny</a></li>
-                    <li><a asp-area="" asp-controller=""></a></li>
+                    @*TODO Lägga in en if sats för om man är inloggad på sitt konto*@
+                    <li><a asp-area="" asp-controller="User" asp-action="Index">Mitt konto</a></li>
                     @if (User.IsInRole("Admin"))
                     {
+                        //TODO Lägga till så man kan hantera användares konton
+                        <li><a asp-controller="Dish" asp-action="Create">Lägga till maträtt</a></li>
                         <li><a asp-area="" asp-controller="Ingredient" asp-action="Index">Lägga ingredienser</a></li>
                         <li><a asp-area="" asp-controller="DishIngredient" asp-action="Index">Hantera ingedienser i maträtter</a></li>
                     }                    
@@ -46,7 +49,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2017 - NackaPizzaOnline</p>
+            <p>&copy; 2017 - Nacka Pizzeria Online</p>
         </footer>
     </div>
 
