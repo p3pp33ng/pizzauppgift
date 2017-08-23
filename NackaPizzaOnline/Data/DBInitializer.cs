@@ -12,23 +12,24 @@ namespace NackaPizzaOnline.Data
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager)
         {
+            var userRole = new IdentityRole { Name = "User" };
+            IdentityResult userRoleResult = roleManager.CreateAsync(userRole).Result;
             var aUser = new ApplicationUser
             {
                 UserName = "user@mail.com",
                 Email = "user@mail.com"
             };
             IdentityResult result = userManager.CreateAsync(aUser, "pa$$w0rd").Result;
+            userManager.AddToRoleAsync(aUser, userRole.Name);
 
             var adminRole = new IdentityRole { Name = "Admin" };
             IdentityResult roleResult = roleManager.CreateAsync(adminRole).Result;
-
             var adminUser = new ApplicationUser
             {
                 UserName = "admin@mail.com",
                 Email = "admin@mail.com"
             };
             IdentityResult adminResult = userManager.CreateAsync(adminUser, "Adm1n$").Result;
-
             userManager.AddToRoleAsync(adminUser, adminRole.Name);
 
 
