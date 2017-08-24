@@ -19,6 +19,7 @@ namespace NackaPizzaOnline.Controllers
         }
         public IActionResult Index()
         {
+
             return View();
         }
 
