@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NackaPizzaOnline.Models;
+using NackaPizzaOnline.Models.HomeViewModels;
 using NackaPizzaOnline.Data;
 
 namespace NackaPizzaOnline.Controllers
@@ -19,8 +20,13 @@ namespace NackaPizzaOnline.Controllers
         }
         public IActionResult Index()
         {
-
-            return View();
+            var model = new MenyViewModel
+            {
+                Categories = _context.Categories.ToList(),
+                DishIngredients = _context.DishIngredients.ToList(),
+                Ingredients = _context.Ingredients.ToList()
+            };
+            return View(model);
         }
 
         #region Cart

@@ -1,6 +1,23 @@
-﻿@{
+﻿@model NackaPizzaOnline.Models.HomeViewModels.MenyViewModel
+@{
     ViewData["Title"] = "Nacka Pizzeria Online";
 }
+
+<h2>Meny</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Meny</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DishIngredients)
+        {
+
+        }
+    </tbody>
+</table>
 
 @*<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
