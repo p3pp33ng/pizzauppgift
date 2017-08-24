@@ -2,34 +2,40 @@
 @{
     ViewData["Title"] = "Nacka Pizzeria Online";
 }
-
+<h2>Meny</h2>
 <div class="row">
     <div class="col-md-8">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Meny</th>
-                </tr>
-            </thead>
-            <tbody>
+        <table class="table">           
                 @foreach (var item in Model.Dishes)
             {
                     <tr>
                         <td>
                             <div>
-                                <p>@item.Name</p><br />
+                                <p>@item.Name</p>
+                                <button>
+                                    @*TODO ska vara en knapp för att lägga till/ta bort ingredienser, ska leda till en modal*@
+                                </button>
+                                <button>
+                                    @*TODO Ska vara knappen för att köpa maträtten*@
+                                </button>
+                                <br />
                                 @foreach (var ingredient in item.DishIngredients)
                                 {
-                                    <p>@ingredient.Ingredient.Name</p>
+                                    <p>@ingredient.Ingredient.Name</p> @*TODO Lägga ingredienser i block och inte column riktning*@
                                 }
                             </div>
                         </td>
                     </tr>
                 }
-            </tbody>
         </table>
     </div>
 </div>
+<div class="cartview">
+    @Html.Partial("_CartView");
+</div>
+
+@*TODO Modal kod, ska kunna välja ingredienser, dom som redan finnas ska vara förkryssade, och att om man väljer nya så kommer dom sparas ner.*@
+
 @*<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
