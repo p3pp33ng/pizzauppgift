@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Models.HomeViewModels;
 using NackaPizzaOnline.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -19,20 +20,20 @@ namespace NackaPizzaOnline.Controllers
             _context = context;
         }
         public IActionResult Index()
-        {
+        {         
             var model = new MenyViewModel
             {
                 Categories = _context.Categories.ToList(),
-                DishIngredients = _context.DishIngredients.ToList(),
+                Dishes = _context.Dishes.Include("DishIngredients").ToList(),
                 Ingredients = _context.Ingredients.ToList()
             };
             return View(model);
         }
 
         #region Cart
-        public IActionResult AddToCart()
+        public PartialViewResult AddToCart()
         {
-            return View();
+            return PartialView();
         }
 
         public void AddCart()

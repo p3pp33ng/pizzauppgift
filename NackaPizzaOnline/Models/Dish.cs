@@ -8,6 +8,7 @@ namespace NackaPizzaOnline.Models
 {
     public class Dish
     {
+        [Key]
         public int DishId { get; set; }
         [Display(Name = "Namn")]
         public string Name { get; set; }
