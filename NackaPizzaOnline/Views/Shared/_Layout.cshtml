@@ -33,7 +33,7 @@
                     <li><a asp-area="" asp-controller="Dish" asp-action="Index">Meny</a></li>
                     @if (User.IsInRole("User"))
                     {
-                        <li><a asp-area="" asp-controller="User" asp-action="Index">Mitt konto</a></li>
+                        <li><a asp-area="" asp-controller="ApplicationUser" asp-action="Index">Mitt konto</a></li>
                     }                    
                     @if (User.IsInRole("Admin"))
                     {
