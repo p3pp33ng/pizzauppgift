@@ -22,20 +22,17 @@ namespace NackaPizzaOnline.Controllers
             return View();
         }
 
-        public IActionResult About()
+        #region Cart
+        public IActionResult AddToCart()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
-        public IActionResult Contact()
+        public void AddCart()
         {
-            ViewData["Message"] = "Your contact page.";
 
-            return View();
         }
-
+        #endregion
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
