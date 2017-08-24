@@ -59,6 +59,11 @@ namespace NackaPizzaOnline.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address,
+                ZipCode = user.ZipCode,
+                City = user.City,
 
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage
