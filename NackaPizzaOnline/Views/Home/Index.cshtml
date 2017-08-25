@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Nacka Pizzeria Online";
 }
+
 <h2>Meny</h2>
 <div class="row">
     <div class="col-md-8">
@@ -12,7 +13,7 @@
                         <td>
                             <div>
                                 <p>@item.Name</p>
-                                <button id="ingredientsbtn">
+                                <button id="ingredientsbtn" class="btn btn-default">
                                     @*TODO ska vara en knapp för att lägga till/ta bort ingredienser, ska leda till en modal*@
                                 </button>
                                 <button id="buybtn">
@@ -31,11 +32,16 @@
     </div>
 </div>
 <div class="cartview">
-    @Html.Partial("_CartView");
+    @Html.Partial("_CartView")
 </div>
 
 @*TODO Modal kod, ska kunna välja ingredienser, dom som redan finnas ska vara förkryssade, och att om man väljer nya så kommer dom sparas ner.*@
-
+<div id="ingredientModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>JAg är en modal?</p>
+    </div>
+</div>
 @*<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>

@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Style\" />
-    <Folder Include="Scripts\" />
+    <None Include="wwwroot\css\Style\Home\Index.css" />
+    <None Include="wwwroot\js\Scripts\Home\IndexScript.js" />
   </ItemGroup>
 
 </Project>
