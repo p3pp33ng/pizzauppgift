@@ -2,32 +2,46 @@
 @{
     ViewData["Title"] = "Nacka Pizzeria Online";
 }
+@{
+    var ingredients = "";
+}
 
 <h2>Meny</h2>
 <div class="row">
     <div class="col-md-8">
-        <table class="table">           
-                @foreach (var item in Model.Dishes)
+        <table class="table">
+            @foreach (var item in Model.Dishes)
             {
-                    <tr>
-                        <td>
-                            <div>
-                                <p class="dishName">@item.Name</p>                               
-                                <br />
-                                @foreach (var ingredient in item.DishIngredients)
+                <tr>
+                    <td>
+                        <div>
+                            <p class="dishName">@item.Name</p>
+                            <br />
+                            @for (var i = 0; i < item.DishIngredients.Count; ++i)
+                            {
+                                if (i != item.DishIngredients.Count - 1)
                                 {
-                                    <p class="ingredientName">@ingredient.Ingredient.Name</p> @*TODO Lägga ingredienser i block och inte column riktning*@
+                                    ingredients += item.DishIngredients[i].Ingredient.Name + ", ";
                                 }
-                                <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo(@item.DishId)">
-                                    <span class="glyphicon glyphicon glyphicon-th"></span>
-                                </button>
-                                <button id="buybtn" class="btn btn-default">
-                                    <span class="glyphicon glyphicon glyphicon-shopping-cart"></span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                }
+                                else
+                                {
+                                    ingredients += " och " + item.DishIngredients[i].Ingredient.Name + ".";
+                                }
+                            }
+                            <p class="ingredientName">@ingredients</p>
+                            @{
+                                ingredients = "";
+                            }
+                            <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo(@item.DishId)">
+                                <span class="glyphicon glyphicon glyphicon-th"></span>
+                            </button>
+                            <button id="buybtn" class="btn btn-default">
+                                <span class="glyphicon glyphicon glyphicon-shopping-cart"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                                }
         </table>
     </div>
 </div>
@@ -104,6 +118,6 @@
             <span class="sr-only">Next</span>
         </a>
     </div>*@
-@section Scripts{ 
+@section Scripts{
     <script type="text/javascript" src="~/js/HomeIndex.js"></script>
 }
