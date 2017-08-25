@@ -12,18 +12,18 @@
                     <tr>
                         <td>
                             <div>
-                                <p>@item.Name</p>
-                                <button id="ingredientsbtn" class="btn btn-default">
-                                    @*TODO ska vara en knapp för att lägga till/ta bort ingredienser, ska leda till en modal*@
-                                </button>
-                                <button id="buybtn">
-                                    @*TODO Ska vara knappen för att köpa maträtten*@
-                                </button>
+                                <p class="dishName">@item.Name</p>                               
                                 <br />
                                 @foreach (var ingredient in item.DishIngredients)
                                 {
-                                    <p>@ingredient.Ingredient.Name</p> @*TODO Lägga ingredienser i block och inte column riktning*@
+                                    <p class="ingredientName">@ingredient.Ingredient.Name</p> @*TODO Lägga ingredienser i block och inte column riktning*@
                                 }
+                                <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo(@item.DishId)">
+                                    <span class="glyphicon glyphicon glyphicon-th"></span>
+                                </button>
+                                <button id="buybtn" class="btn btn-default">
+                                    <span class="glyphicon glyphicon glyphicon-shopping-cart"></span>
+                                </button>
                             </div>
                         </td>
                     </tr>

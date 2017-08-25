@@ -13,3 +13,20 @@ window.onclick = function (event) {
         modal.style.display = 'none';
     }
 }
+
+function GetDishInfo(id) {
+    $.ajax({
+        type: 'POST',
+        data: id,
+        datatype:'json',
+        url: "/Home/GetDishInfoForModal",
+        success: function (response) {
+            if (!response == null) {
+                //Lägg upp all data från objektet i modalen.
+            }
+            else {
+                //Visa felmeddelande att maträtten inte finns.
+            }
+        }
+    });
+};

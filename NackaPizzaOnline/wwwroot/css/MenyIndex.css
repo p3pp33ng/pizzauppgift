@@ -28,3 +28,11 @@
     text-decoration:none;
     cursor:pointer;
 }
+
+.dishName{
+    font-weight:bold;
+}
+
+.ingredientName{
+    font-style:italic;
+}

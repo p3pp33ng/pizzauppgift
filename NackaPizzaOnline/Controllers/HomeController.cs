@@ -30,6 +30,12 @@ namespace NackaPizzaOnline.Controllers
             return View(model);
         }
 
+        //public Dish GetDishInfoForModal(int id)
+        //{
+        //    var dish = _context.Dishes.Single(d => d.DishId == id);
+        //    return Json(new {  });
+        //}
+
         #region Cart
         public PartialViewResult AddToCart()
         {
