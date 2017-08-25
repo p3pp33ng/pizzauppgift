@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-NackaPizzaOnline-9B3911C3-418A-42AA-B8D1-077D1B97DCAF</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="Scripts\Home\IndexScript.js" />
+    <Content Include="Style\Home\Index.css" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
@@ -16,11 +21,6 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\css\Style\Home\Index.css" />
-    <None Include="wwwroot\js\Scripts\Home\IndexScript.js" />
   </ItemGroup>
 
 </Project>
