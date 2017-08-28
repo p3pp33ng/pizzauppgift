@@ -42,18 +42,21 @@ namespace NackaPizzaOnline.Controllers
             var allIngredients = _context.Ingredients
                 .OrderBy(i=>i.IngredientId)
                 .ToList();
+            
 
             var otherIngredients = new Dictionary<int, string>();
             var dishAlreadyHaveIngredients = new Dictionary<int,string>();
-            foreach (var item in dishIngredients)
+            //var remainingIngredients = new Dictionary<int, string>();
+            foreach (var curretIngredient in dishIngredients)
             {
-                dishAlreadyHaveIngredients.Add(item.Ingredient.IngredientId,item.Ingredient.Name);
+                dishAlreadyHaveIngredients.Add(curretIngredient.Ingredient.IngredientId,curretIngredient.Ingredient.Name);
             }
-            foreach (var item in allIngredients)
+            foreach (var otherIngredient in allIngredients)
             {
-                otherIngredients.Add(item.IngredientId, item.Name);
+                otherIngredients.Add(otherIngredient.IngredientId, otherIngredient.Name);
             }
-            var json = new { dishName, dishAlreadyHaveIngredients, otherIngredients };
+           var remainingIngredients = otherIngredients.Except(dishAlreadyHaveIngredients);
+            var json = new { dishName, dishAlreadyHaveIngredients, remainingIngredients };
             return Json(json);
         }
 
