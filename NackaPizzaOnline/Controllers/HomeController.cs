@@ -29,14 +29,19 @@ namespace NackaPizzaOnline.Controllers
             };
             return View(model);
         }
-
-        //public Dish GetDishInfoForModal(int id)
-        //{
-        //    var dish = _context.Dishes.Single(d => d.DishId == id);
-
-           
-        //    return Json();
-        //}
+        [HttpGet]
+        public JsonResult GetDishInfoForModal(int id)
+        {
+            var dishName = _context.Dishes.Single(d => d.DishId == id).Name;
+            var dishIngredients = _context.DishIngredients.Include("Ingredient").Where(di => di.DishId == id).ToList();
+            var ingredients = new List<string>();
+            foreach (var item in dishIngredients)
+            {
+                ingredients.Add(item.Ingredient.Name);
+            }
+            var json = new { dishName, ingredients };
+            return Json(json);
+        }
 
         #region Cart
         public PartialViewResult AddToCart()

@@ -15,18 +15,23 @@ window.onclick = function (event) {
 }
 
 function GetDishInfo(id) {
+    console.log(id);
     $.ajax({
-        type: 'POST',
-        data: id,
-        datatype:'json',
+        type: 'GET',
+        data: { 'id': id },  
         url: "/Home/GetDishInfoForModal",
         success: function (response) {
-            if (!response == null) {
-                //Lägg upp all data från objektet i modalen.
+            if (response != null) {
+                //Lägg upp all data från objektet i modalen.   
+                console.log(response);
             }
             else {
                 //Visa felmeddelande att maträtten inte finns.
+                console.log(response);
             }
+        },
+        fail: function () {
+            console.log("Fel");
         }
     });
 };

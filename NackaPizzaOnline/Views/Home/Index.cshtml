@@ -7,7 +7,7 @@
 }
 
 <h2>Meny</h2>
-<div class="row">
+
     <div class="col-md-8">
         <table class="table">
             @foreach (var item in Model.Dishes)
@@ -39,7 +39,7 @@
                             @{
                                 ingredients = "";
                             }
-                            <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo(@item.DishId)">
+                            <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo('@item.DishId')">
                                 <span class="glyphicon glyphicon glyphicon-th"></span>
                             </button>
                             <button id="buybtn" class="btn btn-default">
@@ -51,16 +51,18 @@
                                 }
         </table>
     </div>
-</div>
-<div class="cartview">
-    @Html.Partial("_CartView")
-</div>
 
+<div class="col-md-4">
+    <div class="cartview">
+        @Html.Partial("_CartView")
+    </div>
+</div>
 @*TODO Modal kod, ska kunna välja ingredienser, dom som redan finnas ska vara förkryssade, och att om man väljer nya så kommer dom sparas ner.*@
 <div id="ingredientModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <p>JAg är en modal?</p>
+        @*Todo partial view inuti modal*@
     </div>
 </div>
 
