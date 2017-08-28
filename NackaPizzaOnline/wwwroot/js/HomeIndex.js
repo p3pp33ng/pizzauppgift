@@ -2,9 +2,9 @@
 var btn = document.getElementById('ingredientsbtn');
 var span = document.getElementsByClassName('close')[0];
 
-btn.onclick = function () {
-    modal.style.display = 'block';
-}
+//btn.onclick = function () {
+//    modal.style.display = 'block';
+//}
 span.onclick = function () {
     modal.style.display = 'none';
 }
@@ -23,6 +23,7 @@ function GetDishInfo(id) {
         success: function (response) {
             if (response != null) {
                 //Lägg upp all data från objektet i modalen.   
+                modal.style.display = 'block';
                 console.log(response);
             }
             else {
