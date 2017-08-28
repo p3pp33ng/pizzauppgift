@@ -27,17 +27,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">NackaPizzaOnline</a>
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand">NackaPizzaOnline</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Dish" asp-action="Index">Meny</a></li>                                       
+                    <li><a asp-controller="Dish" asp-action="Index">Meny</a></li>                                       
                     @if (User.IsInRole("Admin"))
-                    {
-                        //TODO Lägga till så man kan hantera användares konton
-                        <li><a asp-controller="Dish" asp-action="Create">Lägga till maträtt</a></li>
-                        <li><a asp-area="" asp-controller="Ingredient" asp-action="Index">Lägga ingredienser</a></li>
-                        <li><a asp-area="" asp-controller="DishIngredient" asp-action="Index">Hantera ingedienser i maträtter</a></li>
+                    {                        
+                        <li><a asp-controller="Dish" asp-action="Index">Hantera maträtter</a></li>
+                        <li><a asp-controller="Ingredient" asp-action="Index">Hantera ingredienser</a></li>
+                        <li><a asp-controller="DishIngredient" asp-action="Index">Hantera ingedienser i maträtter</a></li>
                     }                    
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
