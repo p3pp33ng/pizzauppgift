@@ -32,14 +32,28 @@ namespace NackaPizzaOnline.Controllers
         [HttpGet]
         public JsonResult GetDishInfoForModal(int id)
         {
-            var dishName = _context.Dishes.Single(d => d.DishId == id).Name;
-            var dishIngredients = _context.DishIngredients.Include("Ingredient").Where(di => di.DishId == id).ToList();
-            var ingredients = new List<string>();
+            var dishName = _context.Dishes
+                .Single(d => d.DishId == id).Name;
+            var dishIngredients = _context.DishIngredients
+                .Include("Ingredient")
+                .Where(di => di.DishId == id)
+                .OrderBy(di => di.IngredientId)
+                .ToList();
+            var allIngredients = _context.Ingredients
+                .OrderBy(i=>i.IngredientId)
+                .ToList();
+
+            var otherIngredients = new Dictionary<int, string>();
+            var dishAlreadyHaveIngredients = new Dictionary<int,string>();
             foreach (var item in dishIngredients)
             {
-                ingredients.Add(item.Ingredient.Name);
+                dishAlreadyHaveIngredients.Add(item.Ingredient.IngredientId,item.Ingredient.Name);
             }
-            var json = new { dishName, ingredients };
+            foreach (var item in allIngredients)
+            {
+                otherIngredients.Add(item.IngredientId, item.Name);
+            }
+            var json = new { dishName, dishAlreadyHaveIngredients, otherIngredients };
             return Json(json);
         }
 
