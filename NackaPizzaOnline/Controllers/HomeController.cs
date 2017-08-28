@@ -20,7 +20,7 @@ namespace NackaPizzaOnline.Controllers
             _context = context;
         }
         public IActionResult Index()
-        {         
+        {
             var model = new MenyViewModel
             {
                 Categories = _context.Categories.ToList(),
@@ -40,22 +40,21 @@ namespace NackaPizzaOnline.Controllers
                 .OrderBy(di => di.IngredientId)
                 .ToList();
             var allIngredients = _context.Ingredients
-                .OrderBy(i=>i.IngredientId)
+                .OrderBy(i => i.IngredientId)
                 .ToList();
-            
+
 
             var otherIngredients = new Dictionary<int, string>();
-            var dishAlreadyHaveIngredients = new Dictionary<int,string>();
-            //var remainingIngredients = new Dictionary<int, string>();
+            var dishAlreadyHaveIngredients = new Dictionary<int, string>();            
             foreach (var curretIngredient in dishIngredients)
             {
-                dishAlreadyHaveIngredients.Add(curretIngredient.Ingredient.IngredientId,curretIngredient.Ingredient.Name);
+                dishAlreadyHaveIngredients.Add(curretIngredient.Ingredient.IngredientId, curretIngredient.Ingredient.Name);
             }
             foreach (var otherIngredient in allIngredients)
             {
                 otherIngredients.Add(otherIngredient.IngredientId, otherIngredient.Name);
             }
-           var remainingIngredients = otherIngredients.Except(dishAlreadyHaveIngredients);
+            var remainingIngredients = otherIngredients.Except(dishAlreadyHaveIngredients);
             var json = new { dishName, dishAlreadyHaveIngredients, remainingIngredients };
             return Json(json);
         }
