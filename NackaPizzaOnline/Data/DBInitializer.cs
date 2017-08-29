@@ -47,13 +47,13 @@ namespace NackaPizzaOnline.Data
 
             if (!context.Dishes.Any())
             {
-                var chesse = new Ingredient { Name = "Ost", PriceIfExtra = 5 };
-                var tomato = new Ingredient { Name = "Tomat", PriceIfExtra = 5 };
-                var ham = new Ingredient { Name = "Skinka", PriceIfExtra = 5 };
-                var pineapple = new Ingredient { Name = "Annanas", PriceIfExtra = 5 };
-                var chicken = new Ingredient { Name = "Kyckling", PriceIfExtra = 10 };
-                var curry = new Ingredient { Name = "Curry", PriceIfExtra = 10 };
-                var pepper = new Ingredient { Name = "Paprika", PriceIfExtra = 5 };
+                var chesse = new Ingredient { Name = "Ost", PriceIfExtra = 5, IsChecked= false };
+                var tomato = new Ingredient { Name = "Tomat", PriceIfExtra = 5, IsChecked = false };
+                var ham = new Ingredient { Name = "Skinka", PriceIfExtra = 5, IsChecked = false };
+                var pineapple = new Ingredient { Name = "Annanas", PriceIfExtra = 5, IsChecked = false };
+                var chicken = new Ingredient { Name = "Kyckling", PriceIfExtra = 10, IsChecked = false };
+                var curry = new Ingredient { Name = "Curry", PriceIfExtra = 10 , IsChecked = false };
+                var pepper = new Ingredient { Name = "Paprika", PriceIfExtra = 5 , IsChecked = false };
 
                 var pizza = new Category { Name = "Pizza" };
                 var sallad = new Category { Name = "Sallad" };

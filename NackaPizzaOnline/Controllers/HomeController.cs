@@ -44,18 +44,34 @@ namespace NackaPizzaOnline.Controllers
                 .ToList();
 
 
-            var otherIngredients = new Dictionary<int, string>();
-            var dishAlreadyHaveIngredients = new Dictionary<int, string>();            
-            foreach (var curretIngredient in dishIngredients)
-            {
-                dishAlreadyHaveIngredients.Add(curretIngredient.Ingredient.IngredientId, curretIngredient.Ingredient.Name);
+            var allIngredientsModified = new Dictionary<int, Ingredient>();
+            foreach (var ingredient in allIngredients)
+            {               
+                    var item = dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId);
+                
+               //var item = ingredient.IngredientId == dishIngredients.SingleOrDefault(i => i.IngredientId == ingredient.IngredientId).IngredientId;
+                if (item)
+                {
+                    ingredient.IsChecked = true;
+                }
+                allIngredientsModified.Add(ingredient.IngredientId, ingredient);
             }
-            foreach (var otherIngredient in allIngredients)
-            {
-                otherIngredients.Add(otherIngredient.IngredientId, otherIngredient.Name);
-            }
-            var remainingIngredients = otherIngredients.Except(dishAlreadyHaveIngredients);
-            var json = new { dishName, dishAlreadyHaveIngredients, remainingIngredients, number = allIngredients.Count };
+            //var dishAlreadyHaveIngredients = new Dictionary<int, string>();            
+            //foreach (var curretIngredient in dishIngredients)
+            //{
+            //    curretIngredient.Ingredient.IsChecked = true;
+            //    dishAlreadyHaveIngredients.Add(curretIngredient.Ingredient.IngredientId, curretIngredient.Ingredient.Name);
+            //}
+            //foreach (var otherIngredient in allIngredients)
+            //{
+            //    otherIngredients.Add(otherIngredient.IngredientId, otherIngredient.Name);
+            //}
+            //var remainingIngredients = otherIngredients.Except(dishAlreadyHaveIngredients);
+
+            var json = new {
+                name = dishName,
+                allIngredients = allIngredientsModified,
+                number = allIngredients.Count };
             return Json(json);
         }
 
