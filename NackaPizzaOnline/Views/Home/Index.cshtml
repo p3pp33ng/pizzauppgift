@@ -1,5 +1,4 @@
 ﻿@model NackaPizzaOnline.Models.HomeViewModels.MenyViewModel
-@inject NackaPizzaOnline.Models.Ingredient
 @{
     ViewData["Title"] = "Nacka Pizzeria Online";
 }
@@ -9,49 +8,49 @@
 
 <h2>Meny</h2>
 
-    <div class="col-md-8">
-        <table class="table">
-            @foreach (var item in Model.Dishes)
+<div class="col-md-8">
+    <table class="table">
+        @foreach (var item in Model.Dishes)
             {
-                <tr>
-                    <td>
-                        <div>
-                            <p class="dishName">@item.Name</p>
-                            <br />
-                            @for (var i = 0; i < item.DishIngredients.Count; ++i)
+            <tr>
+                <td>
+                    <div>
+                        <p class="dishName">@item.Name</p>
+                        <br />
+                        @for (var i = 0; i < item.DishIngredients.Count; ++i)
+                        {
+                            if (i != item.DishIngredients.Count - 1)
                             {
-                                if (i != item.DishIngredients.Count - 1)
+                                ingredients += item.DishIngredients[i].Ingredient.Name + ", ";
+                            }
+                            else
+                            {
+                                if (item.DishIngredients.Count == 1)
                                 {
-                                    ingredients += item.DishIngredients[i].Ingredient.Name + ", ";
+                                    ingredients += item.DishIngredients[i].Ingredient.Name;
                                 }
                                 else
                                 {
-                                    if (item.DishIngredients.Count == 1)
-                                    {
-                                        ingredients += item.DishIngredients[i].Ingredient.Name;
-                                    }
-                                    else
-                                    {
-                                        ingredients += " och " + item.DishIngredients[i].Ingredient.Name + ".";
-                                    }
+                                    ingredients += " och " + item.DishIngredients[i].Ingredient.Name + ".";
                                 }
                             }
-                            <p class="ingredientName">@ingredients</p>
-                            @{
-                                ingredients = "";
+                        }
+                        <p class="ingredientName">@ingredients</p>
+                        @{
+                            ingredients = "";
+                        }
+                        <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo('@item.DishId')">
+                            <span class="glyphicon glyphicon glyphicon-th"></span>
+                        </button>
+                        <button id="buybtn" class="btn btn-default">
+                            <span class="glyphicon glyphicon glyphicon-shopping-cart"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
                             }
-                            <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo('@item.DishId')">
-                                <span class="glyphicon glyphicon glyphicon-th"></span>
-                            </button>
-                            <button id="buybtn" class="btn btn-default">
-                                <span class="glyphicon glyphicon glyphicon-shopping-cart"></span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                                }
-        </table>
-    </div>
+    </table>
+</div>
 
 <div class="col-md-4">
     <div class="cartview">
@@ -61,13 +60,8 @@
 @*TODO Modal kod, ska kunna välja ingredienser, dom som redan finnas ska vara förkryssade, och att om man väljer nya så kommer dom sparas ner.*@
 <div id="ingredientModal" class="modal">
     <div class="modal-content">
-        @Html.Partial();
-        @*<span class="close">&times;</span>
-        <h4 id="modalDishName"></h4>
-       <div id="modalTable">
-           <table id="ingredientsTable" class="table"></table>*@
-       </div>
-        @*Todo partial view inuti modal*@
+        <span class="close">&times;</span>
+        @Html.Partial("_CustomizeView");
     </div>
 </div>
 
