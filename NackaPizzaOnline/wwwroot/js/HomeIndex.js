@@ -1,7 +1,6 @@
 ﻿var modal = document.getElementById('ingredientModal');
 var btn = document.getElementById('ingredientsbtn');
 var span = document.getElementsByClassName('close')[0];
-var ingredientTable = document.getElementById('ingredientsTable');
 var modalDishName = document.getElementById('modalDishName');
 
 //btn.onclick = function () {
@@ -27,7 +26,9 @@ function GetDishInfo(id) {
                 //Lägg upp all data från objektet i modalen.   
                 modal.style.display = 'block';
                 modalDishName.innerHTML += response.dishName;
-
+                for (var i = 0; i < response.length; i++) {
+                    $('#ingredientTable').append($('tr'));
+                }
                 console.log(response);
             }
             else {
