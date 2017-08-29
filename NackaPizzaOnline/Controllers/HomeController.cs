@@ -29,11 +29,11 @@ namespace NackaPizzaOnline.Controllers
             };
             return View(model);
         }
-        [HttpGet]
-        public JsonResult GetDishInfoForModal(int id)
+
+        public PartialViewResult GetDishInfoForModal(int id)
         {
-            var dishName = _context.Dishes
-                .Single(d => d.DishId == id).Name;
+            var dish = _context.Dishes
+                .Single(d=>d.DishId == id);
             var dishIngredients = _context.DishIngredients
                 .Include("Ingredient")
                 .Where(di => di.DishId == id)
@@ -43,37 +43,65 @@ namespace NackaPizzaOnline.Controllers
                 .OrderBy(i => i.IngredientId)
                 .ToList();
 
-
-            var allIngredientsModified = new Dictionary<int, Ingredient>();
             foreach (var ingredient in allIngredients)
-            {               
-                    var item = dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId);
-                
-               //var item = ingredient.IngredientId == dishIngredients.SingleOrDefault(i => i.IngredientId == ingredient.IngredientId).IngredientId;
+            {
+
+                var item = dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId);
+
                 if (item)
                 {
                     ingredient.IsChecked = true;
                 }
-                allIngredientsModified.Add(ingredient.IngredientId, ingredient);
+                else{
+                    ingredient.IsChecked = false;
+                }
             }
-            //var dishAlreadyHaveIngredients = new Dictionary<int, string>();            
-            //foreach (var curretIngredient in dishIngredients)
-            //{
-            //    curretIngredient.Ingredient.IsChecked = true;
-            //    dishAlreadyHaveIngredients.Add(curretIngredient.Ingredient.IngredientId, curretIngredient.Ingredient.Name);
-            //}
-            //foreach (var otherIngredient in allIngredients)
-            //{
-            //    otherIngredients.Add(otherIngredient.IngredientId, otherIngredient.Name);
-            //}
-            //var remainingIngredients = otherIngredients.Except(dishAlreadyHaveIngredients);
 
-            var json = new {
-                name = dishName,
-                allIngredients = allIngredientsModified,
-                number = allIngredients.Count };
-            return Json(json);
+
+            var viewModel = new CustomizeViewModel {
+                Dish = dish,
+                Ingredients = allIngredients
+            };
+
+            return PartialView("_CustomizeView", viewModel);
         }
+
+        //[HttpGet]
+        //public JsonResult GetDishInfoForModal(int id)
+        //{
+        //    var dishName = _context.Dishes
+        //        .Single(d => d.DishId == id).Name;
+        //    var dishIngredients = _context.DishIngredients
+        //        .Include("Ingredient")
+        //        .Where(di => di.DishId == id)
+        //        .OrderBy(di => di.IngredientId)
+        //        .ToList();
+        //    var allIngredients = _context.Ingredients
+        //        .OrderBy(i => i.IngredientId)
+        //        .ToList();
+
+
+        //    var allIngredientsModified = new Dictionary<int, Ingredient>();
+        //    foreach (var ingredient in allIngredients)
+        //    {
+                
+        //        var item = dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId);
+                
+        //        if (item)
+        //        {
+        //            ingredient.IsChecked = true;
+        //        }
+        //        allIngredientsModified.Add(ingredient.IngredientId, ingredient);
+        //    }
+            
+        //    var json = new
+        //    {
+        //        name = dishName,
+        //        allIngredients = allIngredientsModified,
+        //        number = allIngredients.Count
+        //    };
+        //    return Json(json);
+        //}
 
         #region Cart
         public PartialViewResult AddToCart()
