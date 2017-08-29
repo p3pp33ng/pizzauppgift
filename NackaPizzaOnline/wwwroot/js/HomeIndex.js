@@ -26,7 +26,7 @@ function GetDishInfo(id) {
                 //Lägg upp all data från objektet i modalen.   
                 modal.style.display = 'block';
                 modalDishName.innerHTML += response.dishName;
-                for (var i = 0; i < response.length; i++) {
+                for (var i = 0; i < response.number; i++) {
                     $('#ingredientTable').append($('tr'));
                 }
                 console.log(response);

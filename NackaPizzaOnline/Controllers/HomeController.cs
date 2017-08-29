@@ -55,7 +55,7 @@ namespace NackaPizzaOnline.Controllers
                 otherIngredients.Add(otherIngredient.IngredientId, otherIngredient.Name);
             }
             var remainingIngredients = otherIngredients.Except(dishAlreadyHaveIngredients);
-            var json = new { dishName, dishAlreadyHaveIngredients, remainingIngredients };
+            var json = new { dishName, dishAlreadyHaveIngredients, remainingIngredients, number = allIngredients.Count };
             return Json(json);
         }
 
