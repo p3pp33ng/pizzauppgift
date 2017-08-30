@@ -57,6 +57,7 @@ namespace NackaPizzaOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DishId,Name,Price,Picture,CategoryId")] Dish dish)
         {
+            //TODO Anpassa denna för att kunna ta in infon från select2 dropdowns. 
             if (ModelState.IsValid)
             {
                 _context.Add(dish);
