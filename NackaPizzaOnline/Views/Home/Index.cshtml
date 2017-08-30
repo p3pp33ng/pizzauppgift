@@ -11,7 +11,7 @@
 <div class="col-md-8">
     <table class="table">
         @foreach (var item in Model.Dishes)
-            {
+        {
             <tr>
                 <td>
                     <div>
@@ -39,7 +39,8 @@
                         @{
                             ingredients = "";
                         }
-                        <button id="ingredientsbtn" class="btn btn-default" asp-controller="Home" asp-action="GetDishInfoForModal" asp-route-id="@item.DishId">
+                       
+                        <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo('@item.DishId')" data-toggle="modal" data-target="#ingredientmodal">
                             <span class="glyphicon glyphicon glyphicon-th"></span>
                         </button>
                         <button id="buybtn" class="btn btn-default">
@@ -57,13 +58,8 @@
         @Html.Partial("_CartView")
     </div>
 </div>
-@*TODO Modal kod, ska kunna välja ingredienser, dom som redan finnas ska vara förkryssade, och att om man väljer nya så kommer dom sparas ner.*@
-<div id="ingredientModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        @Html.Partial("_CustomizeView");
-    </div>
-</div>
+
+<div id="ingredientmodal" class="modal fade" role="dialog"></div>
 
 @section Scripts{
     <script type="text/javascript" src="~/js/HomeIndex.js"></script>

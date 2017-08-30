@@ -65,7 +65,12 @@ namespace NackaPizzaOnline.Controllers
             };
 
             return PartialView("_CustomizeView", viewModel);
-        }
+        }               
+
+        //public ActionResult _CustomizeView()
+        //{
+        //    return PartialView();
+        //}
 
         //[HttpGet]
         //public JsonResult GetDishInfoForModal(int id)
