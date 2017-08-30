@@ -69,14 +69,16 @@ namespace NackaPizzaOnline.Controllers
 
         // GET: Dish/Edit/5
         public async Task<IActionResult> Edit(int? id)
-        {
+        {                     
             if (id == null)
             {
                 return NotFound();
             }
 
-            var dish = await _context.Dishes.Include("Category").SingleOrDefaultAsync(m => m.DishId == id);
+            var dish = await _context.Dishes.Include(d=>d.Category).SingleOrDefaultAsync(m => m.DishId == id);
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
+            //var listOfIngredients = new IEnumerable<SelectListItem>();
+            ViewBag.Ingredients = new MultiSelectList(_context.Ingredients, "IngredientId", "Name");
             if (dish == null)
             {
                 return NotFound();
