@@ -36,8 +36,7 @@
                     @if (User.IsInRole("Admin"))
                     {                        
                         <li><a asp-controller="Dish" asp-action="Index">Hantera maträtter</a></li>
-                        <li><a asp-controller="Ingredient" asp-action="Index">Hantera ingredienser</a></li>
-                        <li><a asp-controller="DishIngredient" asp-action="Index">Hantera ingedienser i maträtter</a></li>
+                        <li><a asp-controller="Ingredient" asp-action="Index">Hantera ingredienser</a></li>                        
                     }                    
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
