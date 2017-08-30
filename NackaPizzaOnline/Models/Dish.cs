@@ -14,8 +14,9 @@ namespace NackaPizzaOnline.Models
         public string Name { get; set; }
         [Display(Name = "Pris")]
         public int Price { get; set; }
-        public byte[] Picture { get; set; }//Todo Fixa så att man kan spara bilder till dom olika maträtterna.
+        public byte[] Picture { get; set; }//TODO Fixa så att man kan spara bilder till dom olika maträtterna.
         public List<DishIngredient> DishIngredients { get; set; } = new List<DishIngredient>();
-        public int CategoryId { get; set; }
+        [Display(Name="Kategori")]
+        public Category Category { get; set; }
     }
 }

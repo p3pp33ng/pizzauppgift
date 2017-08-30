@@ -22,6 +22,7 @@ namespace NackaPizzaOnline.Controllers
         // GET: DishIngredient
         public async Task<IActionResult> Index()
         {
+            //TODO Fixa så att namnen visas samt att det inte är tre Margarita för den har tre ingredienser.
             var applicationDbContext = _context.DishIngredients.Include(d => d.Dish).Include(d => d.Ingredient);
             return View(await applicationDbContext.ToListAsync());
         }

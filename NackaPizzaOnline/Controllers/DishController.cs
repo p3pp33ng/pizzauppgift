@@ -22,7 +22,7 @@ namespace NackaPizzaOnline.Controllers
         // GET: Dish
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Dishes.ToListAsync());
+            return View(await _context.Dishes.Include("Category").ToListAsync());
         }
 
         // GET: Dish/Details/5
@@ -32,9 +32,8 @@ namespace NackaPizzaOnline.Controllers
             {
                 return NotFound();
             }
-
-            var dish = await _context.Dishes
-                .SingleOrDefaultAsync(m => m.DishId == id);
+           
+            var dish = await _context.Dishes.SingleOrDefaultAsync(m => m.DishId == id);
             if (dish == null)
             {
                 return NotFound();
@@ -46,6 +45,7 @@ namespace NackaPizzaOnline.Controllers
         // GET: Dish/Create
         public IActionResult Create()
         {
+            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
             return View();
         }
 
@@ -73,7 +73,8 @@ namespace NackaPizzaOnline.Controllers
                 return NotFound();
             }
 
-            var dish = await _context.Dishes.SingleOrDefaultAsync(m => m.DishId == id);
+            var dish = await _context.Dishes.Include("Category").SingleOrDefaultAsync(m => m.DishId == id);
+            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
             if (dish == null)
             {
                 return NotFound();
@@ -86,7 +87,7 @@ namespace NackaPizzaOnline.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Picture,CategoryId")] Dish dish)
+        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Picture,Category")] Dish dish)
         {
             if (id != dish.DishId)
             {

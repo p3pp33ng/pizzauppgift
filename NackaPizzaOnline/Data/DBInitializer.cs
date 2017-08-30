@@ -60,9 +60,9 @@ namespace NackaPizzaOnline.Data
                 var thai = new Category { Name = "Thailändsk kök" };
                 var pasta = new Category { Name = "Pasta" };
 
-                var margarita = new Dish { Name = "Margarita", CategoryId = 1, Price = 60 };
-                var hawaii = new Dish { Name = "Hawaii", CategoryId = 1, Price = 65 };
-                var chickenRedCurry = new Dish { Name = "Kyckling röd curry", CategoryId = 3, Price = 70 };
+                var margarita = new Dish { Name = "Margarita", Category = pizza, Price = 60 };
+                var hawaii = new Dish { Name = "Hawaii", Category = pizza, Price = 65 };
+                var chickenRedCurry = new Dish { Name = "Kyckling röd curry", Category = thai, Price = 70 };
 
                 var thaiChicken = new DishIngredient { Dish = chickenRedCurry, Ingredient = chicken };
                 var thaiCurry = new DishIngredient { Dish = chickenRedCurry, Ingredient = curry };
