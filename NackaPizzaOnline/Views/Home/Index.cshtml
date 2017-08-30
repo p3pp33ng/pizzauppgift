@@ -39,7 +39,7 @@
                         @{
                             ingredients = "";
                         }
-                        <button id="ingredientsbtn" class="btn btn-default" onclick="GetDishInfo('@item.DishId')">
+                        <button id="ingredientsbtn" class="btn btn-default" asp-controller="Home" asp-action="GetDishInfoForModal" asp-route-id="@item.DishId">
                             <span class="glyphicon glyphicon glyphicon-th"></span>
                         </button>
                         <button id="buybtn" class="btn btn-default">

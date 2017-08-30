@@ -33,7 +33,7 @@ namespace NackaPizzaOnline.Controllers
         public PartialViewResult GetDishInfoForModal(int id)
         {
             var dish = _context.Dishes
-                .Single(d=>d.DishId == id);
+                .Single(d => d.DishId == id);
             var dishIngredients = _context.DishIngredients
                 .Include("Ingredient")
                 .Where(di => di.DishId == id)
@@ -52,13 +52,14 @@ namespace NackaPizzaOnline.Controllers
                 {
                     ingredient.IsChecked = true;
                 }
-                else{
+                else
+                {
                     ingredient.IsChecked = false;
                 }
             }
 
-
-            var viewModel = new CustomizeViewModel {
+            var viewModel = new CustomizeViewModel
+            {
                 Dish = dish,
                 Ingredients = allIngredients
             };
@@ -84,16 +85,16 @@ namespace NackaPizzaOnline.Controllers
         //    var allIngredientsModified = new Dictionary<int, Ingredient>();
         //    foreach (var ingredient in allIngredients)
         //    {
-                
+
         //        var item = dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId);
-                
+
         //        if (item)
         //        {
         //            ingredient.IsChecked = true;
         //        }
         //        allIngredientsModified.Add(ingredient.IngredientId, ingredient);
         //    }
-            
+
         //    var json = new
         //    {
         //        name = dishName,

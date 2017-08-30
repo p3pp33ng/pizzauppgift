@@ -13,11 +13,11 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*TODO Lägg till så att man kan lägga till eller länka till en bild*@
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Picture" class="control-label"></label>
                 <input asp-for="Picture" class="form-control" />
                 <span asp-validation-for="Picture" class="text-danger"></span>
-            </div>
+            </div>*@
             <input type="hidden" asp-for="DishId" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
