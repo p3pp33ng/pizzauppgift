@@ -104,6 +104,26 @@ namespace NackaPizzaOnline.Controllers
             {
                 try
                 {
+                    var oldIngredients = _context.DishIngredients
+                        .Include(di => di.Ingredient)
+                        .Where(di => di.DishId == id)
+                        .Select(i => i.IngredientId)
+                        .ToArray();
+                    var editedIngredients = Ingredients.Except(oldIngredients);
+                    if (!editedIngredients.Count().Equals(0))
+                    {
+                        foreach (var ingredientId in editedIngredients)
+                        {
+                            var ingredient = _context.Ingredients.FirstOrDefault(i => i.IngredientId == ingredientId);
+                            dish.DishIngredients.Add(new DishIngredient
+                            {
+                                Dish = dish,
+                                DishId = id,
+                                Ingredient = ingredient,
+                                IngredientId = ingredientId
+                            });
+                        }
+                    }                   
                     _context.Update(dish);
                     await _context.SaveChangesAsync();
                 }

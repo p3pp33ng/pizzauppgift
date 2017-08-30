@@ -11,6 +11,4 @@ namespace NackaPizzaOnline.Models
         [Display(Name = "Ingrediens")]
         public Ingredient Ingredient { get; set; }
     }
-
-
 }
