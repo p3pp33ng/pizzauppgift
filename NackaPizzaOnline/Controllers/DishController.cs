@@ -46,6 +46,7 @@ namespace NackaPizzaOnline.Controllers
         public IActionResult Create()
         {
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
+            ViewBag.Ingredients = new SelectList(_context.Ingredients, "IngredientId", "Name");
             return View();
         }
 

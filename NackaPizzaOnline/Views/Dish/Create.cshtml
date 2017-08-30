@@ -13,10 +13,10 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="Picture" class="control-label"></label>
-                <input asp-for="Picture" class="form-control" />
-                <span asp-validation-for="Picture" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="Picture" class="control-label"></label>
+                    <input asp-for="Picture" class="form-control" />
+                    <span asp-validation-for="Picture" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -26,12 +26,14 @@
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                @*<input asp-for="Category.Name" class="form-control" />*@
-                @Html.DropDownList("CategoryId", (IEnumerable<SelectListItem>)ViewBag.Categories, null, new { @class = "form-control" })
+                @Html.DropDownList("Categories", (IEnumerable<SelectListItem>)ViewBag.Categories, null, new { @class = "form-control"})
                 <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.DropDownList("Ingredients", (IEnumerable<SelectListItem>)ViewBag.Ingredients, null, new { @class = "form-control", @multiple = "multiple" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Lägg till" class="btn btn-default" />
@@ -46,4 +48,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/DishCreate.js"></script>
 }
+
