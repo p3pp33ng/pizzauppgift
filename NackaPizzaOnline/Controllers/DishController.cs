@@ -91,9 +91,10 @@ namespace NackaPizzaOnline.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Category,DishIngredients")] Dish dish, List<Ingredient> Ingredients)
+        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Category")] Dish dish, int[] Ingredients)
         {           
             //TODO När det funkar att lägga till bild, lägg till i Bind. 
+            //TODO Ta med int arrays ingrediensId:n och leta fram dom backend och bygg upp en ny dishIngredient.
             if (id != dish.DishId)
             {
                 return NotFound();
