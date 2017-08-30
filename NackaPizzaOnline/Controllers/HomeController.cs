@@ -24,7 +24,7 @@ namespace NackaPizzaOnline.Controllers
             var model = new MenyViewModel
             {
                 Categories = _context.Categories.ToList(),
-                Dishes = _context.Dishes.Include("DishIngredients").ToList(),
+                Dishes = _context.Dishes.Include(d => d.DishIngredients).ToList(),
                 Ingredients = _context.Ingredients.ToList()
             };
             return View(model);
@@ -35,7 +35,7 @@ namespace NackaPizzaOnline.Controllers
             var dish = _context.Dishes
                 .Single(d => d.DishId == id);
             var dishIngredients = _context.DishIngredients
-                .Include("Ingredient")
+                .Include(di => di.Ingredient)
                 .Where(di => di.DishId == id)
                 .OrderBy(di => di.IngredientId)
                 .ToList();
