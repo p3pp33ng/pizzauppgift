@@ -75,9 +75,9 @@ namespace NackaPizzaOnline.Controllers
                 return NotFound();
             }
 
-            var dish = await _context.Dishes.Include(d=>d.Category).SingleOrDefaultAsync(m => m.DishId == id);
+            var dish = await _context.Dishes.Include(d=>d.Category).Include(d=>d.DishIngredients).SingleOrDefaultAsync(m => m.DishId == id);
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
-            //var listOfIngredients = new IEnumerable<SelectListItem>();
+            //TODO Måste se till så att dom ingrdienser som redan finns på matrtten ska dyka upp i select2.
             ViewBag.Ingredients = new MultiSelectList(_context.Ingredients, "IngredientId", "Name");
             if (dish == null)
             {
@@ -91,8 +91,9 @@ namespace NackaPizzaOnline.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Picture,Category")] Dish dish)
-        {
+        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Category,DishIngredients")] Dish dish, List<Ingredient> Ingredients)
+        {           
+            //TODO När det funkar att lägga till bild, lägg till i Bind. 
             if (id != dish.DishId)
             {
                 return NotFound();
