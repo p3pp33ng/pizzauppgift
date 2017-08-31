@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
+using NackaPizzaOnline.Models.EditViewModels;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -75,19 +76,23 @@ namespace NackaPizzaOnline.Controllers
                 return NotFound();
             }
 
-            var dish = await _context.Dishes
+            var dish = _context.Dishes
                 .Include(d => d.Category)
                 .Include(d => d.DishIngredients)
-                .SingleOrDefaultAsync(m => m.DishId == id);
-            var ingredients = dish.DishIngredients.Where(di=>di.DishId == id).ToList();
-            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
-            ViewBag.Ingredients = new SelectList(_context.Ingredients, "IngredientId", "Name");
+                .ThenInclude(i=>i.Ingredient)
+                .SingleOrDefault(m => m.DishId == id);
+
+            var allIngredients = _context.Ingredients.ToList();
+
+            var viewModel = new EditViewModel(dish, allIngredients);
+
+            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");            
 
             if (dish == null)
             {
                 return NotFound();
             }
-            return View(dish);
+            return View(viewModel);
         }
 
         //[HttpGet]
