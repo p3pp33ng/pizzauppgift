@@ -79,14 +79,14 @@ namespace NackaPizzaOnline.Controllers
             var dish = _context.Dishes
                 .Include(d => d.Category)
                 .Include(d => d.DishIngredients)
-                .ThenInclude(i=>i.Ingredient)
+                .ThenInclude(i => i.Ingredient)
                 .SingleOrDefault(m => m.DishId == id);
 
             var allIngredients = _context.Ingredients.ToList();
 
             var viewModel = new EditViewModel(dish, allIngredients);
 
-            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");            
+            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
 
             if (dish == null)
             {
@@ -95,29 +95,17 @@ namespace NackaPizzaOnline.Controllers
             return View(viewModel);
         }
 
-        //[HttpGet]
-        //public JsonResult GetIngredientsToSelect2(int id)
-        //{
-        //    var alreadyInDish = _context.DishIngredients.Include(di => di.Ingredient).Where(di => di.DishId == id).Select(di => di.Ingredient).ToList();
-        //    var list = new List<SelectListItem>();
-        //    foreach (var item in alreadyInDish)
-        //    {
-        //        list.Add(new SelectListItem { Selected = true, Text = item.Name, Value = item.IngredientId.ToString() });
-        //    }
-
-        //    return Json(list);
-        //}
-
         // POST: Dish/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Category")] Dish dish, string[] ingredients)
+        public async Task<IActionResult> Edit(int id, EditViewModel Model)
+        //int id, [Bind("DishId,Name,Price,Category")] Dish dish, string[] ingredients
         {
             //TODO När det funkar att lägga till bild, lägg till i Bind. 
             //TODO Ta med int arrays ingrediensId:n och leta fram dom backend och bygg upp en ny dishIngredient.
-            if (id != dish.DishId)
+            if (id != Model.Dish.DishId)
             {
                 return NotFound();
             }
@@ -135,25 +123,25 @@ namespace NackaPizzaOnline.Controllers
                     //    .ToArray();
 
 
-                    foreach (var ingredientName in ingredients)
-                    {
-                        var ingredient = _context.Ingredients.FirstOrDefault(i => i.Name == ingredientName);
-                        dish.DishIngredients.Add(new DishIngredient
-                        {
-                            Dish = dish,
-                            DishId = id,
-                            Ingredient = ingredient,
-                            IngredientId = ingredient.IngredientId
-                        });
-                    }
+                    //foreach (var ingredientName in ingredients)
+                    //{
+                    //    var ingredient = _context.Ingredients.FirstOrDefault(i => i.Name == ingredientName);
+                    //    dish.DishIngredients.Add(new DishIngredient
+                    //    {
+                    //        Dish = dish,
+                    //        DishId = id,
+                    //        Ingredient = ingredient,
+                    //        IngredientId = ingredient.IngredientId
+                    //    });
+                    //}
 
                     //TODO Trhows execption on update, look into more.
-                    _context.Update(dish);
+                    //_context.Update(dish);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DishExists(dish.DishId))
+                    if (!DishExists(Model.Dish.DishId))
                     {
                         return NotFound();
                     }
@@ -164,7 +152,7 @@ namespace NackaPizzaOnline.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(dish);
+            return View();//dish
         }
 
         // GET: Dish/Delete/5

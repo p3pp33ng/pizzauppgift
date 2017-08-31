@@ -24,5 +24,10 @@ namespace NackaPizzaOnline.Models.EditViewModels
                 } );
             }
         }
+
+        public EditViewModel()
+        {
+
+        }
     }
 }
