@@ -75,7 +75,11 @@ namespace NackaPizzaOnline.Controllers
                 return NotFound();
             }
 
-            var dish = await _context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).SingleOrDefaultAsync(m => m.DishId == id);
+            var dish = await _context.Dishes
+                .Include(d => d.Category)
+                .Include(d => d.DishIngredients)
+                .SingleOrDefaultAsync(m => m.DishId == id);
+            var ingredients = dish.DishIngredients.Where(di=>di.DishId == id).ToList();
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
             ViewBag.Ingredients = new SelectList(_context.Ingredients, "IngredientId", "Name");
 
@@ -86,25 +90,25 @@ namespace NackaPizzaOnline.Controllers
             return View(dish);
         }
 
-        [HttpGet]
-        public JsonResult GetIngredientsToSelect2(int id)
-        {
-            var alreadyInDish = _context.DishIngredients.Include(di => di.Ingredient).Where(di => di.DishId == id).Select(di => di.Ingredient).ToList();
-            var list = new List<SelectListItem>();
-            foreach (var item in alreadyInDish)
-            {
-                list.Add(new SelectListItem { Selected = true, Text=item.Name, Value=item.IngredientId.ToString() });
-            }
-            
-            return Json(list);
-        }
+        //[HttpGet]
+        //public JsonResult GetIngredientsToSelect2(int id)
+        //{
+        //    var alreadyInDish = _context.DishIngredients.Include(di => di.Ingredient).Where(di => di.DishId == id).Select(di => di.Ingredient).ToList();
+        //    var list = new List<SelectListItem>();
+        //    foreach (var item in alreadyInDish)
+        //    {
+        //        list.Add(new SelectListItem { Selected = true, Text = item.Name, Value = item.IngredientId.ToString() });
+        //    }
+
+        //    return Json(list);
+        //}
 
         // POST: Dish/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Category,DishIngredients")] Dish dish, int[] dishIngredients)
+        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Category")] Dish dish, string[] ingredients)
         {
             //TODO När det funkar att lägga till bild, lägg till i Bind. 
             //TODO Ta med int arrays ingrediensId:n och leta fram dom backend och bygg upp en ny dishIngredient.
@@ -117,26 +121,27 @@ namespace NackaPizzaOnline.Controllers
             {
                 try
                 {
-                    var oldIngredients = _context.DishIngredients
-                        .Include(di => di.Ingredient)
-                        .Where(di => di.DishId == id)
-                        .Select(i => i.IngredientId)
-                        .ToArray();
-                    var editedIngredients = dishIngredients.Except(oldIngredients);
-                    if (!editedIngredients.Count().Equals(0))
+                    var oldDish = _context.Dishes.Include(d => d.DishIngredients).FirstOrDefault(d => d.DishId == id);
+                    oldDish.DishIngredients.RemoveAll(d => d.DishId == id);
+                    //var oldIngredients = _context.DishIngredients
+                    //    .Include(di => di.Ingredient)
+                    //    .Where(di => di.DishId == id)
+                    //    .Select(i => i.Ingredient.Name)
+                    //    .ToArray();
+
+
+                    foreach (var ingredientName in ingredients)
                     {
-                        foreach (var ingredientId in editedIngredients)
+                        var ingredient = _context.Ingredients.FirstOrDefault(i => i.Name == ingredientName);
+                        dish.DishIngredients.Add(new DishIngredient
                         {
-                            var ingredient = _context.Ingredients.FirstOrDefault(i => i.IngredientId == ingredientId);
-                            dish.DishIngredients.Add(new DishIngredient
-                            {
-                                Dish = dish,
-                                DishId = id,
-                                Ingredient = ingredient,
-                                IngredientId = ingredientId
-                            });
-                        }
+                            Dish = dish,
+                            DishId = id,
+                            Ingredient = ingredient,
+                            IngredientId = ingredient.IngredientId
+                        });
                     }
+
                     //TODO Trhows execption on update, look into more.
                     _context.Update(dish);
                     await _context.SaveChangesAsync();
