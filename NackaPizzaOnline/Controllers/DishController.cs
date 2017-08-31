@@ -123,7 +123,8 @@ namespace NackaPizzaOnline.Controllers
                                 IngredientId = ingredientId
                             });
                         }
-                    }                   
+                    }            
+                    //TODO Trhows execption on update, look into more.
                     _context.Update(dish);
                     await _context.SaveChangesAsync();
                 }
