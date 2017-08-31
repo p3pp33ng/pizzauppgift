@@ -14,11 +14,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*TODO Lägg till så att man kan lägga till eller länka till en bild*@
             @*<div class="form-group">
-                <label asp-for="Picture" class="control-label"></label>
-                <input asp-for="Picture" class="form-control" />
-                <span asp-validation-for="Picture" class="text-danger"></span>
-            </div>*@
-            <input type="hidden" asp-for="DishId" />
+                    <label asp-for="Picture" class="control-label"></label>
+                    <input asp-for="Picture" class="form-control" />
+                    <span asp-validation-for="Picture" class="text-danger"></span>
+                </div>*@
+            <input id="DishId" type="hidden" asp-for="DishId" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -28,15 +28,15 @@
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                @Html.DropDownList("Category", (IEnumerable<SelectListItem>)ViewBag.Categories, null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Category.CategoryId, (IEnumerable<SelectListItem>)ViewBag.Categories, null, new { @class="form-control" })
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DishIngredients" class="control-label"></label>
-                @Html.DropDownList("Ingredients", (IEnumerable<SelectListItem>)ViewBag.Ingredients, null, new { @class = "form-control", @multiple = "multiple" })
+                @Html.DropDownListFor(model => model.DishIngredients, (IEnumerable<SelectListItem>)ViewBag.Ingredients, null, new { @class = "form-control", @multiple = "multiple" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Spara" class="btn btn-default" />
@@ -51,5 +51,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script src="~/js/Dish.js"></script>
+    <script src="~/js/Dish.js"></script>
 }

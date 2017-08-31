@@ -76,6 +76,7 @@ namespace NackaPizzaOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)
         {
+            //TODO Lägga till setPropAsync för alla nya props i applicationUser
             if (!ModelState.IsValid)
             {
                 return View(model);

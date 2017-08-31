@@ -32,7 +32,7 @@ namespace NackaPizzaOnline.Controllers
             {
                 return NotFound();
             }
-           
+
             var dish = await _context.Dishes.SingleOrDefaultAsync(m => m.DishId == id);
             if (dish == null)
             {
@@ -69,16 +69,16 @@ namespace NackaPizzaOnline.Controllers
 
         // GET: Dish/Edit/5
         public async Task<IActionResult> Edit(int? id)
-        {                     
+        {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var dish = await _context.Dishes.Include(d=>d.Category).Include(d=>d.DishIngredients).SingleOrDefaultAsync(m => m.DishId == id);
+            var dish = await _context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).SingleOrDefaultAsync(m => m.DishId == id);
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
-            //TODO Måste se till så att dom ingrdienser som redan finns på matrtten ska dyka upp i select2.
-            ViewBag.Ingredients = new MultiSelectList(_context.Ingredients, "IngredientId", "Name");
+            ViewBag.Ingredients = new SelectList(_context.Ingredients, "IngredientId", "Name");
+
             if (dish == null)
             {
                 return NotFound();
@@ -86,13 +86,26 @@ namespace NackaPizzaOnline.Controllers
             return View(dish);
         }
 
+        [HttpGet]
+        public JsonResult GetIngredientsToSelect2(int id)
+        {
+            var alreadyInDish = _context.DishIngredients.Include(di => di.Ingredient).Where(di => di.DishId == id).Select(di => di.Ingredient).ToList();
+            var list = new List<SelectListItem>();
+            foreach (var item in alreadyInDish)
+            {
+                list.Add(new SelectListItem { Selected = true, Text=item.Name, Value=item.IngredientId.ToString() });
+            }
+            
+            return Json(list);
+        }
+
         // POST: Dish/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Category")] Dish dish, int[] Ingredients)
-        {           
+        public async Task<IActionResult> Edit(int id, [Bind("DishId,Name,Price,Category,DishIngredients")] Dish dish, int[] dishIngredients)
+        {
             //TODO När det funkar att lägga till bild, lägg till i Bind. 
             //TODO Ta med int arrays ingrediensId:n och leta fram dom backend och bygg upp en ny dishIngredient.
             if (id != dish.DishId)
@@ -109,7 +122,7 @@ namespace NackaPizzaOnline.Controllers
                         .Where(di => di.DishId == id)
                         .Select(i => i.IngredientId)
                         .ToArray();
-                    var editedIngredients = Ingredients.Except(oldIngredients);
+                    var editedIngredients = dishIngredients.Except(oldIngredients);
                     if (!editedIngredients.Count().Equals(0))
                     {
                         foreach (var ingredientId in editedIngredients)
@@ -123,7 +136,7 @@ namespace NackaPizzaOnline.Controllers
                                 IngredientId = ingredientId
                             });
                         }
-                    }            
+                    }
                     //TODO Trhows execption on update, look into more.
                     _context.Update(dish);
                     await _context.SaveChangesAsync();

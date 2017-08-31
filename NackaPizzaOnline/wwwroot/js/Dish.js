@@ -1,4 +1,15 @@
-﻿$(document).ready(function () {
-    $('#Ingredients').select2();
+﻿
+$(document).ready(function () { 
+    var id = $('#DishId').val();
+    console.log(id);
+    $.ajax({
+        type: "GET",
+        url: '/Dish/GetIngredientsToSelect2',
+        data: {"id" : id},
+        success: function (response) {
+            $('#DishIngredients').select2({ data: response });
+            console.log(response);
+        }
+    });   
 });
 
