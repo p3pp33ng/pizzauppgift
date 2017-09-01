@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Models.EditViewModels;
+using NackaPizzaOnline.Services;
 
 namespace NackaPizzaOnline.Controllers
 {
     public class DishController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly DishIngredientService _dishIngredientService;
 
-        public DishController(ApplicationDbContext context)
+        public DishController(ApplicationDbContext context, DishIngredientService dishIngredientService)
         {
             _context = context;
+            _dishIngredientService = dishIngredientService;
         }
 
         // GET: Dish
@@ -114,30 +117,16 @@ namespace NackaPizzaOnline.Controllers
             {
                 try
                 {
-                    var oldDish = _context.Dishes.Include(d => d.DishIngredients).FirstOrDefault(d => d.DishId == id);
-                    oldDish.DishIngredients.RemoveAll(d => d.DishId == id);
-                    //var oldIngredients = _context.DishIngredients
-                    //    .Include(di => di.Ingredient)
-                    //    .Where(di => di.DishId == id)
-                    //    .Select(i => i.Ingredient.Name)
-                    //    .ToArray();
+                    if (_dishIngredientService.DeleteDishIngredientsOnOldDish(id))
+                    {
 
-
-                    //foreach (var ingredientName in ingredients)
-                    //{
-                    //    var ingredient = _context.Ingredients.FirstOrDefault(i => i.Name == ingredientName);
-                    //    dish.DishIngredients.Add(new DishIngredient
-                    //    {
-                    //        Dish = dish,
-                    //        DishId = id,
-                    //        Ingredient = ingredient,
-                    //        IngredientId = ingredient.IngredientId
-                    //    });
-                    //}
-
-                    //TODO Trhows execption on update, look into more.
-                    //_context.Update(dish);
-                    await _context.SaveChangesAsync();
+                       var dish = _dishIngredientService.GetEditedDish(Model);
+                        
+                        _context.Update(dish);
+                        await _context.SaveChangesAsync();
+                    }
+                    //TODO Måste radera dom gamla Dishingredients som finns i dish
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -152,7 +141,7 @@ namespace NackaPizzaOnline.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View();//dish
+            return View(Model);//dish
         }
 
         // GET: Dish/Delete/5

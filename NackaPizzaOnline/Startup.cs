@@ -38,6 +38,7 @@ namespace NackaPizzaOnline
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<UserManager<ApplicationUser>>();
+            services.AddTransient<DishIngredientService>();
 
             services.AddMvc();
         }
