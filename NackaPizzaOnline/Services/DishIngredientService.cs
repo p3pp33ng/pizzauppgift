@@ -63,5 +63,10 @@ namespace NackaPizzaOnline.Services
             }
             return dish;
         }
+
+        //public Dish CreateNewDish(CreateViewModel createDish)
+        //{
+        //    return newDish;
+        //}
     }
 }

@@ -1,0 +1,36 @@
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace NackaPizzaOnline.Models.DishViewModels
+{
+    public class CreateViewModel
+    {
+        public Dish Dish { get; set; }
+        [Display(Name = "Ingredienser")]
+        public List<SelectListItem> Ingredients { get; set; } = new List<SelectListItem>();
+
+        public CreateViewModel(Dish dish, List<Ingredient> ingredients)
+        {
+            Dish = dish;
+
+            foreach (var ingredient in ingredients)
+            {
+                Ingredients.Add(new SelectListItem
+                {
+                    Selected = dish.DishIngredients.FirstOrDefault(i => i.IngredientId == ingredient.IngredientId) != null,
+                    Text = ingredient.Name,
+                    Value = ingredient.IngredientId.ToString()
+                });
+            }
+        }
+
+        public CreateViewModel()
+        {
+
+        }
+    }
+}
