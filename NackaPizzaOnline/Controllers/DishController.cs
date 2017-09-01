@@ -119,7 +119,6 @@ namespace NackaPizzaOnline.Controllers
                 {
                     if (_dishIngredientService.DeleteDishIngredientsOnOldDish(id))
                     {
-
                        var dish = _dishIngredientService.GetEditedDish(Model);
                         
                         _context.Update(dish);

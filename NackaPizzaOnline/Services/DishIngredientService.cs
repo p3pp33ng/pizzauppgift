@@ -42,6 +42,10 @@ namespace NackaPizzaOnline.Services
                             .Include(d => d.Category)
                             .FirstOrDefault(d => d.DishId == editDish.Dish.DishId);
 
+            dish.Name = editDish.Dish.Name;
+            dish.Price = editDish.Dish.Price;
+            dish.Category = _context.Categories.FirstOrDefault(c => c.CategoryId == editDish.Dish.Category.CategoryId);
+
             var ingredients = _context.Ingredients.ToList();
             foreach (var item in editDish.Ingredients)
             {
