@@ -12,25 +12,6 @@ namespace NackaPizzaOnline.Models.DishViewModels
         public Dish Dish { get; set; }
         [Display(Name = "Ingredienser")]
         public List<SelectListItem> Ingredients { get; set; } = new List<SelectListItem>();
-
-        public CreateViewModel(Dish dish, List<Ingredient> ingredients)
-        {
-            Dish = dish;
-
-            foreach (var ingredient in ingredients)
-            {
-                Ingredients.Add(new SelectListItem
-                {
-                    Selected = dish.DishIngredients.FirstOrDefault(i => i.IngredientId == ingredient.IngredientId) != null,
-                    Text = ingredient.Name,
-                    Value = ingredient.IngredientId.ToString()
-                });
-            }
-        }
-
-        public CreateViewModel()
-        {
-
-        }
+        public List<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
     }
 }

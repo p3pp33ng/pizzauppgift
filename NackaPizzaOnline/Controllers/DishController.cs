@@ -9,6 +9,7 @@ using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Models.EditViewModels;
 using NackaPizzaOnline.Services;
+using NackaPizzaOnline.Models.DishViewModels;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -59,16 +60,16 @@ namespace NackaPizzaOnline.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DishId,Name,Price,Picture,CategoryId")] Dish dish)
+        public async Task<IActionResult> Create(int id, CreateViewModel model)
         {
             //TODO Anpassa denna för att kunna ta in infon från select2 dropdowns. 
-            if (ModelState.IsValid)
-            {
-                _context.Add(dish);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(dish);
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(dish);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            return View();
         }
 
         // GET: Dish/Edit/5
@@ -119,13 +120,13 @@ namespace NackaPizzaOnline.Controllers
                 {
                     if (_dishIngredientService.DeleteDishIngredientsOnOldDish(id))
                     {
-                       var dish = _dishIngredientService.GetEditedDish(Model);
-                        
+                        var dish = _dishIngredientService.GetEditedDish(Model);
+
                         _context.Update(dish);
                         await _context.SaveChangesAsync();
                     }
                     //TODO Måste radera dom gamla Dishingredients som finns i dish
-                   
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -1,4 +1,4 @@
-﻿@model NackaPizzaOnline.Models.Dish
+﻿@model NackaPizzaOnline.Models.DishViewModels.CreateViewModel
 
 @{
     ViewData["Title"] = "Lägga till";
@@ -18,25 +18,24 @@
                     <span asp-validation-for="Picture" class="text-danger"></span>
                 </div>*@
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Dish.Name" class="control-label"></label>
+                <input asp-for="Dish.Name" class="form-control" />
+                <span asp-validation-for="Dish.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="Dish.Price" class="control-label"></label>
+                <input asp-for="Dish.Price" class="form-control" />
+                <span asp-validation-for="Dish.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                @Html.DropDownListFor(model => model.Category.CategoryId, (IEnumerable<SelectListItem>)ViewBag.Categories, null, new { @class = "form-control"})
-                <span asp-validation-for="Category" class="text-danger"></span>
+                <label asp-for="Dish.Category" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Categories, Model.Categories, null, new { @class="form-control" })
+                <span asp-validation-for="Dish.Category" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DishIngredients" class="control-label"></label>
-                @*@Html.DropDownList("Ingredients", (IEnumerable<SelectListItem>)ViewBag.Ingredients, null, new { @class = "form-control", @multiple = "multiple" })*@
-                @Html.CheckBox("Ingredients", )
-                <span asp-validation-for="DishIngredients" class="text-danger"></span>
+                <label asp-for="Ingredients" class="control-label"></label>                
+                @*@Html.CheckBoxFor(model => model.Ingredients, Model.Ingredients)*@
+                <span asp-validation-for="Ingredients" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Lägg till" class="btn btn-default" />
