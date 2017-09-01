@@ -64,9 +64,38 @@ namespace NackaPizzaOnline.Services
             return dish;
         }
 
-        //public Dish CreateNewDish(CreateViewModel createDish)
-        //{
-        //    return newDish;
-        //}
+        public Dish CreateNewDish(CreateViewModel createDish)
+        {
+            
+            var newDish = new Dish
+            {
+                DishId = _context.Dishes.Last().DishId,
+                Category = new Category
+                {
+                    CategoryId = int.Parse(createDish.Categories.FirstOrDefault(c=>c.Selected).Value),
+                    Name = createDish.Categories.FirstOrDefault(c=>c.Selected).Text
+                },
+               Name = createDish.Dish.Name,
+               Price = createDish.Dish.Price,
+               Picture = createDish.Dish.Picture
+                
+            };
+            var ingredients = _context.Ingredients.ToList();
+            foreach (var dishIngredient in createDish.Ingredients)
+            {
+                if (dishIngredient.Selected)
+                {
+                    var newDishIngredient = new DishIngredient
+                    {
+                        Dish = newDish,
+                        DishId = newDish.DishId,
+                        Ingredient = ingredients.FirstOrDefault(i=>i.IngredientId == int.Parse(dishIngredient.Value)),
+                        IngredientId = int.Parse(dishIngredient.Value)
+                    };
+                    newDish.DishIngredients.Add(newDishIngredient);
+                }
+            }
+            return newDish;
+        }
     }
 }

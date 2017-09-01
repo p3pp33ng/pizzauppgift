@@ -9,7 +9,6 @@ using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Models.EditViewModels;
 using NackaPizzaOnline.Services;
-using NackaPizzaOnline.Models.DishViewModels;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -50,9 +49,32 @@ namespace NackaPizzaOnline.Controllers
         // GET: Dish/Create
         public IActionResult Create()
         {
-            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
-            ViewBag.Ingredients = new SelectList(_context.Ingredients, "IngredientId", "Name");
-            return View();
+            var categories = new List<SelectListItem>();
+            var ingredients = new List<SelectListItem>();
+            foreach (var ingredient in _context.Ingredients.ToList())
+            {
+                ingredients.Add(new SelectListItem
+                {
+                    Text = ingredient.Name,
+                    Value = ingredient.IngredientId.ToString()
+                });
+            }
+            foreach (var category in _context.Categories.ToList())
+            {
+                categories.Add(new SelectListItem
+                {
+                    Text = category.Name,
+                    Value = category.CategoryId.ToString()
+                });
+            }
+            var viewModel = new CreateViewModel
+            {
+                Categories = categories,
+                Ingredients = ingredients,
+                Dish = new Dish()
+            };
+
+            return View(viewModel);
         }
 
         // POST: Dish/Create
@@ -60,15 +82,16 @@ namespace NackaPizzaOnline.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id, CreateViewModel model)
+        public async Task<IActionResult> Create(CreateViewModel model)
         {
-            //TODO Anpassa denna för att kunna ta in infon från select2 dropdowns. 
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(dish);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
+
+            if (ModelState.IsValid)
+            {
+               var dish = _dishIngredientService.CreateNewDish(model);
+                _context.Add(dish);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             return View();
         }
 
