@@ -131,7 +131,6 @@ namespace NackaPizzaOnline.Controllers
         //int id, [Bind("DishId,Name,Price,Category")] Dish dish, string[] ingredients
         {
             //TODO När det funkar att lägga till bild, lägg till i Bind. 
-            //TODO Ta med int arrays ingrediensId:n och leta fram dom backend och bygg upp en ny dishIngredient.
             if (id != Model.Dish.DishId)
             {
                 return NotFound();
@@ -147,9 +146,7 @@ namespace NackaPizzaOnline.Controllers
 
                         _context.Update(dish);
                         await _context.SaveChangesAsync();
-                    }
-                    //TODO Måste radera dom gamla Dishingredients som finns i dish
-
+                    }                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {

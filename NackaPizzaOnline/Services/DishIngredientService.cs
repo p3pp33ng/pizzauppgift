@@ -66,7 +66,6 @@ namespace NackaPizzaOnline.Services
 
         public Dish CreateNewDish(CreateViewModel createDish)
         {
-            //TODO Fixa så att du får en hel dish
             var categories = _context.Categories.ToList();
             var newDish = new Dish
             {
