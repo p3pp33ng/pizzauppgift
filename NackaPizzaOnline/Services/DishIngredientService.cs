@@ -67,18 +67,19 @@ namespace NackaPizzaOnline.Services
         public Dish CreateNewDish(CreateViewModel createDish)
         {
             //TODO Fixa så att du får en hel dish
+            var categories = _context.Categories.ToList();
             var newDish = new Dish
             {
-                DishId = _context.Dishes.Last().DishId,
+                DishId = _context.Dishes.Last().DishId + 1,
                 Category = new Category
                 {
-                    CategoryId = int.Parse(createDish.Categories.FirstOrDefault(c=>c.Selected).Value),
-                    Name = createDish.Categories.FirstOrDefault(c=>c.Selected).Text
+                    CategoryId = createDish.Dish.Category.CategoryId,
+                    Name = categories.FirstOrDefault(c => c.CategoryId == createDish.Dish.Category.CategoryId).Name
                 },
-               Name = createDish.Dish.Name,
-               Price = createDish.Dish.Price,
-               Picture = createDish.Dish.Picture
-                
+                Name = createDish.Dish.Name,
+                Price = createDish.Dish.Price,
+                Picture = createDish.Dish.Picture
+
             };
             var ingredients = _context.Ingredients.ToList();
             foreach (var dishIngredient in createDish.Ingredients)
@@ -89,7 +90,7 @@ namespace NackaPizzaOnline.Services
                     {
                         Dish = newDish,
                         DishId = newDish.DishId,
-                        Ingredient = ingredients.FirstOrDefault(i=>i.IngredientId == int.Parse(dishIngredient.Value)),
+                        Ingredient = ingredients.FirstOrDefault(i => i.IngredientId == int.Parse(dishIngredient.Value)),
                         IngredientId = int.Parse(dishIngredient.Value)
                     };
                     newDish.DishIngredients.Add(newDishIngredient);
