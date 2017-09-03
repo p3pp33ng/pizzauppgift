@@ -23,7 +23,9 @@ namespace NackaPizzaOnline.Services
             var result = false;
             try
             {
-                var oldDishIngredients = _context.DishIngredients.Where(di => di.DishId == id).ToList();
+                var oldDishIngredients = _context.DishIngredients
+                    .Where(di => di.DishId == id)
+                    .ToList();
                 _context.RemoveRange(oldDishIngredients);
                 _context.SaveChanges();
             }
