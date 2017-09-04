@@ -9,7 +9,6 @@ namespace NackaPizzaOnline.Models
     {
         public int CartItemId { get; set; }
         public int CartId { get; set; }
-        public List<int> IngredientIds { get; set; } = new List<int>();
         public int DishId { get; set; }
     }
 }
