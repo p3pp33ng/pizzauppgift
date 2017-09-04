@@ -1,4 +1,5 @@
 ﻿@model CustomizeViewModel
+
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,26 +7,24 @@
                 <h4 class="modal-title">@Model.Dish.Name</h4>
             </div>
             <div class="modal-body">
-                <table>
-                    
+                <table>                    
                         @foreach (var ingredient in Model.Ingredients)
                         {
                             <tr>
                                 <td>
-                                    @if (ingredient.IsChecked == true)
+                                    @if (ingredient.Selected == true)
                                     {
-                                        <label>@ingredient.Name</label>
-                                        <input type="checkbox" name="@ingredient.Name" checked />
+                                        <label>@ingredient.Text</label>
+                                        <input type="checkbox" name="@ingredient.Text" checked />
                                     }
                                     else
                                     {
-                                        <label>@ingredient.Name</label>
-                                        <input type="checkbox" name="@ingredient.Name" />
+                                        <label>@ingredient.Text</label>
+                                        <input type="checkbox" name="@ingredient.Text" />
                                     }
                                 </td>
                             </tr>
-                        }
-                            
+                        }                            
                 </table>
             </div>
             <div class="modal-footer">
@@ -33,5 +32,4 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
             </div>
         </div>
-
     </div>

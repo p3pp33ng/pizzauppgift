@@ -35,10 +35,13 @@ namespace NackaPizzaOnline
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            //services.Configure<IISOptions>(options => {});
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<UserManager<ApplicationUser>>();
             services.AddTransient<DishIngredientService>();
+            services.AddTransient<CartService>();
 
             services.AddMvc();
         }

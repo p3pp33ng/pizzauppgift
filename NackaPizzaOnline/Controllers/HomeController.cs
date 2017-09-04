@@ -8,6 +8,7 @@ using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Models.HomeViewModels;
 using NackaPizzaOnline.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -43,29 +44,37 @@ namespace NackaPizzaOnline.Controllers
                 .OrderBy(i => i.IngredientId)
                 .ToList();
 
+            var list = new List<SelectListItem>();
             foreach (var ingredient in allIngredients)
-            {
-
-                var item = dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId);
-
-                if (item)
+            {                
+                if (dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId))
                 {
-                    ingredient.IsChecked = true;
+                    var ingredientChecked = new SelectListItem
+                    {
+                        Value = ingredient.IngredientId.ToString(),
+                        Selected = true,
+                        Text = ingredient.Name
+                    };
+                    list.Add(ingredientChecked);
                 }
                 else
                 {
-                    ingredient.IsChecked = false;
+                    var ingredientNotChecked = new SelectListItem
+                    {
+                        Value = ingredient.IngredientId.ToString(),
+                        Text = ingredient.Name
+                    };
+                    list.Add(ingredientNotChecked);
                 }
             }
 
             var viewModel = new CustomizeViewModel
             {
                 Dish = dish,
-                Ingredients = allIngredients
+                Ingredients = list
             };
-
             return PartialView("_CustomizeView", viewModel);
-        }               
+        }
 
         public IActionResult Error()
         {
