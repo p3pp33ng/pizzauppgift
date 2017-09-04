@@ -49,30 +49,7 @@ namespace NackaPizzaOnline.Controllers
         // GET: Dish/Create
         public IActionResult Create()
         {
-            var categories = new List<SelectListItem>();
-            var ingredients = new List<SelectListItem>();
-            foreach (var ingredient in _context.Ingredients.ToList())
-            {
-                ingredients.Add(new SelectListItem
-                {
-                    Text = ingredient.Name,
-                    Value = ingredient.IngredientId.ToString()
-                });
-            }
-            foreach (var category in _context.Categories.ToList())
-            {
-                categories.Add(new SelectListItem
-                {
-                    Text = category.Name,
-                    Value = category.CategoryId.ToString()
-                });
-            }
-            var viewModel = new CreateViewModel
-            {
-                Categories = categories,
-                Ingredients = ingredients,
-                Dish = new Dish()
-            };
+           var viewModel = _dishIngredientService.BuildCreateViewModel();
 
             return View(viewModel);
         }

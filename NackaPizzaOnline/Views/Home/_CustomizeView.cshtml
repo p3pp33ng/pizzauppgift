@@ -15,12 +15,12 @@
                                     @if (ingredient.Selected == true)
                                     {
                                         <label>@ingredient.Text</label>
-                                        <input type="checkbox" name="@ingredient.Text" checked />
+                                        <input type="checkbox" value="@ingredient.Value" name="@ingredient.Text" checked />
                                     }
                                     else
                                     {
                                         <label>@ingredient.Text</label>
-                                        <input type="checkbox" name="@ingredient.Text" />
+                                        <input type="checkbox" value="@ingredient.Value" name="@ingredient.Text" />
                                     }
                                 </td>
                             </tr>

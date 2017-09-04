@@ -7,19 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
+using NackaPizzaOnline.Services;
 
 namespace NackaPizzaOnline.Controllers
 {
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly CartService _cartService;
 
-        public CartController(ApplicationDbContext context)
+        public CartController(ApplicationDbContext context, CartService cartService)
         {
             _context = context;
+            _cartService = cartService;
         }
 
+        public void AddDishToCart()
+        {
 
+        }
     }
 }
 

@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Models.EditViewModels;
+using NackaPizzaOnline.Models.HomeViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,7 @@ namespace NackaPizzaOnline.Services
             result = true;
             return result;
         }
+
         public Dish GetEditedDish(EditViewModel editDish)
         {
             var dish = _context.Dishes
@@ -99,5 +102,82 @@ namespace NackaPizzaOnline.Services
             }
             return newDish;
         }
+
+        public CustomizeViewModel BuildCustomizeViewModel(int id)
+        {
+            var dish = _context.Dishes
+               .Single(d => d.DishId == id);
+            var dishIngredients = _context.DishIngredients
+                .Include(di => di.Ingredient)
+                .Where(di => di.DishId == id)
+                .OrderBy(di => di.IngredientId)
+                .ToList();
+            var allIngredients = _context.Ingredients
+                .OrderBy(i => i.IngredientId)
+                .ToList();
+
+            var list = new List<SelectListItem>();
+            foreach (var ingredient in allIngredients)
+            {
+                if (dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId))
+                {
+                    var ingredientChecked = new SelectListItem
+                    {
+                        Value = ingredient.IngredientId.ToString(),
+                        Selected = true,
+                        Text = ingredient.Name
+                    };
+                    list.Add(ingredientChecked);
+                }
+                else
+                {
+                    var ingredientNotChecked = new SelectListItem
+                    {
+                        Value = ingredient.IngredientId.ToString(),
+                        Text = ingredient.Name
+                    };
+                    list.Add(ingredientNotChecked);
+                }
+            }
+
+            var viewModel = new CustomizeViewModel
+            {
+                Dish = dish,
+                Ingredients = list
+            };
+
+            return viewModel;
+        }
+
+        public CreateViewModel BuildCreateViewModel()
+        {
+            var categories = new List<SelectListItem>();
+            var ingredients = new List<SelectListItem>();
+            foreach (var ingredient in _context.Ingredients.ToList())
+            {
+                ingredients.Add(new SelectListItem
+                {
+                    Text = ingredient.Name,
+                    Value = ingredient.IngredientId.ToString()
+                });
+            }
+            foreach (var category in _context.Categories.ToList())
+            {
+                categories.Add(new SelectListItem
+                {
+                    Text = category.Name,
+                    Value = category.CategoryId.ToString()
+                });
+            }
+            var viewModel = new CreateViewModel
+            {
+                Categories = categories,
+                Ingredients = ingredients,
+                Dish = new Dish()
+            };
+
+            return viewModel;
+        }
+
     }
 }

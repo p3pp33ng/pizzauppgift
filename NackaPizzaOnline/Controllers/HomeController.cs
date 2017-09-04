@@ -9,16 +9,19 @@ using NackaPizzaOnline.Models.HomeViewModels;
 using NackaPizzaOnline.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NackaPizzaOnline.Services;
 
 namespace NackaPizzaOnline.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly DishIngredientService _dishIngredientService;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context, DishIngredientService dishIngredientService)
         {
             _context = context;
+            _dishIngredientService = dishIngredientService;
         }
         public IActionResult Index()
         {
@@ -33,46 +36,7 @@ namespace NackaPizzaOnline.Controllers
 
         public PartialViewResult GetDishInfoForModal(int id)
         {
-            var dish = _context.Dishes
-                .Single(d => d.DishId == id);
-            var dishIngredients = _context.DishIngredients
-                .Include(di => di.Ingredient)
-                .Where(di => di.DishId == id)
-                .OrderBy(di => di.IngredientId)
-                .ToList();
-            var allIngredients = _context.Ingredients
-                .OrderBy(i => i.IngredientId)
-                .ToList();
-
-            var list = new List<SelectListItem>();
-            foreach (var ingredient in allIngredients)
-            {
-                if (dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId))
-                {
-                    var ingredientChecked = new SelectListItem
-                    {
-                        Value = ingredient.IngredientId.ToString(),
-                        Selected = true,
-                        Text = ingredient.Name
-                    };
-                    list.Add(ingredientChecked);
-                }
-                else
-                {
-                    var ingredientNotChecked = new SelectListItem
-                    {
-                        Value = ingredient.IngredientId.ToString(),
-                        Text = ingredient.Name
-                    };
-                    list.Add(ingredientNotChecked);
-                }
-            }
-
-            var viewModel = new CustomizeViewModel
-            {
-                Dish = dish,
-                Ingredients = list
-            };
+            var viewModel = _dishIngredientService.BuildCustomizeViewModel(id);
 
             return PartialView("_CustomizeView", viewModel);
         }
