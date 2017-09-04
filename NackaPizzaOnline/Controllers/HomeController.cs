@@ -46,7 +46,7 @@ namespace NackaPizzaOnline.Controllers
 
             var list = new List<SelectListItem>();
             foreach (var ingredient in allIngredients)
-            {                
+            {
                 if (dishIngredients.Exists(i => i.IngredientId == ingredient.IngredientId))
                 {
                     var ingredientChecked = new SelectListItem
@@ -73,6 +73,7 @@ namespace NackaPizzaOnline.Controllers
                 Dish = dish,
                 Ingredients = list
             };
+
             return PartialView("_CustomizeView", viewModel);
         }
 
