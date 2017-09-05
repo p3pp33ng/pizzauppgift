@@ -7,8 +7,19 @@
                 <h4 class="modal-title">@Model.Dish.Name</h4>
             </div>
             <div class="modal-body">
-                <table>                    
-                        @foreach (var ingredient in Model.Ingredients)
+                <table id="ingredientTable">    
+                    @for (var i = 0; i < Model.Ingredients.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(model => model.Ingredients[i].Selected, new { @Id="Ingredient"+i })
+                                @Html.HiddenFor(model => model.Ingredients[i].Value)
+                                @Html.HiddenFor(model => model.Ingredients[i].Text)
+                                <span>@Model.Ingredients[i].Text</span>
+                            </td>
+                        </tr>
+                    }        
+                        @*@foreach (var ingredient in Model.Ingredients)
                         {
                             <tr>
                                 <td>
@@ -24,11 +35,11 @@
                                     }
                                 </td>
                             </tr>
-                        }                            
+                        }*@                            
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="">Köp</button>
+                <button type="button" class="btn btn-success" onclick="BuyDishAfterCustomize('@Model.Dish.DishId')">Köp</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
             </div>
         </div>

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Services;
+using NackaPizzaOnline.Models.HomeViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -22,7 +24,8 @@ namespace NackaPizzaOnline.Controllers
             _cartService = cartService;
         }
 
-        public void AddDishToCart()
+        [HttpGet]
+        public void AddDishToCart(int id, List<int> listOfIngredients)
         {
 
         }
