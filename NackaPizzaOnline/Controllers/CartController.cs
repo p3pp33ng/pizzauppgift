@@ -17,17 +17,28 @@ namespace NackaPizzaOnline.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly CartService _cartService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session => _httpContextAccessor.HttpContext.Session;
 
-        public CartController(ApplicationDbContext context, CartService cartService)
+        public CartController(ApplicationDbContext context, CartService cartService, HttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _cartService = cartService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
-        public void AddDishToCart(int id, List<int> listOfIngredients)
+        public PartialViewResult AddDishToCart(int id, List<int> listOfIngredients)
         {
+            //leta efter carten
+            if (_cartService.IsCartCreated(1))
+            {
+                //kalla på session och hämta cart.
+                var cartId = 1;//Lägga till getsession så man får cartId.
+                _cartService.AddCartItem(cartId,id,listOfIngredients);
+            }
 
+            return PartialView("_CartView");
         }
     }
 }
