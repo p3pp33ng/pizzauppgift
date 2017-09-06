@@ -10,6 +10,7 @@ using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Services;
 using NackaPizzaOnline.Models.HomeViewModels;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -20,6 +21,8 @@ namespace NackaPizzaOnline.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private ISession _session => _httpContextAccessor.HttpContext.Session;
 
+        public const string CartSessionKey = "CartId";
+
         public CartController(ApplicationDbContext context, CartService cartService, HttpContextAccessor httpContextAccessor)
         {
             _context = context;
@@ -29,13 +32,22 @@ namespace NackaPizzaOnline.Controllers
 
         [HttpGet]
         public PartialViewResult AddDishToCart(int id, List<int> listOfIngredients)
-        {
-            //leta efter carten
-            if (_cartService.IsCartCreated(1))
+        {            
+            var cart = new Cart();
+            var session = _session.GetString(CartSessionKey);
+            if (session != null)
             {
-                //kalla på session och hämta cart.
-                var cartId = 1;//Lägga till getsession så man får cartId.
-                _cartService.AddCartItem(cartId,id,listOfIngredients);
+                cart = JsonConvert.DeserializeObject<Cart>(session);
+
+                cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
+                _session.SetString(CartSessionKey, JsonConvert.SerializeObject(cart));
+            }
+            else
+            {
+                //TODO skapa en ny cart och lägg till ett cartitem
+                var newCart = _cartService.CreateCart();
+                newCart = _cartService.AddCartItem(newCart.CartId, id, listOfIngredients);
+                _session.SetString(CartSessionKey, JsonConvert.SerializeObject(newCart));
             }
 
             return PartialView("_CartView");

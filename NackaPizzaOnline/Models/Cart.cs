@@ -8,7 +8,7 @@ namespace NackaPizzaOnline.Models
 {
     public class Cart
     {
-        public int CartId { get; set; }
+        public string CartId { get; set; }
         [Display(Name="Kundkorg")]
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();
         [Display(Name ="Summa")]
