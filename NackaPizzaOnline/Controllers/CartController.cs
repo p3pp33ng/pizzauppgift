@@ -37,20 +37,21 @@ namespace NackaPizzaOnline.Controllers
             var session = _session.GetString(CartSessionKey);
             if (session != null)
             {
-                cart = JsonConvert.DeserializeObject<Cart>(session);
+                cart = _context.Carts.First(c=>c.CartId == session);
 
                 cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
-                _session.SetString(CartSessionKey, JsonConvert.SerializeObject(cart));
+                _session.SetString(CartSessionKey,cart.CartId);
             }
             else
             {
                 //TODO skapa en ny cart och lägg till ett cartitem
                 var newCart = _cartService.CreateCart();
-                newCart = _cartService.AddCartItem(newCart.CartId, id, listOfIngredients);
-                _session.SetString(CartSessionKey, JsonConvert.SerializeObject(newCart));
+                cart.CartId = newCart.Result.CartId;
+                cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
+                _session.SetString(CartSessionKey, cart.CartId);
             }
 
-            return PartialView("_CartView");
+            return PartialView("_CartView", cart);
         }
     }
 }
