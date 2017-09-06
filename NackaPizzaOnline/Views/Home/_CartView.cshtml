@@ -1,2 +1,48 @@
-﻿@model Cart
-<p>Shoppingcart view, här ska alla varor hamna.</p>
+﻿@using NackaPizzaOnline.Services
+@model Cart
+@inject DishIngredientService DishService
+
+    @{ 
+        var ingredients = "";
+    }
+
+<h5>Varukorg</h5>
+
+<table class="table">
+    @foreach (var cartItem in Model.CartItems)
+    {
+        <tr>
+            <th>
+                @DishService.GetNameOfDish(cartItem.DishId)
+            </th>
+        </tr>
+        //TODO Detta ska bli en rullgardin senare
+        <tr>
+            <td>
+               @for (var i = 0;i < cartItem.Ingredients.Count; ++i)
+               {
+                   if (i != cartItem.Ingredients.Count - 1)
+                   {
+                       ingredients += cartItem.Ingredients[i].Name + ", ";
+                   }
+                   else
+                   {
+                       if (cartItem.Ingredients.Count ==1)
+                       {
+                           ingredients += cartItem.Ingredients[i].Name;
+                       }
+                       else
+                       {
+                           ingredients += " och " + cartItem.Ingredients[i].Name + ".";
+                       }
+
+                   }
+               }
+                <p>@ingredients</p>
+                @{ 
+                    ingredients = "";
+                }
+            </td>
+        </tr>
+    }
+</table>

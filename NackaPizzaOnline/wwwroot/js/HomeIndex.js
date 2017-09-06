@@ -27,13 +27,14 @@ function BuyDishAfterCustomize(id) {
             listOfIngredients.push(ingredientId.nextElementSibling.value);
         }
     }
-    
+    console.log(listOfIngredients);
     $.ajax({
         type: "GET",
-        data: { "id": id, "listOfIngredients": listOfIngredients },
+        data: { "id": id, "listOfIngredients": this.listOfIngredients },
         url: "Cart/AddDishToCart",
         success: function (response) {
             console.log(response);
+            $('#cartview').html(response)
         }
     });
 }

@@ -20,6 +20,11 @@ namespace NackaPizzaOnline.Services
             _context = context;
         }
 
+        public string GetNameOfDish(int id)
+        {            
+            return _context.Dishes.First(d=>d.DishId == id).Name;
+        }
+
         public bool DeleteDishIngredientsOnOldDish(int id)
         {
             var result = false;
