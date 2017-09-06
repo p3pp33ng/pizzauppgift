@@ -8,7 +8,8 @@ namespace NackaPizzaOnline.Models
     public class CartItem
     {
         public int CartItemId { get; set; }
-        public int CartId { get; set; }
+        public string CartId { get; set; }
         public int DishId { get; set; }
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
     }
 }

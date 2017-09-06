@@ -32,15 +32,15 @@ namespace NackaPizzaOnline.Controllers
 
         [HttpGet]
         public PartialViewResult AddDishToCart(int id, List<int> listOfIngredients)
-        {            
+        {
             var cart = new Cart();
             var session = _session.GetString(CartSessionKey);
             if (session != null)
             {
-                cart = _context.Carts.First(c=>c.CartId == session);
+                cart = _context.Carts.First(c => c.CartId == session);
 
                 cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
-                _session.SetString(CartSessionKey,cart.CartId);
+                _session.SetString(CartSessionKey, cart.CartId);
             }
             else
             {

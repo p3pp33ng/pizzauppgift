@@ -35,7 +35,7 @@ namespace NackaPizzaOnline.Services
         {
             //Skapa en cart
             var cart = new Cart();
-            //TODO om man är inloggad får cart ditt namn eller liknade som id om inte så bygger du en GUID som gör att den blir personlig
+            //TODO om man är inloggad får cart ditt namn eller liknade som id, om inte så bygger du en GUID som gör att den blir personlig.
             //använd httpcontext för att hämta usern som är inne nu.
             var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
             if (user != null)
@@ -55,8 +55,30 @@ namespace NackaPizzaOnline.Services
 
         public Cart AddCartItem(string cartId, int dishId, List<int> listOfIngredients)
         {
-            //lägg till cartitem i cart. Spara cart       
-            return new Cart();
+            //lägg till cartitem i cart. Spara cart   
+            var cart = _context.Carts.First(c => c.CartId == cartId);
+            var dish = _context.Dishes.First(d => d.DishId == dishId);
+            var ingredients = _context.Ingredients.ToList();
+            var item = new CartItem
+            {
+                CartId = cartId,
+                DishId = dishId
+            };
+            var list = new List<CartItem>();
+
+            foreach (var ingredient in ingredients)
+            {
+                if (listOfIngredients.Contains(ingredient.IngredientId))
+                {
+                    item.Ingredients.Add(ingredient);
+                    list.Add(item);
+                }
+
+            }
+            cart.CartItems.AddRange(list);
+            _context.Carts.Update(cart);
+            _context.SaveChanges();
+            return cart;
         }
 
         public bool RemoveCartItem(string cartId, int cartItemId)
