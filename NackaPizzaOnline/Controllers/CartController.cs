@@ -31,25 +31,25 @@ namespace NackaPizzaOnline.Controllers
         }
 
         [HttpGet]
-        public PartialViewResult AddDishToCart(int id, List<int> listOfIngredients)
+        public ActionResult AddDishToCart(int id, string listOfIngredients)
         {
             var cart = new Cart();
-            var session = _session.GetString(CartSessionKey);
-            if (session != null)
-            {
-                cart = _context.Carts.First(c => c.CartId == session);
+            //var session = _session.GetString(CartSessionKey);
+            //if (session != null)
+            //{
+                //cart = _context.Carts.First(c => c.CartId == session);
 
-                cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
-                _session.SetString(CartSessionKey, cart.CartId);
-            }
-            else
-            {
-                //TODO skapa en ny cart och lägg till ett cartitem
-                var newCart = _cartService.CreateCart();
-                cart.CartId = newCart.Result.CartId;
-                cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
-                _session.SetString(CartSessionKey, cart.CartId);
-            }
+                //cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
+                //_session.SetString(CartSessionKey, cart.CartId);
+            //}
+            //else
+            //{
+                ////TODO skapa en ny cart och lägg till ett cartitem
+                //var newCart = _cartService.CreateCart();
+                //cart.CartId = newCart.Result.CartId;
+                //cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
+                //_session.SetString(CartSessionKey, cart.CartId);
+            //}
 
             return PartialView("_CartView", cart);
         }

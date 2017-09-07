@@ -18,6 +18,7 @@ function GetDishInfo(id) {
 function BuyDishAfterCustomize(id) {
     console.log(id);
     var listOfIngredients = [];
+    var that = this;
     
     var list = $('input[type="checkbox"]');
     for (var i = 0; i < list.length; i++) {
@@ -29,9 +30,13 @@ function BuyDishAfterCustomize(id) {
     }
     console.log(listOfIngredients);
     $.ajax({
+        //datatype: "json",
         type: "GET",
-        data: { "id": id, "listOfIngredients": this.listOfIngredients },
+        data: { "id": id, "listOfIngredients": JSON.stringify(listOfIngredients) },
         url: "Cart/AddDishToCart",
+        error: function () {
+            console.log(listOfIngredients);
+        },
         success: function (response) {
             console.log(response);
             $('#cartview').html(response)
