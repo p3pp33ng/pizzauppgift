@@ -11,6 +11,7 @@ using NackaPizzaOnline.Services;
 using NackaPizzaOnline.Models.HomeViewModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -18,21 +19,31 @@ namespace NackaPizzaOnline.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly CartService _cartService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private ISession _session => _httpContextAccessor.HttpContext.Session;
+        //private readonly IHttpContextAccessor _httpContextAccessor;
+        //private ISession _session => _httpContextAccessor.HttpContext.Session;
+        //HttpContextAccessor httpContextAccessor
+        //public const string CartSessionKey = "CartId";
 
-        public const string CartSessionKey = "CartId";
-
-        public CartController(ApplicationDbContext context, CartService cartService, HttpContextAccessor httpContextAccessor)
+        public CartController(ApplicationDbContext context, CartService cartService)
         {
             _context = context;
             _cartService = cartService;
-            _httpContextAccessor = httpContextAccessor;
+            //_httpContextAccessor = httpContextAccessor;
         }
-
         [HttpGet]
-        public ActionResult AddDishToCart(int id, string listOfIngredients)
+        public ActionResult AddDishToCart(int id, string stringOfIngredients)
         {
+            //"[\"1\",\"2\",\"3\"]"
+            var split = Regex.Split(stringOfIngredients, @"\D+");
+            var listOfIngredients = new List<int>();
+            foreach (var item in split)
+            {
+                if (int.TryParse(item, out int result))
+                {
+                    listOfIngredients.Add(int.Parse(item));
+                }
+            }
+
             var cart = new Cart();
             //var session = _session.GetString(CartSessionKey);
             //if (session != null)

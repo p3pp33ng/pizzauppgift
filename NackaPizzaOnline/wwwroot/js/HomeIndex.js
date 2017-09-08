@@ -22,7 +22,7 @@ function BuyDishAfterCustomize(id) {
     
     var list = $('input[type="checkbox"]');
     for (var i = 0; i < list.length; i++) {
-        if ($(list[i]).is(':checked')) {
+        if ($(list[i]).is(':checked')) {           
             var sibling = list[i].nextSibling;
             var ingredientId = list[i].nextElementSibling;
             listOfIngredients.push(ingredientId.nextElementSibling.value);
@@ -30,9 +30,9 @@ function BuyDishAfterCustomize(id) {
     }
     console.log(listOfIngredients);
     $.ajax({
-        //datatype: "json",
+        datatype: "json",
         type: "GET",
-        data: { "id": id, "listOfIngredients": JSON.stringify(listOfIngredients) },
+        data: { "id": id, "stringOfIngredients": JSON.stringify(listOfIngredients) },
         url: "Cart/AddDishToCart",
         error: function () {
             console.log(listOfIngredients);

@@ -14,13 +14,14 @@ namespace NackaPizzaOnline.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private ISession _session => _httpContextAccessor.HttpContext.Session;
+        //private readonly IHttpContextAccessor _httpContextAccessor;
+        //private ISession _session => _httpContextAccessor.HttpContext.Session;
+        //HttpContextAccessor httpContextAccessor
 
-        public CartService(ApplicationDbContext context, HttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager)
+        public CartService(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
+            //_httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
         }
 
@@ -37,19 +38,19 @@ namespace NackaPizzaOnline.Services
             var cart = new Cart();
             //TODO om man är inloggad får cart ditt namn eller liknade som id, om inte så bygger du en GUID som gör att den blir personlig.
             //använd httpcontext för att hämta usern som är inne nu.
-            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-            if (user != null)
-            {
-                cart.CartId = user.UserName;
-                _context.Carts.Add(cart);
-            }
-            else
-            {
-                Guid tempCartId = Guid.NewGuid();
-                cart.CartId = tempCartId.ToString();
-                _context.Carts.Add(cart);
-            }
-            _context.SaveChanges();
+            //var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            //if (user != null)
+            //{
+            //    cart.CartId = user.UserName;
+            //    _context.Carts.Add(cart);
+            //}
+            //else
+            //{
+            //    Guid tempCartId = Guid.NewGuid();
+            //    cart.CartId = tempCartId.ToString();
+            //    _context.Carts.Add(cart);
+            //}
+            //_context.SaveChanges();
             return cart;
         }
 
