@@ -35,7 +35,7 @@ namespace NackaPizzaOnline.Controllers
             var listOfIngredients = new List<int>();
             foreach (var item in split)
             {
-                if (int.TryParse(item, out int result))
+                if (int.TryParse(item, out int number))
                 {
                     listOfIngredients.Add(int.Parse(item));
                 }
@@ -68,7 +68,6 @@ namespace NackaPizzaOnline.Controllers
             var cart = new Cart();
             var dish = _context.Dishes.Include(d=> d.DishIngredients).ThenInclude(i=>i.Ingredient).FirstOrDefault(d=>d.DishId == id);
             var session = HttpContext.Session.GetString(SessionCartId);
-
             var listOfIngredients = new List<int>();
 
             foreach (var item in dish.DishIngredients)

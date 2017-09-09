@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 namespace NackaPizzaOnline.Services
 {
@@ -26,8 +27,8 @@ namespace NackaPizzaOnline.Services
         public Cart CreateCart(ClaimsPrincipal user)
         {
             //Skapa en cart
-            var cart = new Cart();            
-            
+            var cart = new Cart();
+
             if (user.Identity.Name != null)
             {
                 cart.CartId = user.Identity.Name;
@@ -53,20 +54,22 @@ namespace NackaPizzaOnline.Services
             {
                 CartId = cartId,
                 DishId = dishId
-            };           
+            };
 
             foreach (var ingredient in ingredients)
             {
                 if (listOfIngredients.Contains(ingredient.IngredientId))
                 {
-                    cartItem.Ingredients.Add(ingredient);                   
+                    cartItem.Ingredients.Add(ingredient);
                 }
 
             }
-            _context.CartItems.Add(cartItem);
-            //cart.CartItems.Add(cartItem);
+            _context.CartItems.Add(cartItem);           
             _context.Carts.Update(cart);
             _context.SaveChanges();
+
+            CountingTotalSum(cartItem.CartItemId);
+
             return cart;
         }
 
@@ -79,6 +82,28 @@ namespace NackaPizzaOnline.Services
         public void RemoveCart(string cartid)
         {
 
+        }
+
+        public void CountingTotalSum(int cartItemId)
+        {
+            var result = 0;
+            var cartItem = _context.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId);
+            var ingredients = _context.Ingredients.ToList();
+            var dish = _context.Dishes.Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).FirstOrDefault(d => d.DishId == cartItem.DishId);
+            var orginalIngredients = _context.DishIngredients.Include(di => di.Ingredient).Where(i=>i.DishId == dish.DishId).Select(di=>di.Ingredient).ToList();
+
+            result += dish.Price;
+
+            foreach (var item in cartItem.Ingredients)
+            {
+                if (orginalIngredients.Contains(item))
+                {
+                    result += item.PriceIfExtra;
+                }
+            }
+            cartItem.Sum = result;
+            _context.CartItems.Update(cartItem);
+            _context.SaveChanges();
         }
     }
 }
