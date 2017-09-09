@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Services;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace NackaPizzaOnline
 {
@@ -35,8 +36,6 @@ namespace NackaPizzaOnline
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.Configure<IISOptions>(options => {});
-
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<UserManager<ApplicationUser>>();
@@ -44,8 +43,21 @@ namespace NackaPizzaOnline
             services.AddTransient<CartService>();
 
             services.AddMvc();
-        }
+            // Add CookieTempDataProvider after AddMvc and include ViewFeatures.
+            // using Microsoft.AspNetCore.Mvc.ViewFeatures;
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
+            // Adds a default in-memory implementation of IDistributedCache.
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.Cookie.Name = ".NackaPizzaOnline.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+            });
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
@@ -68,6 +80,7 @@ namespace NackaPizzaOnline
 
             app.UseAuthentication();
 
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -75,7 +88,8 @@ namespace NackaPizzaOnline
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            DBInitializer.Initialize(context,userManager,roleManager);
+            DBInitializer.Initialize(context, userManager, roleManager);
         }
     }
 }
+
