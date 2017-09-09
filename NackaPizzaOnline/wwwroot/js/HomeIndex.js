@@ -1,4 +1,4 @@
-﻿//var modal = document.getElementById('ingredientModal');
+﻿var modal = document.getElementById('ingredientmodal');
 //var btn = document.getElementById('ingredientsbtn');
 //var span = document.getElementsByClassName('close')[0];
 //var modalDishName = document.getElementById('modalDishName');
