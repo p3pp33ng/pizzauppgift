@@ -28,7 +28,7 @@ namespace NackaPizzaOnline.Controllers
             _cartService = cartService;
         }
         [HttpGet]
-        public ActionResult AddDishToCart(int id, string stringOfIngredients)
+        public ActionResult AddDishToCartAfterCustomizing(int id, string stringOfIngredients)
         {
             var split = Regex.Split(stringOfIngredients, @"\D+");
 
@@ -59,6 +59,17 @@ namespace NackaPizzaOnline.Controllers
                 cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
                 HttpContext.Session.SetString(SessionCartId, cart.CartId);
             }
+
+            return PartialView("_CartView", cart);
+        }
+
+        [HttpGet]
+        public ActionResult AddDishWithoutCustomizing(int id)
+        {
+            //TODO Refaktorera denna metod så att man bara behöver använda den ena metoden.
+            var cart = new Cart();
+            var dish = _context.Dishes.FirstOrDefault(d=>d.DishId == id);
+            var session = HttpContext.Session.GetString(SessionCartId);
 
             return PartialView("_CartView", cart);
         }

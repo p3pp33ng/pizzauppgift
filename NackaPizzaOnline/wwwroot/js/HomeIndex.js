@@ -33,12 +33,25 @@ function BuyDishAfterCustomize(id) {
         datatype: "json",
         type: "GET",
         data: { "id": id, "stringOfIngredients": JSON.stringify(listOfIngredients) },
-        url: "Cart/AddDishToCart",
+        url: "Cart/AddDishToCartAfterCustomizing",
         error: function () {
-            console.log(listOfIngredients);
+            alert('Något gick fel.');
         },
         success: function (response) {
-            console.log(response);
+            
+            $('#cartview').html(response)
+        }
+    });
+}
+function BuyDishNoCustomizing(id) {
+    $.ajax({
+        type: "GET",
+        data: { "id": id },
+        url: "Cart/AddDishWithoutCustomizing",
+        error: function () {
+            alert('Något gck fel.');
+        },
+        success: function (response) {
             $('#cartview').html(response)
         }
     });

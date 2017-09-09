@@ -26,9 +26,7 @@ namespace NackaPizzaOnline.Services
         public Cart CreateCart(ClaimsPrincipal user)
         {
             //Skapa en cart
-            var cart = new Cart();
-            //TODO om man är inloggad får cart ditt namn eller liknade som id, om inte så bygger du en GUID som gör att den blir personlig.
-            //använd httpcontext för att hämta usern som är inne nu.
+            var cart = new Cart();            
             
             if (user.Identity.Name != null)
             {
@@ -55,15 +53,13 @@ namespace NackaPizzaOnline.Services
             {
                 CartId = cartId,
                 DishId = dishId
-            };
-            //var list = new List<CartItem>();
+            };           
 
             foreach (var ingredient in ingredients)
             {
                 if (listOfIngredients.Contains(ingredient.IngredientId))
                 {
-                    cartItem.Ingredients.Add(ingredient);
-                    //list.Add(item);
+                    cartItem.Ingredients.Add(ingredient);                   
                 }
 
             }
