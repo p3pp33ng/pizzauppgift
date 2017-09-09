@@ -23,13 +23,6 @@ namespace NackaPizzaOnline.Services
             _userManager = userManager;
         }
 
-        //public bool IsCartCreated(int? id)
-        //{
-        //    //Kolla om det finns en cart
-        //    var result = false;
-        //    return result;
-        //}
-
         public Cart CreateCart(ClaimsPrincipal user)
         {
             //Skapa en cart
@@ -58,23 +51,24 @@ namespace NackaPizzaOnline.Services
             var cart = _context.Carts.First(c => c.CartId == cartId);
             var dish = _context.Dishes.First(d => d.DishId == dishId);
             var ingredients = _context.Ingredients.ToList();
-            var item = new CartItem
+            var cartItem = new CartItem
             {
                 CartId = cartId,
                 DishId = dishId
             };
-            var list = new List<CartItem>();
+            //var list = new List<CartItem>();
 
             foreach (var ingredient in ingredients)
             {
                 if (listOfIngredients.Contains(ingredient.IngredientId))
                 {
-                    item.Ingredients.Add(ingredient);
-                    list.Add(item);
+                    cartItem.Ingredients.Add(ingredient);
+                    //list.Add(item);
                 }
 
             }
-            cart.CartItems.AddRange(list);
+            _context.CartItems.Add(cartItem);
+            cart.CartItems.Add(cartItem);
             _context.Carts.Update(cart);
             _context.SaveChanges();
             return cart;
@@ -86,7 +80,7 @@ namespace NackaPizzaOnline.Services
             return false;
         }
 
-        public void CartBecomingOrder(string cartid)
+        public void RemoveCart(string cartid)
         {
 
         }
