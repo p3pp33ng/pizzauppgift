@@ -64,7 +64,7 @@ namespace NackaPizzaOnline.Services
 
             }
             _context.CartItems.Add(cartItem);
-            cart.CartItems.Add(cartItem);
+            //cart.CartItems.Add(cartItem);
             _context.Carts.Update(cart);
             _context.SaveChanges();
             return cart;

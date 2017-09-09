@@ -52,8 +52,6 @@ namespace NackaPizzaOnline.Controllers
             }
             else
             {
-                //TODO skapa en ny cart och lägg till ett cartitem
-                
                 var newCart = _cartService.CreateCart(User);
                 cart.CartId = newCart.CartId;
                 cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
@@ -68,8 +66,30 @@ namespace NackaPizzaOnline.Controllers
         {
             //TODO Refaktorera denna metod så att man bara behöver använda den ena metoden.
             var cart = new Cart();
-            var dish = _context.Dishes.FirstOrDefault(d=>d.DishId == id);
+            var dish = _context.Dishes.Include(d=> d.DishIngredients).ThenInclude(i=>i.Ingredient).FirstOrDefault(d=>d.DishId == id);
             var session = HttpContext.Session.GetString(SessionCartId);
+
+            var listOfIngredients = new List<int>();
+
+            foreach (var item in dish.DishIngredients)
+            {
+                listOfIngredients.Add(item.IngredientId);
+            }
+
+            if (session != null)
+            {
+                cart = _context.Carts.First(c => c.CartId == session);
+
+                cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
+                HttpContext.Session.SetString(SessionCartId, cart.CartId);
+            }
+            else
+            {
+                var newCart = _cartService.CreateCart(User);
+                cart.CartId = newCart.CartId;
+                cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
+                HttpContext.Session.SetString(SessionCartId, cart.CartId);
+            }
 
             return PartialView("_CartView", cart);
         }
