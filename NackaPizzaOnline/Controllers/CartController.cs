@@ -78,7 +78,7 @@ namespace NackaPizzaOnline.Controllers
 
             if (session != null)
             {
-                cart = _context.Carts.First(c => c.CartId == session);
+                cart = _context.Carts.Include(c=>c.CartItems).First(c => c.CartId == session);
 
                 cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
                 HttpContext.Session.SetString(SessionCartId, cart.CartId);

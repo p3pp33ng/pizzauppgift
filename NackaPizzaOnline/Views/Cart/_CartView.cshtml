@@ -2,10 +2,6 @@
 @model Cart
 @inject DishIngredientService DishService
 
-    @{ 
-        var ingredients = "";
-    }
-
 <h5>Varukorg</h5>
 
 <table class="table">
@@ -19,31 +15,14 @@
         //TODO Detta ska bli en rullgardin senare
         <tr>
             <td>
-               @for (var i = 0;i < cartItem.Ingredients.Count; ++i)
-               {
-                   if (i != cartItem.Ingredients.Count - 1)
-                   {
-                       ingredients += cartItem.Ingredients[i].Name + ", ";
-                   }
-                   else
-                   {
-                       if (cartItem.Ingredients.Count ==1)
-                       {
-                           ingredients += cartItem.Ingredients[i].Name;
-                       }
-                       else
-                       {
-                           ingredients += " och " + cartItem.Ingredients[i].Name + ".";
-                       }
-
-                   }
-               }
-                <p>@ingredients</p><br />
-                <strong>Pris: @cartItem.Sum</strong>
-                @{ 
-                    ingredients = "";
-                }
+                <div>                    
+                    @*<p>@DishService.WriteOutIngredients(Model.CartId, cartItem.CartItemId)</p><br />*@
+                    <strong>Pris: @cartItem.Sum kr</strong>                    
+                    <button class="btn btn-default">Ändra</button>
+                    <button class="btn btn-danger">Ta bort</button>
+                </div>
             </td>
         </tr>
-    }
+                        }
 </table>
+<button class="btn btn-success">Betala</button>

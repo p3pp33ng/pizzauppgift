@@ -47,7 +47,7 @@ namespace NackaPizzaOnline.Services
         public Cart AddCartItem(string cartId, int dishId, List<int> listOfIngredients)
         {
             //lägg till cartitem i cart. Spara cart   
-            var cart = _context.Carts.First(c => c.CartId == cartId);
+            var cart = _context.Carts.Include(c=>c.CartItems).ThenInclude(ci=>ci.Ingredients).First(c => c.CartId == cartId);
             var dish = _context.Dishes.First(d => d.DishId == dishId);
             var ingredients = _context.Ingredients.ToList();
             var cartItem = new CartItem
@@ -62,7 +62,6 @@ namespace NackaPizzaOnline.Services
                 {
                     cartItem.Ingredients.Add(ingredient);
                 }
-
             }
             _context.CartItems.Add(cartItem);           
             _context.Carts.Update(cart);

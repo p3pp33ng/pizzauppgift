@@ -54,7 +54,6 @@ namespace NackaPizzaOnline
             {
                 // Set a short timeout for easy testing.
                 options.Cookie.Name = ".NackaPizzaOnline.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.Cookie.HttpOnly = true;
             });
         }

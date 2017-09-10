@@ -31,8 +31,7 @@
                 <a asp-controller="Home" asp-action="Index" class="navbar-brand">NackaPizzaOnline</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-controller="Dish" asp-action="Index">Meny</a></li>                                       
+                <ul class="nav navbar-nav">                                                          
                     @if (User.IsInRole("Admin"))
                     {                        
                         <li><a asp-controller="Dish" asp-action="Index">Hantera maträtter</a></li>

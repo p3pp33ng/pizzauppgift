@@ -25,6 +25,33 @@ namespace NackaPizzaOnline.Services
             return _context.Dishes.First(d=>d.DishId == id).Name;
         }
 
+        public string WriteOutIngredients(string cartId, int cartItemId)
+        {
+            var cart = _context.Carts.Include(c => c.CartItems).ThenInclude(ci=>ci.Ingredients).FirstOrDefault(c => c.CartId == cartId);
+            var cartItem = cart.CartItems.FirstOrDefault(ci=>ci.CartItemId == cartItemId);
+            var result = "";
+
+            for(var i = 0; i < cartItem.Ingredients.Count; ++i)
+                    {
+                if (i != cartItem.Ingredients.Count - 1)
+                {
+                    result += cartItem.Ingredients[i].Name + ", ";
+                }
+                else
+                {
+                    if (cartItem.Ingredients.Count == 1)
+                    {
+                        result += cartItem.Ingredients[i].Name;
+                    }
+                    else
+                    {
+                        result += "och " + cartItem.Ingredients[i].Name + ".";
+                    }
+                }
+            }
+            return result;
+        }
+
         public bool DeleteDishIngredientsOnOldDish(int id)
         {
             var result = false;
