@@ -96,7 +96,7 @@ namespace NackaPizzaOnline.Services
 
             foreach (var item in cartItem.Ingredients)
             {
-                if (orginalIngredients.Contains(item))
+                if (!orginalIngredients.Contains(item))
                 {
                     result += item.PriceIfExtra;
                 }

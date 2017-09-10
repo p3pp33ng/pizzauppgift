@@ -27,6 +27,7 @@ namespace NackaPizzaOnline.Controllers
             _context = context;
             _cartService = cartService;
         }
+
         [HttpGet]
         public ActionResult AddDishToCartAfterCustomizing(int id, string stringOfIngredients)
         {
@@ -89,7 +90,6 @@ namespace NackaPizzaOnline.Controllers
                 cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
                 HttpContext.Session.SetString(SessionCartId, cart.CartId);
             }
-
             return PartialView("_CartView", cart);
         }
     }
