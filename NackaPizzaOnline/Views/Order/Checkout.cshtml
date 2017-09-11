@@ -1,7 +1,25 @@
 ﻿@model NackaPizzaOnline.Models.Order
-
 @*TODO Fixa så att man kan se alla maträtter och at man kan betala så att man får ett mail när man betalat.*@
 
+<h3>Din order</h3>
 <form asp-controller="Order" asp-action="SendOffToBake" asp-route-order="@Model">
-
+    <table>
+        @foreach (var orderItem in Model.OrderItems)
+        {
+            <tr>
+                <td>
+                    <div>
+                        <p>@orderItem.Dish.Name</p>
+                        <p>á la pris @orderItem.Price kr</p>
+                    </div>
+                </td>
+            </tr>
+        }        
+    </table>
+    <div class="row">
+        <strong>Summa: @Model.TotalAmount kr</strong>
+    </div>
+    <div class="form-group">
+        <input class="btn btn-success" type="submit" value="Bekräfta beställning"/>
+    </div>
 </form>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
 using System;
@@ -32,7 +33,7 @@ namespace NackaPizzaOnline.Services
                 UserId = _userManager.GetUserId(user) ?? ""
             };
 
-            foreach (var cartItem in _context.CartItems.Where(ci=>ci.CartId == cartId).ToList())
+            foreach (var cartItem in _context.CartItems.Include(ci=>ci.Ingredients).Where(ci=>ci.CartId == cartId).ToList())
             {
                 var orderItem = new OrderItem
                 {

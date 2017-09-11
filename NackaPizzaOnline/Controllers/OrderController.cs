@@ -22,15 +22,17 @@ namespace NackaPizzaOnline.Controllers
             _orderService = orderService;
         }
 
+        [HttpPost]
         public ActionResult CheckOut(string cartId)
         {
            var order = _orderService.CreateOrderFromCart(cartId, HttpContext.User);
             return View(order);
         }
 
+        [HttpPost]
         public ActionResult SendOffToBake(Order order)
         {
-            return View();
+            return View("BakeConfirmed");
         }
     }
 }
