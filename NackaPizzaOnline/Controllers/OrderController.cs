@@ -19,9 +19,9 @@ namespace NackaPizzaOnline.Controllers
             _context = context;
         }
 
-        public void CheckingOut(Cart cart)
+        public ActionResult CheckOut(Cart cart)
         {
-
+            return View();
         }
     }
 }
