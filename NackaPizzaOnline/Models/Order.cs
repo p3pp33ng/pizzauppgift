@@ -19,15 +19,18 @@ namespace NackaPizzaOnline.Models
         public int OrderId { get; set; }
         [Display(Name = "Varor")]
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-        [Display(Name ="Summa")]
+        [Display(Name = "Summa")]
         public int TotalAmount { get; set; }
         public string UserId { get; set; }
         public bool Anonymous { get; set; }
         public bool Paid { get; set; }
-        [Display(Name ="Betalmetod")]
+        [Display(Name = "Betalmetod")]
         public PayMethods PayMethod { get; set; }
+        [Display(Name = "Adress")]
         public string AnonymousAddress { get; set; }
+        [Display(Name = "Postnummer")]
         public string AnonymousZipCode { get; set; }
+        [Display(Name = "Stad")]
         public string AnonymousCity { get; set; }
     }
 }
