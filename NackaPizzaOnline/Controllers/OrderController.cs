@@ -19,6 +19,13 @@ namespace NackaPizzaOnline.Controllers
             _context = context;
         }
 
+        public void CheckingOut(Cart cart)
+        {
+
+        }
+    }
+}
+
 //        // GET: Order
 //        public async Task<IActionResult> Index()
 //        {
