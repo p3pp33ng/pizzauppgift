@@ -19,7 +19,6 @@ namespace NackaPizzaOnline.Models
         public int TotalAmount { get; set; }
         public ApplicationUser User { get; set; }
         public bool Paid { get; set; }
-        public int CartId { get; set; }
         public PayMethods PayMethod { get; set; }
     }
 }
