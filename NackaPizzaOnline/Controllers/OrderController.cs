@@ -7,20 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
+using NackaPizzaOnline.Services;
 
 namespace NackaPizzaOnline.Controllers
-{
+{    
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly OrderService _orderService;
 
-        public OrderController(ApplicationDbContext context)
+        public OrderController(ApplicationDbContext context, OrderService orderService)
         {
             _context = context;
+            _orderService = orderService;
         }
 
-        public ActionResult CheckOut(Cart cart)
+        public ActionResult CheckOut(string cartId)
         {
+            _orderService.CreateOrderFromCart(cartId, HttpContext.User);
             return View();
         }
     }

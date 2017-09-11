@@ -4,6 +4,7 @@ using NackaPizzaOnline.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NackaPizzaOnline.Services
@@ -19,6 +20,28 @@ namespace NackaPizzaOnline.Services
             _userManager = userManager;
         }
 
+        public Order CreateOrderFromCart(string cartId, ClaimsPrincipal user = null)
+        {
+            //TODO Test if this check out.
+            var order = new Order
+            {
+                Paid = false,
+                PayMethod = PayMethods.NotStillPayed,
+                Anonymous = true ? user == null : false,
+                TotalAmount = _context.Carts.FirstOrDefault(c => c.CartId == cartId).Sum,
+                UserId = _userManager.GetUserId(user) ?? ""
+            };
 
+            foreach (var cartItem in _context.CartItems.Where(ci=>ci.CartId == cartId).ToList())
+            {
+                var orderItem = new OrderItem
+                {
+                    
+                };
+                order.OrderItems.Add(orderItem);
+            }
+
+            return order;
+        }
     }
 }

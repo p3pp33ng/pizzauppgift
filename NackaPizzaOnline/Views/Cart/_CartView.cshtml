@@ -27,6 +27,8 @@
 </table>
 @if (Model.CartItems.Count != 0)
 {
-    <button class="btn btn-success" onclick="@Url.Action("Order","CheckOut", Model)">Betala</button>
+    <form asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.CartId">
+        <input class="btn btn-success" value="Betala" type="submit"/>
+    </form>
 }
 
