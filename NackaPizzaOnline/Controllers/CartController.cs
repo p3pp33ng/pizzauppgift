@@ -92,5 +92,13 @@ namespace NackaPizzaOnline.Controllers
             }
             return PartialView("_CartView", cart);
         }
+
+        [HttpGet]
+        public ActionResult RemoveFromCart(string cartId, int cartItemId)
+        {
+            var cart = _cartService.RemoveCartItem(cartId,cartItemId);
+           
+            return PartialView("_CartView", cart);
+        }
     }
 }

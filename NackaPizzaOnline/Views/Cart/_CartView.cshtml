@@ -19,10 +19,14 @@
                     @*<p>@DishService.WriteOutIngredients(Model.CartId, cartItem.CartItemId)</p><br />*@
                     <strong>Pris: @cartItem.Sum kr</strong>                    
                     <button class="btn btn-default">Ändra</button>
-                    <button class="btn btn-danger">Ta bort</button>
+                    <button class="btn btn-danger" onclick="DeleteFromCart('@Model.CartId','@cartItem.CartItemId')">Ta bort</button>
                 </div>
             </td>
         </tr>
                         }
 </table>
-<button class="btn btn-success">Betala</button>
+@if (Model.CartItems.Count != 0)
+{
+    <button class="btn btn-success">Betala</button>
+}
+

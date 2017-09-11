@@ -27,6 +27,7 @@ namespace NackaPizzaOnline.Services
         public Cart CreateCart(ClaimsPrincipal user)
         {
             //Skapa en cart
+            //TODO bara skapa ett GUID för vare cart och slopa att den ska ha username som id.
             var cart = new Cart();
 
             if (user.Identity.Name != null)
@@ -72,15 +73,20 @@ namespace NackaPizzaOnline.Services
             return cart;
         }
 
-        public bool RemoveCartItem(string cartId, int cartItemId)
+        public Cart RemoveCartItem(string cartId, int cartItemId)
         {
-            //Ta bort en vara ur cart.
-            return false;
+            var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.CartId == cartId);
+            cart.CartItems.Remove(_context.CartItems.First(ci=>ci.CartItemId == cartItemId));
+            _context.Carts.Update(cart);
+            _context.SaveChanges();
+
+            return cart;
         }
 
         public void RemoveCart(string cartid)
         {
-
+            _context.Carts.Remove(_context.Carts.First(c=>c.CartId == cartid));
+            _context.SaveChanges();
         }
 
         public void CountingTotalSum(int cartItemId)

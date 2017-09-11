@@ -19,10 +19,10 @@ function BuyDishAfterCustomize(id) {
     console.log(id);
     var listOfIngredients = [];
     var that = this;
-    
+
     var list = $('input[type="checkbox"]');
     for (var i = 0; i < list.length; i++) {
-        if ($(list[i]).is(':checked')) {           
+        if ($(list[i]).is(':checked')) {
             var sibling = list[i].nextSibling;
             var ingredientId = list[i].nextElementSibling;
             listOfIngredients.push(ingredientId.nextElementSibling.value);
@@ -38,7 +38,7 @@ function BuyDishAfterCustomize(id) {
             alert('Något gick fel.');
         },
         success: function (response) {
-            
+
             $('#cartview').html(response)
         }
     });
@@ -49,7 +49,21 @@ function BuyDishNoCustomizing(id) {
         data: { "id": id },
         url: "Cart/AddDishWithoutCustomizing",
         error: function () {
-            alert('Något gck fel.');
+            alert('Något gick fel.');
+        },
+        success: function (response) {
+            $('#cartview').html(response)
+        }
+    });
+}
+
+function DeleteFromCart(cartId, cartIemId) {
+    $.ajax({
+        type: "GET",
+        data: { "cartId": cartId, "cartItemId": cartIemId },
+        url: "Cart/RemoveFromCart",
+        error: function () {
+            alert("Något gick fel.");
         },
         success: function (response) {
             $('#cartview').html(response)
