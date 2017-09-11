@@ -36,10 +36,16 @@ namespace NackaPizzaOnline.Services
             {
                 var orderItem = new OrderItem
                 {
-                    
+                    //TODO Fixa ingredients så att dom finns kvar, kolla i cartservice.
+                    Ingredients = cartItem.Ingredients,
+                    Dish = _context.Dishes.FirstOrDefault(d=>d.DishId == cartItem.DishId),
+                    Price = cartItem.Sum
                 };
+                order.TotalAmount += orderItem.Price;
                 order.OrderItems.Add(orderItem);
             }
+            _context.Orders.Add(order);
+            _context.SaveChanges();
 
             return order;
         }
