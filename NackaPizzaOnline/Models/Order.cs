@@ -26,5 +26,8 @@ namespace NackaPizzaOnline.Models
         public bool Paid { get; set; }
         [Display(Name ="Betalmetod")]
         public PayMethods PayMethod { get; set; }
+        public string AnonymousAddress { get; set; }
+        public string AnonymousZipCode { get; set; }
+        public string AnonymousCity { get; set; }
     }
 }
