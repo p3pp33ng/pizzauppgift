@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    @if (!Model.Anonymous)
+    @if (Model.Anonymous)
     {
         <div class="row">
             <div class="col-md-4">
@@ -58,12 +58,26 @@
     }
     else
     {
-        //TODO Lägga upp så är man inloggad så kommer ens adressuppgifter. 
+        //TODO Lägga upp så är man inloggad så kommer ens adressuppgifter.
         //Om det är inte korrekt så får man trycke på en knapp,
         //så att man kommer till sin ApplicationUser och kan ändra, så får man ladda upp det på nytt.
-
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="AnonymousAddress"></label><br />
+                    <input value="@ViewBag.UserAddress" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnonymousZipCode"></label><br />
+                    <input value="@ViewBag.UserZipCode" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnonymousCity"></label><br />
+                    <input value="@ViewBag.UserCity" />
+                </div>
+            </div>
+        </div>
     }
-
     <div class="form-group">
         <input class="btn btn-success" type="submit" value="Bekräfta beställning" />
     </div>

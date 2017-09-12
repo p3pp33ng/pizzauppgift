@@ -28,7 +28,7 @@ namespace NackaPizzaOnline.Services
             {
                 Paid = false,
                 PayMethod = PayMethods.NotStillPayed,
-                Anonymous = true ? user == null : false,
+                Anonymous = !user.Identity.IsAuthenticated,
                 TotalAmount = _context.Carts.FirstOrDefault(c => c.CartId == cartId).Sum,
                 UserId = _userManager.GetUserId(user) ?? "",
                 CartItems = _context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.CartItemIngredients).FirstOrDefault(c => c.CartId == cartId).CartItems
