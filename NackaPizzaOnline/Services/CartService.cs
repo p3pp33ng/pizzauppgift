@@ -24,24 +24,25 @@ namespace NackaPizzaOnline.Services
             _userManager = userManager;
         }
 
-        public Cart CreateCart(ClaimsPrincipal user)
+        public Cart CreateCart()
         {
             //Skapa en cart
             //TODO bara skapa ett GUID för vare cart och slopa att den ska ha username som id.
             var cart = new Cart();
 
-            if (user.Identity.Name != null)
-            {
-                cart.CartId = user.Identity.Name;
-                _context.Carts.Add(cart);
-            }
-            else
-            {
-                Guid tempCartId = Guid.NewGuid();
-                cart.CartId = tempCartId.ToString();
-                _context.Carts.Add(cart);
-            }
+            //if (user.Identity.Name != null)
+            //{
+            //    cart.CartId = user.Identity.Name;
+            //    _context.Carts.Add(cart);
+            //}
+            //else
+            //{               
+            //}
+            Guid tempCartId = Guid.NewGuid();
+            cart.CartId = tempCartId.ToString();
+            _context.Carts.Add(cart);
             _context.SaveChanges();
+
             return cart;
         }
 

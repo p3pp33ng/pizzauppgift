@@ -53,7 +53,7 @@ namespace NackaPizzaOnline.Controllers
             }
             else
             {
-                var newCart = _cartService.CreateCart(User);
+                var newCart = _cartService.CreateCart();
                 cart.CartId = newCart.CartId;
                 cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
                 HttpContext.Session.SetString(SessionCartId, cart.CartId);
@@ -85,7 +85,7 @@ namespace NackaPizzaOnline.Controllers
             }
             else
             {
-                var newCart = _cartService.CreateCart(User);
+                var newCart = _cartService.CreateCart();
                 cart.CartId = newCart.CartId;
                 cart = _cartService.AddCartItem(cart.CartId, id, listOfIngredients);
                 HttpContext.Session.SetString(SessionCartId, cart.CartId);
