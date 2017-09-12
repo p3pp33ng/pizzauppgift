@@ -18,7 +18,7 @@ namespace NackaPizzaOnline.Models
     {
         public int OrderId { get; set; }
         [Display(Name = "Varor")]
-        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public List<CartItem> CartItems { get; set; } = new List<CartItem>();
         [Display(Name = "Summa")]
         public int TotalAmount { get; set; }
         public string UserId { get; set; }

@@ -22,6 +22,13 @@ namespace NackaPizzaOnline.Data
                 .HasForeignKey(di => di.DishId);
             builder.Entity<DishIngredient>().HasOne(di => di.Ingredient).WithMany(di => di.DishIngredients)
                 .HasForeignKey(di => di.IngredientId);
+
+            builder.Entity<CartItemIngredients>().HasKey(ci => new { ci.CartItemId, ci.IngredientId });
+            builder.Entity<CartItemIngredients>().HasOne(ci => ci.CartItem).WithMany(ci => ci.CartItemIngredients)
+                .HasForeignKey(ci => ci.CartItemId);
+            builder.Entity<CartItemIngredients>().HasOne(di => di.Ingredient).WithMany(di => di.CartItemIngredients)
+                .HasForeignKey(di => di.IngredientId);
+
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.

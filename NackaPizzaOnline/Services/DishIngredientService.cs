@@ -27,25 +27,25 @@ namespace NackaPizzaOnline.Services
 
         public string WriteOutIngredients(string cartId, int cartItemId)
         {
-            var cart = _context.Carts.Include(c => c.CartItems).ThenInclude(ci=>ci.Ingredients).FirstOrDefault(c => c.CartId == cartId);
+            var cart = _context.Carts.Include(c => c.CartItems).ThenInclude(ci=>ci.CartItemIngredients).FirstOrDefault(c => c.CartId == cartId);
             var cartItem = cart.CartItems.FirstOrDefault(ci=>ci.CartItemId == cartItemId);
             var result = "";
 
-            for(var i = 0; i < cartItem.Ingredients.Count; ++i)
+            for(var i = 0; i < cartItem.CartItemIngredients.Count; ++i)
                     {
-                if (i != cartItem.Ingredients.Count - 1)
+                if (i != cartItem.CartItemIngredients.Count - 1)
                 {
-                    result += cartItem.Ingredients[i].Name + ", ";
+                    result += cartItem.CartItemIngredients[i].Ingredient.Name + ", ";
                 }
                 else
                 {
-                    if (cartItem.Ingredients.Count == 1)
+                    if (cartItem.CartItemIngredients.Count == 1)
                     {
-                        result += cartItem.Ingredients[i].Name;
+                        result += cartItem.CartItemIngredients[i].Ingredient.Name;
                     }
                     else
                     {
-                        result += "och " + cartItem.Ingredients[i].Name + ".";
+                        result += "och " + cartItem.CartItemIngredients[i].Ingredient.Name + ".";
                     }
                 }
             }

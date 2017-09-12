@@ -18,6 +18,8 @@ namespace NackaPizzaOnline.Controllers
         private readonly OrderService _orderService;
         private readonly CartService _cartService;
 
+        const string SessionCartId = "CartId";
+
         public OrderController(ApplicationDbContext context, OrderService orderService, CartService cartService)
         {
             _context = context;
@@ -36,7 +38,7 @@ namespace NackaPizzaOnline.Controllers
         public ActionResult SendOffToBake(Order order)
         {
             _cartService.RemoveCart(HttpContext.Session.GetString("CartId"));
-            HttpContext.Session.SetString("CartId", "");
+            HttpContext.Session.Remove(SessionCartId);
             return View("BakeConfirmed");
         }
     }

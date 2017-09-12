@@ -30,21 +30,9 @@ namespace NackaPizzaOnline.Services
                 PayMethod = PayMethods.NotStillPayed,
                 Anonymous = true ? user == null : false,
                 TotalAmount = _context.Carts.FirstOrDefault(c => c.CartId == cartId).Sum,
-                UserId = _userManager.GetUserId(user) ?? ""
+                UserId = _userManager.GetUserId(user) ?? "",
+                CartItems = _context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.CartItemIngredients).FirstOrDefault(c => c.CartId == cartId).CartItems
             };
-
-            foreach (var cartItem in _context.CartItems.Include(ci=>ci.Ingredients).Where(ci=>ci.CartId == cartId).ToList())
-            {
-                var orderItem = new OrderItem
-                {
-                    //TODO Fixa ingredients så att dom finns kvar, kolla i cartservice.
-                    Ingredients = cartItem.Ingredients,
-                    Dish = _context.Dishes.FirstOrDefault(d=>d.DishId == cartItem.DishId),
-                    Price = cartItem.Sum
-                };
-                order.TotalAmount += orderItem.Price;
-                order.OrderItems.Add(orderItem);
-            }
             _context.Orders.Add(order);
             _context.SaveChanges();
 

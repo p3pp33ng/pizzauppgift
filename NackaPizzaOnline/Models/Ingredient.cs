@@ -11,5 +11,6 @@ namespace NackaPizzaOnline.Models
         [Display(Name = "Extrakostnad")]
         public int PriceIfExtra { get; set; }
         public List<DishIngredient> DishIngredients { get; set; } = new List<DishIngredient>();
+        public List<CartItemIngredients> CartItemIngredients { get; set; } = new List<Models.CartItemIngredients>();
     }
 }

@@ -48,7 +48,7 @@ namespace NackaPizzaOnline.Services
         public Cart AddCartItem(string cartId, int dishId, List<int> listOfIngredients)
         {
             //lägg till cartitem i cart. Spara cart   
-            var cart = _context.Carts.Include(c=>c.CartItems).ThenInclude(ci=>ci.Ingredients).First(c => c.CartId == cartId);
+            var cart = _context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.CartItemIngredients).First(c => c.CartId == cartId);
             var dish = _context.Dishes.First(d => d.DishId == dishId);
             var ingredients = _context.Ingredients.ToList();
             var cartItem = new CartItem
@@ -56,15 +56,23 @@ namespace NackaPizzaOnline.Services
                 CartId = cartId,
                 DishId = dishId
             };
+            _context.CartItems.Add(cartItem);
+            _context.SaveChanges();
 
             foreach (var ingredient in ingredients)
             {
                 if (listOfIngredients.Contains(ingredient.IngredientId))
                 {
-                    cartItem.Ingredients.Add(ingredient);
+                    cartItem.CartItemIngredients.Add(new CartItemIngredients
+                    {
+                        CartItem = cartItem,
+                        CartItemId = cartItem.CartItemId,
+                        Ingredient = ingredient,
+                        IngredientId = ingredient.IngredientId
+                    });
                 }
             }
-            _context.CartItems.Add(cartItem);           
+            _context.CartItems.Update(cartItem);
             _context.Carts.Update(cart);
             _context.SaveChanges();
 
@@ -76,7 +84,7 @@ namespace NackaPizzaOnline.Services
         public Cart RemoveCartItem(string cartId, int cartItemId)
         {
             var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.CartId == cartId);
-            cart.CartItems.Remove(_context.CartItems.First(ci=>ci.CartItemId == cartItemId));
+            cart.CartItems.Remove(_context.CartItems.First(ci => ci.CartItemId == cartItemId));
             _context.Carts.Update(cart);
             _context.SaveChanges();
 
@@ -85,30 +93,37 @@ namespace NackaPizzaOnline.Services
 
         public void RemoveCart(string cartid)
         {
-            _context.Carts.Remove(_context.Carts.First(c=>c.CartId == cartid));
+            _context.Carts.Remove(_context.Carts.First(c => c.CartId == cartid));
             _context.SaveChanges();
         }
 
         public void CountingTotalSum(int cartItemId)
         {
             var result = 0;
-            var cartItem = _context.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId);
+            var cartItem = _context.CartItems.Include(ci => ci.CartItemIngredients).FirstOrDefault(ci => ci.CartItemId == cartItemId);
             var ingredients = _context.Ingredients.ToList();
-            var dish = _context.Dishes.Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).FirstOrDefault(d => d.DishId == cartItem.DishId);
-            var orginalIngredients = _context.DishIngredients.Include(di => di.Ingredient).Where(i=>i.DishId == dish.DishId).Select(di=>di.Ingredient).ToList();
+            var dish = _context.Dishes.Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient).FirstOrDefault(d => d.DishId == cartItem.DishId);
+            var orginalIngredients = _context.DishIngredients.Include(di => di.Ingredient).Where(i => i.DishId == dish.DishId).Select(di => di.Ingredient).ToList();
 
             result += dish.Price;
 
-            foreach (var item in cartItem.Ingredients)
+            foreach (var item in cartItem.CartItemIngredients)
             {
-                if (!orginalIngredients.Contains(item))
+                if (!orginalIngredients.Contains(item.Ingredient))
                 {
-                    result += item.PriceIfExtra;
+                    result += item.Ingredient.PriceIfExtra;
                 }
             }
             cartItem.Sum = result;
             _context.CartItems.Update(cartItem);
             _context.SaveChanges();
+        }
+
+        public int CountingTotalToCartInView(string cartId)
+        {
+            var result = 0;
+            var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.CartId == cartId);
+            return result;
         }
     }
 }
