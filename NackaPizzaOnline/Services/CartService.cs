@@ -72,11 +72,11 @@ namespace NackaPizzaOnline.Services
                     });
                 }
             }
+            CountingTotalSumOnCartItem(cartItem.CartItemId);
             _context.CartItems.Update(cartItem);
+            cart.Sum += cartItem.Sum;
             _context.Carts.Update(cart);
             _context.SaveChanges();
-
-            CountingTotalSum(cartItem.CartItemId);
 
             return cart;
         }
@@ -97,7 +97,7 @@ namespace NackaPizzaOnline.Services
             _context.SaveChanges();
         }
 
-        public void CountingTotalSum(int cartItemId)
+        public void CountingTotalSumOnCartItem(int cartItemId)
         {
             var result = 0;
             var cartItem = _context.CartItems.Include(ci => ci.CartItemIngredients).FirstOrDefault(ci => ci.CartItemId == cartItemId);
@@ -123,6 +123,10 @@ namespace NackaPizzaOnline.Services
         {
             var result = 0;
             var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.CartId == cartId);
+            foreach (var cartItem in cart.CartItems.ToList())
+            {
+                result += cartItem.Sum;
+            }
             return result;
         }
     }

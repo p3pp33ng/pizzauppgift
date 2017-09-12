@@ -14,13 +14,14 @@
                     <div>
                         <p>@dishService.GetNameOfDish(cartItem.DishId)</p>
                         <p>á la pris @cartItem.Sum kr</p>
+                        <p>@dishService.WriteOutIngredients(cartItem.CartId, cartItem.CartItemId)</p>
                     </div>
                 </td>
             </tr>
         }        
     </table>
     <div class="row">
-        <strong>Summa:  kr</strong>
+        <strong>Summa: @Model.TotalAmount kr</strong>
     </div>
     <div class="form-group">
         <input class="btn btn-success" type="submit" value="Bekräfta beställning"/>

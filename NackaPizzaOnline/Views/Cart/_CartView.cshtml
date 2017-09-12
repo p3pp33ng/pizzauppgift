@@ -1,6 +1,7 @@
 ﻿@using NackaPizzaOnline.Services
 @model Cart
 @inject DishIngredientService DishService
+@inject CartService cartService
 
 <h5>Varukorg</h5>
 
@@ -25,7 +26,7 @@
         </tr>
                         }
 </table>
-<strong>Totalsumma: @Model.Sum  kr</strong>
+<strong>Totalsumma: @cartService.CountingTotalToCartInView(Model.CartId) kr</strong>
 @if (Model.CartItems.Count != 0)
 {
     <form asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.CartId">

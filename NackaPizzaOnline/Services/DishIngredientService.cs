@@ -21,18 +21,18 @@ namespace NackaPizzaOnline.Services
         }
 
         public string GetNameOfDish(int id)
-        {            
-            return _context.Dishes.First(d=>d.DishId == id).Name;
+        {
+            return _context.Dishes.First(d => d.DishId == id).Name;
         }
 
         public string WriteOutIngredients(string cartId, int cartItemId)
         {
-            var cart = _context.Carts.Include(c => c.CartItems).ThenInclude(ci=>ci.CartItemIngredients).FirstOrDefault(c => c.CartId == cartId);
-            var cartItem = cart.CartItems.FirstOrDefault(ci=>ci.CartItemId == cartItemId);
+            var cart = _context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.CartItemIngredients).ThenInclude(cii => cii.Ingredient).FirstOrDefault(c => c.CartId == cartId);
+            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId);
             var result = "";
 
-            for(var i = 0; i < cartItem.CartItemIngredients.Count; ++i)
-                    {
+            for (var i = 0; i < cartItem.CartItemIngredients.Count; ++i)
+            {
                 if (i != cartItem.CartItemIngredients.Count - 1)
                 {
                     result += cartItem.CartItemIngredients[i].Ingredient.Name + ", ";
