@@ -44,7 +44,7 @@ namespace NackaPizzaOnline.Controllers
 
             var cart = new Cart();
             var session = HttpContext.Session.GetString(SessionCartId);
-            if (session != null)
+            if (session != null && session != "")
             {
                 cart = _context.Carts.First(c => c.CartId == session);
 
@@ -76,7 +76,7 @@ namespace NackaPizzaOnline.Controllers
                 listOfIngredients.Add(item.IngredientId);
             }
 
-            if (session != null)
+            if (session != null && session != "")
             {
                 cart = _context.Carts.Include(c=>c.CartItems).First(c => c.CartId == session);
 

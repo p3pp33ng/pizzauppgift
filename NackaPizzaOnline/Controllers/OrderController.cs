@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using NackaPizzaOnline.Data;
 using NackaPizzaOnline.Models;
 using NackaPizzaOnline.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace NackaPizzaOnline.Controllers
 {    
@@ -15,11 +16,13 @@ namespace NackaPizzaOnline.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly OrderService _orderService;
+        private readonly CartService _cartService;
 
-        public OrderController(ApplicationDbContext context, OrderService orderService)
+        public OrderController(ApplicationDbContext context, OrderService orderService, CartService cartService)
         {
             _context = context;
             _orderService = orderService;
+            _cartService = cartService;
         }
 
         [HttpPost]
@@ -32,6 +35,8 @@ namespace NackaPizzaOnline.Controllers
         [HttpPost]
         public ActionResult SendOffToBake(Order order)
         {
+            _cartService.RemoveCart(HttpContext.Session.GetString("CartId"));
+            HttpContext.Session.SetString("CartId", "");
             return View("BakeConfirmed");
         }
     }
