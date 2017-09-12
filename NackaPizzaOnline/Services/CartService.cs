@@ -82,9 +82,9 @@ namespace NackaPizzaOnline.Services
         }
 
         public Cart RemoveCartItem(string cartId, int cartItemId)
-        {
-            //TODO Sänk priset för maträtten du tar bort.
+        {            
             var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.CartId == cartId);
+            cart.Sum = cart.Sum - cart.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId).Sum;
             cart.CartItems.Remove(_context.CartItems.First(ci => ci.CartItemId == cartItemId));
             _context.Carts.Update(cart);
             _context.SaveChanges();

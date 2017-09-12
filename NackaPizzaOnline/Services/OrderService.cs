@@ -23,7 +23,7 @@ namespace NackaPizzaOnline.Services
 
         public Order CreateOrderFromCart(string cartId, ClaimsPrincipal user = null)
         {
-            //TODO Test if this check out.
+            //TODO Eventuellt ta bort enums som alternativ...
             var order = new Order
             {
                 Paid = false,
