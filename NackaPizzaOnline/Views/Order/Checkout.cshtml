@@ -1,29 +1,70 @@
 ﻿@using NackaPizzaOnline.Services
+@using NackaPizzaOnline.Models
 @model NackaPizzaOnline.Models.Order
 @inject DishIngredientService dishService
-@inject CartService cartService
 @*TODO Fixa så att man kan se alla maträtter och at man kan betala så att man får ett mail när man betalat.*@
 
 <h3>Din order</h3>
+
 <form asp-controller="Order" asp-action="SendOffToBake" asp-route-order="@Model">
-    <table>
-        @foreach (var cartItem in Model.CartItems)
-        {
-            <tr>
-                <td>
-                    <div>
-                        <p>@dishService.GetNameOfDish(cartItem.DishId)</p>
-                        <p>á la pris @cartItem.Sum kr</p>
-                        <p>@dishService.WriteOutIngredients(cartItem.CartId, cartItem.CartItemId)</p>
-                    </div>
-                </td>
-            </tr>
-        }        
-    </table>
     <div class="row">
-        <strong>Summa: @Model.TotalAmount kr</strong>
+        <div class="col-md-6">
+            <table>
+                @foreach (var cartItem in Model.CartItems)
+                {
+                    <tr>
+                        <td>
+                            <div>
+                                <strong>@dishService.GetNameOfDish(cartItem.DishId)</strong>
+                                <p>á la pris @cartItem.Sum kr</p>
+                                <p>@dishService.WriteOutIngredients(cartItem.CartId, cartItem.CartItemId)</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <strong>Summa: @Model.TotalAmount kr</strong>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="@Model.PayMethod"></label>
+                <select asp-for="PayMethod" asp-items="Html.GetEnumSelectList<PayMethods>()" class="form-control"></select>
+            </div>
+        </div>
+    </div>
+    @if (!Model.Anonymous)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="AnonymousAddress" class="control-label"></label>
+                    <input asp-for="AnonymousAddress" class="form-control" />
+                    <span asp-validation-for="AnonymousAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnonymousZipCode" class="control-label"></label>
+                    <input asp-for="AnonymousZipCode" class="form-control" />
+                    <span asp-validation-for="AnonymousZipCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnonymousCity" class="control-label"></label>
+                    <input asp-for="AnonymousCity" class="form-control" />
+                    <span asp-validation-for="AnonymousCity" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        //TODO Lägga upp så är man inloggad så kommer ens adressuppgifter. 
+        //Om det är inte korrekt så får man trycke på en knapp,
+        //så att man kommer till sin ApplicationUser och kan ändra, så får man ladda upp det på nytt.
+
+    }
+
     <div class="form-group">
-        <input class="btn btn-success" type="submit" value="Bekräfta beställning"/>
+        <input class="btn btn-success" type="submit" value="Bekräfta beställning" />
     </div>
 </form>

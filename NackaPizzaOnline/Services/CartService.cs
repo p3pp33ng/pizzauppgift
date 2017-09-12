@@ -27,7 +27,6 @@ namespace NackaPizzaOnline.Services
         public Cart CreateCart()
         {
             //Skapa en cart
-            //TODO bara skapa ett GUID för vare cart och slopa att den ska ha username som id.
             var cart = new Cart();
 
             //if (user.Identity.Name != null)
