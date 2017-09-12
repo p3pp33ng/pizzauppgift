@@ -26,9 +26,10 @@
         </tr>
                         }
 </table>
-<strong>Totalsumma: @cartService.CountingTotalToCartInView(Model.CartId) kr</strong>
+
 @if (Model.CartItems.Count != 0)
 {
+    <strong>Totalsumma: @cartService.CountingTotalToCartInView(Model.CartId) kr</strong>
     <form asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.CartId">
         <input class="btn btn-success" value="Betala" type="submit"/>
     </form>
