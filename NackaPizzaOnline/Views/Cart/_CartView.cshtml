@@ -4,34 +4,35 @@
 @inject CartService cartService
 
 <h5>Varukorg</h5>
-
-<table class="table">
-    @foreach (var cartItem in Model.CartItems)
-    {
-        <tr>
-            <th>
-                @DishService.GetNameOfDish(cartItem.DishId)
-            </th>
-        </tr>
-        //TODO Detta ska bli en rullgardin senare
-        <tr>
-            <td>
-                <div>                    
-                    <p>@DishService.WriteOutIngredients(Model.CartId, cartItem.CartItemId)</p><br />
-                    <strong>Pris: @cartItem.Sum kr</strong>                    
-                    <button class="btn btn-default">Ändra</button>
-                    <button class="btn btn-danger" onclick="DeleteFromCart('@Model.CartId','@cartItem.CartItemId')">Ta bort</button>
-                </div>
-            </td>
-        </tr>
-                        }
-</table>
-
-@if (Model.CartItems.Count != 0)
+@if (Model != null)
 {
-    <strong>Totalsumma: @cartService.CountingTotalToCartInView(Model.CartId) kr</strong>
-    <form asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.CartId">
-        <input class="btn btn-success" value="Betala" type="submit"/>
-    </form>
-}
+    <table class="table">
+        @foreach (var cartItem in Model.CartItems)
+        {
+            <tr>
+                <th>
+                    @DishService.GetNameOfDish(cartItem.DishId)
+                </th>
+            </tr>
+            //TODO Detta ska bli en rullgardin senare
+            <tr>
+                <td>
+                    <div>
+                        <p>@DishService.WriteOutIngredients(Model.CartId, cartItem.CartItemId)</p><br />
+                        <strong>Pris: @cartItem.Sum kr</strong>
+                        <button class="btn btn-default">Ändra</button>
+                        <button class="btn btn-danger" onclick="DeleteFromCart('@Model.CartId','@cartItem.CartItemId')">Ta bort</button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
 
+    @if (Model.CartItems.Count != 0)
+    {
+        <strong>Totalsumma: @cartService.CountingTotalToCartInView(Model.CartId) kr</strong>
+        <form asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.CartId">
+            <input class="btn btn-success" value="Betala" type="submit" />
+        </form>
+    }
+}

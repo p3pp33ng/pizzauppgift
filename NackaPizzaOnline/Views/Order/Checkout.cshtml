@@ -6,7 +6,9 @@
 
 <h3>Din order</h3>
 
-<form asp-controller="Order" asp-action="SendOffToBake" asp-route-order="@Model">
+<form asp-controller="Order" asp-action="SendOffToBake" method="post">
+    <input asp-for="@Model.OrderId" hidden />
+    <input asp-for="@Model.UserId" hidden />
     <div class="row">
         <div class="col-md-6">
             <table>
@@ -23,7 +25,8 @@
                     </tr>
                 }
             </table>
-            <strong>Summa: @Model.TotalAmount kr</strong>
+            <label asp-for="@Model.TotalAmount"></label>
+            @Html.DisplayFor(model => model.TotalAmount)
         </div>
     </div>
     <div class="row">
@@ -61,10 +64,7 @@
         </div>
     }
     else
-    {
-        //TODO Lägga upp så är man inloggad så kommer ens adressuppgifter.
-        //Om det är inte korrekt så får man trycke på en knapp,
-        //så att man kommer till sin ApplicationUser och kan ändra, så får man ladda upp det på nytt.
+    {   
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
