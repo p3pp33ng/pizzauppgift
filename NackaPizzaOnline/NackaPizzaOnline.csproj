@@ -26,8 +26,4 @@
     <None Include="wwwroot\js\HomeIndex.js" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\NackaPizzaOnlineTest\NackaPizzaOnlineTest.csproj" />
-  </ItemGroup>
-
 </Project>
