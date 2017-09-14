@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NackaPizzaOnline", "NackaPizzaOnline\NackaPizzaOnline.csproj", "{DCEF8238-E055-4C0C-A6A2-AC1B41FA268E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlinePizzaTest", "OnlinePizzaTest\OnlinePizzaTest.csproj", "{86AA86D2-F886-437F-9FCE-DC0AF23ACBA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,12 @@ Global
 		{DCEF8238-E055-4C0C-A6A2-AC1B41FA268E}.IIS|Any CPU.Build.0 = IIS|Any CPU
 		{DCEF8238-E055-4C0C-A6A2-AC1B41FA268E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCEF8238-E055-4C0C-A6A2-AC1B41FA268E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86AA86D2-F886-437F-9FCE-DC0AF23ACBA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86AA86D2-F886-437F-9FCE-DC0AF23ACBA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86AA86D2-F886-437F-9FCE-DC0AF23ACBA8}.IIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{86AA86D2-F886-437F-9FCE-DC0AF23ACBA8}.IIS|Any CPU.Build.0 = Debug|Any CPU
+		{86AA86D2-F886-437F-9FCE-DC0AF23ACBA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86AA86D2-F886-437F-9FCE-DC0AF23ACBA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

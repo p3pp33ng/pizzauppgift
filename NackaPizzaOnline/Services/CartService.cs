@@ -16,12 +16,10 @@ namespace NackaPizzaOnline.Services
     public class CartService
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CartService(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public CartService(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         public Cart CreateCart()
@@ -102,7 +100,7 @@ namespace NackaPizzaOnline.Services
         {
             var result = 0;
             var cartItem = _context.CartItems.Include(ci => ci.CartItemIngredients).FirstOrDefault(ci => ci.CartItemId == cartItemId);
-            var ingredients = _context.Ingredients.ToList();
+            //var ingredients = _context.Ingredients.ToList();
             var dish = _context.Dishes.Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient).FirstOrDefault(d => d.DishId == cartItem.DishId);
             var orginalIngredients = _context.DishIngredients.Include(di => di.Ingredient).Where(i => i.DishId == dish.DishId).Select(di => di.Ingredient).ToList();
 
