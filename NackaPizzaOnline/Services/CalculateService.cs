@@ -11,7 +11,7 @@ namespace NackaPizzaOnline.Services
         public int CountingTotalToCartInView(Cart cart)
         {
             var result = 0;
-            
+
             foreach (var cartItem in cart.CartItems)
             {
                 result += cartItem.Sum;
@@ -23,20 +23,20 @@ namespace NackaPizzaOnline.Services
         public int CountingTotalSumOnCartItem(int cartItemId, Cart cart, Dish dish)
         {
             var result = 0;
-            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId);
+            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId).CartItemIngredients.ToList();
             var orginalIngredients = dish.DishIngredients.Where(i => i.DishId == dish.DishId).Select(di => di.Ingredient).ToList();
 
             result += dish.Price;
 
-            foreach (var item in cartItem.CartItemIngredients)
+            foreach (var item in cartItem)
             {
                 if (!orginalIngredients.Contains(item.Ingredient))
                 {
                     result += item.Ingredient.PriceIfExtra;
                 }
             }
-            cartItem.Sum = result;
-            return cartItem.Sum;
+
+            return result;
         }
     }
 }

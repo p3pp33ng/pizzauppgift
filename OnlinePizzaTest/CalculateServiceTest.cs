@@ -11,7 +11,7 @@ namespace OnlinePizzaTest
         [Fact]
         public void CanCountCorrectPriceFromCartItems()
         {
-            var cart = GetCart();
+            var cart = GetCart();            
             var cartItem = GetCartItem();
             var dish = GetDish();
 
@@ -41,18 +41,18 @@ namespace OnlinePizzaTest
             var sallad = new Category { CategoryId = 1, Name = "Sallad" };
 
             var dish = new Dish { Name = "Cesar sallad", Category = sallad, DishId = 1, Price = 40 };
-
-            var aDish = new DishIngredient { Dish = dish, DishId = dish.DishId, Ingredient = a, IngredientId = a.IngredientId };
-            var bDish = new DishIngredient { Dish = dish, DishId = dish.DishId, Ingredient = b, IngredientId = b.IngredientId };
-
+            
             var cartItem = new CartItem { CartId = "cart", CartItemId = 1, DishId = dish.DishId, Sum = dish.Price };
+            var cartItemList = new List<CartItem>();
+            cartItemList.Add(cartItem);
 
             var aCartItemIngredient = new CartItemIngredients { CartItem = cartItem, CartItemId = 1, Ingredient = a, IngredientId = a.IngredientId };
             var bCartItemIngredient = new CartItemIngredients { CartItem = cartItem, CartItemId = 1, Ingredient = b, IngredientId = b.IngredientId };
             var cCartItemIngredient = new CartItemIngredients { CartItem = cartItem, CartItemId = 1, Ingredient = c, IngredientId = c.IngredientId };
 
-            var cartItemList = new List<CartItem>();
-            cartItemList.Add(cartItem);
+            cartItem.CartItemIngredients.Add(aCartItemIngredient);
+            cartItem.CartItemIngredients.Add(bCartItemIngredient);
+            cartItem.CartItemIngredients.Add(cCartItemIngredient);           
 
             var cart = new Cart { CartId = "cart", CartItems = cartItemList };
 
@@ -62,17 +62,39 @@ namespace OnlinePizzaTest
         public CartItem GetCartItem()
         {
             var sallad = new Category { CategoryId = 1, Name = "Sallad" };
+
             var dish = new Dish { Name = "Cesar sallad", Category = sallad, DishId = 1, Price = 40 };
+
             var cartItem = new CartItem { CartId = "cart", CartItemId = 1, DishId = dish.DishId };
 
+            var a = new Ingredient { IngredientId = 1, PriceIfExtra = 5, Name = "Morot" };
+            var b = new Ingredient { IngredientId = 2, PriceIfExtra = 5, Name = "Sallad" };
+            var c = new Ingredient { IngredientId = 3, PriceIfExtra = 5, Name = "Gurka" };
+
+            var aCartItemIngredient = new CartItemIngredients { CartItem = cartItem, CartItemId = 1, Ingredient = a, IngredientId = a.IngredientId };
+            var bCartItemIngredient = new CartItemIngredients { CartItem = cartItem, CartItemId = 1, Ingredient = b, IngredientId = b.IngredientId };
+            var cCartItemIngredient = new CartItemIngredients { CartItem = cartItem, CartItemId = 1, Ingredient = c, IngredientId = c.IngredientId };
+            cartItem.CartItemIngredients.Add(aCartItemIngredient);
+            cartItem.CartItemIngredients.Add(bCartItemIngredient);
+            cartItem.CartItemIngredients.Add(cCartItemIngredient);
             return cartItem;
         }
 
         public Dish GetDish()
         {
+            var a = new Ingredient { IngredientId = 1, PriceIfExtra = 5, Name = "Morot" };
+            var b = new Ingredient { IngredientId = 2, PriceIfExtra = 5, Name = "Sallad" };
+
             var sallad = new Category { CategoryId = 1, Name = "Sallad" };
+
             var dish = new Dish { Name = "Cesar sallad", Category = sallad, DishId = 1, Price = 40 };
 
+            var aDish = new DishIngredient { Dish = dish, DishId = dish.DishId, Ingredient = a, IngredientId = a.IngredientId };
+            var bDish = new DishIngredient { Dish = dish, DishId = dish.DishId, Ingredient = b, IngredientId = b.IngredientId };
+            var list = new List<DishIngredient>();
+            list.Add(aDish);
+            list.Add(bDish);
+            dish.DishIngredients.AddRange(list);
             return dish;
         }
     }

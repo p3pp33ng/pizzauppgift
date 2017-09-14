@@ -27,14 +27,6 @@ namespace NackaPizzaOnline.Services
             //Skapa en cart
             var cart = new Cart();
 
-            //if (user.Identity.Name != null)
-            //{
-            //    cart.CartId = user.Identity.Name;
-            //    _context.Carts.Add(cart);
-            //}
-            //else
-            //{               
-            //}
             Guid tempCartId = Guid.NewGuid();
             cart.CartId = tempCartId.ToString();
             _context.Carts.Add(cart);
@@ -80,7 +72,7 @@ namespace NackaPizzaOnline.Services
         }
 
         public Cart RemoveCartItem(string cartId, int cartItemId)
-        {            
+        {
             var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.CartId == cartId);
             cart.Sum = cart.Sum - cart.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId).Sum;
             cart.CartItems.Remove(_context.CartItems.First(ci => ci.CartItemId == cartItemId));
@@ -100,7 +92,6 @@ namespace NackaPizzaOnline.Services
         {
             var result = 0;
             var cartItem = _context.CartItems.Include(ci => ci.CartItemIngredients).FirstOrDefault(ci => ci.CartItemId == cartItemId);
-            //var ingredients = _context.Ingredients.ToList();
             var dish = _context.Dishes.Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient).FirstOrDefault(d => d.DishId == cartItem.DishId);
             var orginalIngredients = _context.DishIngredients.Include(di => di.Ingredient).Where(i => i.DishId == dish.DishId).Select(di => di.Ingredient).ToList();
 
