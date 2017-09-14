@@ -38,5 +38,22 @@ namespace NackaPizzaOnline.Services
 
             return order;
         }
+
+        public bool SaveOrderWhitAllData(Order order)
+        {
+            var result = false;
+            //TODO spara ner all data som kommit in via order. För att senare kunna visa det i applicationUser.
+            try
+            {
+                _context.Orders.Update(order);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return result;
+        }
     }
 }
