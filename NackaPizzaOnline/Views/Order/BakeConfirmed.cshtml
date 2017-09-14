@@ -1,6 +1,21 @@
-﻿
+﻿@model NackaPizzaOnline.Models.Order
+
 <h1>Grattis du har beställt mat från Nacka Pizzeria Online!</h1>
 <h3>Smaklig måltid</h3>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            @if (Model.Anonymous)
+            {
+                <h3>Ordern kommer skickas till: @Model.AnonymousAddress, @Model.AnonymousZipCode, @Model.AnonymousCity</h3>
+            }
+            else
+            {
+                <h3>Ordern kommer skickas till: @ViewBag.UserAddress, @ViewBag.UserZipCode, @ViewBag.UserCity</h3>
+            }
+
+        </div>
+    </div>
 
 <form asp-controller="Home" asp-action="Index">
     <input type="submit" value="Tillbaka" class="btn btn-default" />

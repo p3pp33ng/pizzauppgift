@@ -40,8 +40,7 @@ namespace NackaPizzaOnline.Services
         }
 
         public bool SaveOrderWhitAllData(Order order)
-        {
-            var result = false;
+        {         
             //TODO spara ner all data som kommit in via order. För att senare kunna visa det i applicationUser.
             try
             {
@@ -50,10 +49,10 @@ namespace NackaPizzaOnline.Services
             }
             catch (Exception)
             {
-
-                throw;
+                return false;
             }
-            return result;
+            
+            return true;
         }
     }
 }

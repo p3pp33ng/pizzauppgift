@@ -40,18 +40,28 @@ namespace NackaPizzaOnline.Controllers
                 ViewBag.UserAddress = user.Address;
                 ViewBag.UserZipCode = user.ZipCode;
                 ViewBag.UserCity = user.City;
-            }
-            
+            }            
             return View(order);
         }
 
         [HttpPost]
         public ActionResult SendOffToBake(Order order)
         {
-            _cartService.RemoveCart(HttpContext.Session.GetString("CartId"));
-            HttpContext.Session.Remove(SessionCartId);
-            _orderService.SaveOrderWhitAllData(order);
-            return View("BakeConfirmed");
+            if (_orderService.SaveOrderWhitAllData(order))
+            {
+                _cartService.RemoveCart(HttpContext.Session.GetString("CartId"));
+                HttpContext.Session.Remove(SessionCartId);
+            }
+
+            if (!order.Anonymous)
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Id == order.UserId);
+                ViewBag.UserAddress = user.Address;
+                ViewBag.UserZipCode = user.ZipCode;
+                ViewBag.UserCity = user.City;
+
+            }
+            return View("BakeConfirmed", order);
         }
     }
 }

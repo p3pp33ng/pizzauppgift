@@ -9,6 +9,7 @@
 <form asp-controller="Order" asp-action="SendOffToBake" method="post">
     <input asp-for="@Model.OrderId" hidden />
     <input asp-for="@Model.UserId" hidden />
+    <input asp-for="@Model.Anonymous" hidden />
     <div class="row">
         <div class="col-md-6">
             <table>

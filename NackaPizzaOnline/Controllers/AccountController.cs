@@ -225,6 +225,7 @@ namespace NackaPizzaOnline.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     Address = model.Address,
+                    ZipCode = model.ZipCode,
                     City = model.City,
                     FirstName = model.FirstName ?? "",
                     LastName = model.LastName ?? "",
