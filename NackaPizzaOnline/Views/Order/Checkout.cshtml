@@ -2,6 +2,7 @@
 @using NackaPizzaOnline.Models
 @model NackaPizzaOnline.Models.Order
 @inject DishIngredientService dishService
+@inject CalculateService calcService
 @*TODO Fixa så att man kan se alla maträtter och at man kan betala så att man får ett mail när man betalat.*@
 
 <h3>Din order</h3>
@@ -19,7 +20,7 @@
                         <td>
                             <div>
                                 <strong>@dishService.GetNameOfDish(cartItem.DishId)</strong>
-                                <p>á la pris @cartItem.Sum kr</p>
+                                <p>á la pris @calcService.TotalForCartItem(cartItem) kr</p>
                                 <p>@dishService.WriteOutIngredients(cartItem.CartId, cartItem.CartItemId)</p>
                             </div>
                         </td>

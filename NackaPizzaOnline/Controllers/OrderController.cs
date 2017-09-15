@@ -59,7 +59,6 @@ namespace NackaPizzaOnline.Controllers
                 ViewBag.UserAddress = user.Address;
                 ViewBag.UserZipCode = user.ZipCode;
                 ViewBag.UserCity = user.City;
-
             }
             return View("BakeConfirmed", order);
         }

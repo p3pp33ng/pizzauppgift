@@ -42,6 +42,7 @@ namespace NackaPizzaOnline
             services.AddTransient<DishIngredientService>();
             services.AddTransient<CartService>();
             services.AddTransient<OrderService>();
+            services.AddTransient<CalculateService>();
 
             services.AddMvc();
             // Add CookieTempDataProvider after AddMvc and include ViewFeatures.
