@@ -35,7 +35,12 @@ namespace NackaPizzaOnline.Services
                 Anonymous = !user.Identity.IsAuthenticated,
                 TotalAmount = _calculateService.TotalForCart(_cartService.GetCart(cartId)),
                 UserId = _userManager.GetUserId(user) ?? "",
-                CartItems = _context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.CartItemIngredients).FirstOrDefault(c => c.CartId == cartId).CartItems
+                CartItems = _context.Carts.Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.CartItemIngredients)
+                    .Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.Dish)
+                    .ThenInclude(d => d.DishIngredients)
+                    .FirstOrDefault(c => c.CartId == cartId).CartItems
             };
             _context.Orders.Add(order);
             _context.SaveChanges();
