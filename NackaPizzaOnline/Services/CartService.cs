@@ -120,6 +120,7 @@ namespace NackaPizzaOnline.Services
                 .ThenInclude(cii => cii.Ingredient)
                 .Include(c => c.CartItems)
                 .ThenInclude(ci => ci.Dish)
+                .ThenInclude(d=>d.DishIngredients)
                 .FirstOrDefault(c => c.CartId == cartId);
         }
     }
