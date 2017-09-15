@@ -12,7 +12,6 @@ namespace NackaPizzaOnline.Models
         Invoice,
         Paypal,
         PayOnArrival,
-        NotStillPayed
     }
     public class Order
     {

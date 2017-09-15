@@ -31,7 +31,7 @@ namespace NackaPizzaOnline.Services
             var order = new Order
             {
                 Paid = false,
-                PayMethod = PayMethods.NotStillPayed,
+                PayMethod = PayMethods.CreditCard,
                 Anonymous = !user.Identity.IsAuthenticated,
                 TotalAmount = _calculateService.TotalForCart(_cartService.GetCart(cartId)),
                 UserId = _userManager.GetUserId(user) ?? "",
@@ -50,17 +50,23 @@ namespace NackaPizzaOnline.Services
 
         public bool SaveOrderWhitAllData(Order order)
         {         
-            //TODO spara ner all data som kommit in via order. För att senare kunna visa det i applicationUser.
             try
             {
+                if (order.PayMethod == PayMethods.PayOnArrival)
+                {
+                    order.Paid = false;
+                }
+                else
+                {
+                    order.Paid = true;
+                }
                 _context.Orders.Update(order);
                 _context.SaveChanges();
             }
             catch (Exception)
             {
                 return false;
-            }
-            
+            }            
             return true;
         }
     }
