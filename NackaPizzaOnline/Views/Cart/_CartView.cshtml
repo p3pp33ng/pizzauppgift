@@ -19,7 +19,7 @@
                 <td>
                     <div>
                         <p>@DishService.WriteOutIngredients(Model.CartId, cartItem.CartItemId)</p><br />
-                        <strong>Pris: @cartItem.Sum kr</strong>
+                        <strong>Pris: @cartService.TotalForCartItem(cartItem.CartItemId) kr</strong>
                         <button class="btn btn-default">Ändra</button>
                         <button class="btn btn-danger" onclick="DeleteFromCart('@Model.CartId','@cartItem.CartItemId')">Ta bort</button>
                     </div>
@@ -30,7 +30,7 @@
 
     @if (Model.CartItems.Count != 0)
     {
-        <strong>Totalsumma: @cartService.CountingTotalToCartInView(Model.CartId) kr</strong>
+        <strong>Totalsumma: @cartService.TotalForCart(Model.CartId) kr</strong>
         <form asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.CartId">
             <input class="btn btn-success" value="Betala" type="submit" />
         </form>

@@ -10,7 +10,7 @@ namespace NackaPizzaOnline.Models
         public int CartItemId { get; set; }
         public string CartId { get; set; }
         public int DishId { get; set; }
-        public int Sum { get; set; }
+        public Dish Dish { get; set; }
         public List<CartItemIngredients> CartItemIngredients { get; set; } = new List<CartItemIngredients>();
     }
 }

@@ -16,10 +16,12 @@ namespace NackaPizzaOnline.Services
     public class CartService
     {
         private readonly ApplicationDbContext _context;
+        private readonly CalculateService _calculateService;
 
-        public CartService(ApplicationDbContext context)
+        public CartService(ApplicationDbContext context, CalculateService calculateService)
         {
             _context = context;
+            _calculateService = calculateService;
         }
 
         public Cart CreateCart()
@@ -62,9 +64,8 @@ namespace NackaPizzaOnline.Services
                     });
                 }
             }
-            CountingTotalSumOnCartItem(cartItem.CartItemId);
+            TotalForCartItem(cartItem.CartItemId);
             _context.CartItems.Update(cartItem);
-            cart.Sum += cartItem.Sum;
             _context.Carts.Update(cart);
             _context.SaveChanges();
 
@@ -74,7 +75,6 @@ namespace NackaPizzaOnline.Services
         public Cart RemoveCartItem(string cartId, int cartItemId)
         {
             var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.CartId == cartId);
-            cart.Sum = cart.Sum - cart.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId).Sum;
             cart.CartItems.Remove(_context.CartItems.First(ci => ci.CartItemId == cartItemId));
             _context.Carts.Update(cart);
             _context.SaveChanges();
@@ -88,7 +88,7 @@ namespace NackaPizzaOnline.Services
             _context.SaveChanges();
         }
 
-        public void CountingTotalSumOnCartItem(int cartItemId)
+        public int TotalForCartItem(int cartItemId)
         {
             var result = 0;
             var cartItem = _context.CartItems.Include(ci => ci.CartItemIngredients).FirstOrDefault(ci => ci.CartItemId == cartItemId);
@@ -104,20 +104,23 @@ namespace NackaPizzaOnline.Services
                     result += item.Ingredient.PriceIfExtra;
                 }
             }
-            cartItem.Sum = result;
-            _context.CartItems.Update(cartItem);
-            _context.SaveChanges();
+            return result;
         }
 
-        public int CountingTotalToCartInView(string cartId)
+        public int TotalForCart(string cartId)
         {
-            var result = 0;
-            var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.CartId == cartId);
-            foreach (var cartItem in cart.CartItems.ToList())
-            {
-                result += cartItem.Sum;
-            }
+            Cart cart = GetCart(cartId);
+            var result = _calculateService.TotalForCart(cart);
             return result;
+        }
+        public Cart GetCart(string cartId)
+        {
+            return _context.Carts.Include(c => c.CartItems)
+                .ThenInclude(ci => ci.CartItemIngredients)
+                .ThenInclude(cii => cii.Ingredient)
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Dish)
+                .FirstOrDefault(c => c.CartId == cartId);
         }
     }
 }

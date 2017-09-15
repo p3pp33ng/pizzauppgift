@@ -9,27 +9,27 @@ namespace OnlinePizzaTest
     public class CalculateServiceTest
     {
         [Fact]
-        public void CanCountCorrectPriceFromCartItems()
+        public void TotalForCartItem()
         {
-            var cart = GetCart();            
-            var cartItem = GetCartItem();
-            var dish = GetDish();
-
-            var service = new CalculateService();
-            var countingCartItem = service.CountingTotalSumOnCartItem(cartItem.CartItemId, cart, dish);
-
-            Assert.Equal(45, countingCartItem);
+            // Arrrange
+            var cartItem = GetCartItem();            
+            var calculateService = new CalculateService();
+            // Act
+            var totalForCartItem = calculateService.TotalForCartItem(cartItem);
+            // Assert
+            Assert.Equal(45, totalForCartItem);
         }
 
         [Fact]
-        public void CanCalculateCartTotalSum()
+        public void TotalForCart()
         {
+            // Arrange
             var cart = GetCart();
-
             var service = new CalculateService();
-            var calculateCart = service.CountingTotalToCartInView(cart);
-
-            Assert.Equal(40, calculateCart);
+            // Act
+            var calculateCart = service.TotalForCart(cart);
+            // Assert
+            Assert.Equal(55, calculateCart);
         }
 
         public Cart GetCart()
@@ -40,9 +40,9 @@ namespace OnlinePizzaTest
 
             var sallad = new Category { CategoryId = 1, Name = "Sallad" };
 
-            var dish = new Dish { Name = "Cesar sallad", Category = sallad, DishId = 1, Price = 40 };
+            var dish = new Dish { Name = "Cesar sallad", Category = sallad, DishId = 1, Price = 40, DishIngredients=new List<DishIngredient>() };
             
-            var cartItem = new CartItem { CartId = "cart", CartItemId = 1, DishId = dish.DishId, Sum = dish.Price };
+            var cartItem = new CartItem { CartId = "cart", CartItemId = 1, DishId = dish.DishId, Dish = dish };
             var cartItemList = new List<CartItem>();
             cartItemList.Add(cartItem);
 
@@ -61,11 +61,9 @@ namespace OnlinePizzaTest
 
         public CartItem GetCartItem()
         {
-            var sallad = new Category { CategoryId = 1, Name = "Sallad" };
+            var dish = GetDish();
 
-            var dish = new Dish { Name = "Cesar sallad", Category = sallad, DishId = 1, Price = 40 };
-
-            var cartItem = new CartItem { CartId = "cart", CartItemId = 1, DishId = dish.DishId };
+            var cartItem = new CartItem { CartId = "cart", CartItemId = 1, DishId = dish.DishId, Dish = dish };
 
             var a = new Ingredient { IngredientId = 1, PriceIfExtra = 5, Name = "Morot" };
             var b = new Ingredient { IngredientId = 2, PriceIfExtra = 5, Name = "Sallad" };

@@ -6,36 +6,23 @@ using System.Threading.Tasks;
 
 namespace NackaPizzaOnline.Services
 {
+    delegate int Cool(CartItem cartItem);
     public class CalculateService
     {
-        public int CountingTotalToCartInView(Cart cart)
+        public int TotalForCart(Cart cart)
         {
             var result = 0;
-
-            foreach (var cartItem in cart.CartItems)
-            {
-                result += cartItem.Sum;
-            }
-            cart.Sum = result;
-            return cart.Sum;
+            cart.CartItems.ForEach(ci => result += TotalForCartItem(ci));
+            return result;
         }
 
-        public int CountingTotalSumOnCartItem(int cartItemId, Cart cart, Dish dish)
+        public int TotalForCartItem(CartItem cartItem)
         {
-            var result = 0;
-            var cartItem = cart.CartItems.FirstOrDefault(ci => ci.CartItemId == cartItemId).CartItemIngredients.ToList();
-            var orginalIngredients = dish.DishIngredients.Where(i => i.DishId == dish.DishId).Select(di => di.Ingredient).ToList();
-
-            result += dish.Price;
-
-            foreach (var item in cartItem)
-            {
-                if (!orginalIngredients.Contains(item.Ingredient))
-                {
-                    result += item.Ingredient.PriceIfExtra;
-                }
-            }
-
+            var result = cartItem.Dish.Price +
+                cartItem.CartItemIngredients
+                    .Where(cii => !cartItem.Dish.DishIngredients
+                    .Any(di => di.IngredientId == cii.IngredientId))
+                    .Sum(cii => cii.Ingredient.PriceIfExtra);
             return result;
         }
     }

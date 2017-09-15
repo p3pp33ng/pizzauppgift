@@ -14,11 +14,16 @@ namespace NackaPizzaOnline.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly CalculateService _calculateService;
+        private readonly CartService _cartService;
 
-        public OrderService(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public OrderService(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
+            CalculateService calculateService, CartService cartService)
         {
             _context = context;
             _userManager = userManager;
+            _calculateService = calculateService;
+            _cartService = cartService;
         }
 
         public Order CreateOrderFromCart(string cartId, ClaimsPrincipal user = null)
@@ -29,7 +34,7 @@ namespace NackaPizzaOnline.Services
                 Paid = false,
                 PayMethod = PayMethods.NotStillPayed,
                 Anonymous = !user.Identity.IsAuthenticated,
-                TotalAmount = _context.Carts.FirstOrDefault(c => c.CartId == cartId).Sum,
+                TotalAmount = _calculateService.TotalForCart(_cartService.GetCart(cartId)),
                 UserId = _userManager.GetUserId(user) ?? "",
                 CartItems = _context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.CartItemIngredients).FirstOrDefault(c => c.CartId == cartId).CartItems
             };
