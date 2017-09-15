@@ -69,5 +69,10 @@ namespace NackaPizzaOnline.Services
             }            
             return true;
         }
+
+        public List<Order> GetAllOrdersForUser(string id)
+        {
+            return _context.Orders.Include(o => o.CartItems).ThenInclude(ci => ci.CartItemIngredients).Where(o => o.UserId == id).ToList();
+        }
     }
 }

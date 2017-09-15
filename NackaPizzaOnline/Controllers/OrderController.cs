@@ -62,5 +62,12 @@ namespace NackaPizzaOnline.Controllers
             }
             return View("BakeConfirmed", order);
         }
+
+        [HttpPost]
+        public ActionResult GetAllOrders(string id)
+        {
+
+            return View(_orderService.GetAllOrdersForUser(id));
+        }
     }
 }

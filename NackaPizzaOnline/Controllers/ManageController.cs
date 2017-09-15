@@ -68,7 +68,7 @@ namespace NackaPizzaOnline.Controllers
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage
             };
-
+            ViewBag.UserId = user.Id;
             return View(model);
         }
 
