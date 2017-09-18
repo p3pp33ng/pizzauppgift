@@ -30,9 +30,10 @@ namespace NackaPizzaOnline.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
-        public ActionResult CheckOut(string cartId)
+        [HttpGet]
+        public ActionResult CheckOut()
         {
+            var cartId = HttpContext.Session.GetString("CartId");
             var order = _orderService.CreateOrderFromCart(cartId, HttpContext.User);
             if (User.Identity.IsAuthenticated)
             {
@@ -45,28 +46,32 @@ namespace NackaPizzaOnline.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendOffToBake(Order order)
+        public ActionResult Checkout(Order order)
         {
-            if (_orderService.SaveOrderWhitAllData(order))
+            if (ModelState.IsValid)
             {
-                _cartService.RemoveCart(HttpContext.Session.GetString("CartId"));
-                HttpContext.Session.Remove(SessionCartId);
-            }
+                if (_orderService.SaveOrderWhitAllData(order))
+                {
+                    _cartService.RemoveCart(HttpContext.Session.GetString("CartId"));
+                    HttpContext.Session.Remove(SessionCartId);
+                }
 
-            if (!order.Anonymous)
-            {
-                var user = _context.Users.FirstOrDefault(u => u.Id == order.UserId);
-                ViewBag.UserAddress = user.Address;
-                ViewBag.UserZipCode = user.ZipCode;
-                ViewBag.UserCity = user.City;
+                if (!order.Anonymous)
+                {
+                    var user = _context.Users.FirstOrDefault(u => u.Id == order.UserId);
+                    ViewBag.UserAddress = user.Address;
+                    ViewBag.UserZipCode = user.ZipCode;
+                    ViewBag.UserCity = user.City;
+                }
+                return View("BakeConfirmed", order);
             }
-            return View("BakeConfirmed", order);
+            var orderTwo = _context.Orders.Include(o => o.CartItems).First(o=>o.OrderId == order.OrderId);
+            return View(orderTwo);
         }
 
         [HttpPost]
         public ActionResult GetAllOrders(string id)
         {
-
             return View(_orderService.GetAllOrdersForUser(id));
         }
     }

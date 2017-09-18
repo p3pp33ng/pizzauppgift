@@ -31,7 +31,7 @@
     @if (Model.CartItems.Count != 0)
     {
         <strong>Totalsumma: @cartService.TotalForCart(Model.CartId) kr</strong>
-        <form asp-action="Checkout" asp-controller="Order" asp-route-cartId="@Model.CartId">
+        <form asp-action="Checkout" asp-controller="Order" method="get">
             <input class="btn btn-success" value="Betala" type="submit" />
         </form>
     }
