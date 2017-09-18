@@ -20,9 +20,17 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Staging"
       },
       "applicationUrl": "http://localhost:60926/"
     }
+  //},
+  //"DevMode": {
+  //  "commandName": "PizzaDev",
+  //  "launchBrowser": true,
+  //  "environmentVariables": {
+  //    "ASPNETCORE_ENVIRONMENT": "Development"
+  //  },
+  //  "applicationUrl": "http://localhost:60927/"
   }
-}
+  }
