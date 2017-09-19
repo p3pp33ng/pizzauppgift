@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NackaPizzaOnline.Migrations
 {
-    public partial class FirstTry : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,9 +84,9 @@ namespace NackaPizzaOnline.Migrations
                     OrderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Anonymous = table.Column<bool>(type: "bit", nullable: false),
-                    AnonymousAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AnonymousCity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AnonymousZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AnonymousAddress = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    AnonymousCity = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
+                    AnonymousZipCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     Paid = table.Column<bool>(type: "bit", nullable: false),
                     PayMethod = table.Column<int>(type: "int", nullable: false),
                     TotalAmount = table.Column<int>(type: "int", nullable: false),

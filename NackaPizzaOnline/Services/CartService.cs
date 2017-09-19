@@ -84,7 +84,13 @@ namespace NackaPizzaOnline.Services
 
         public void RemoveCart(string cartid)
         {
-            _context.Carts.Remove(_context.Carts.First(c => c.CartId == cartid));
+            var cartItems = _context.CartItems.Where(ci => ci.CartId == cartid).ToList();
+            foreach (var item in cartItems)
+            {
+                item.CartId = null;
+            }
+            _context.CartItems.UpdateRange(cartItems);
+            _context.Carts.Remove(_context.Carts.Single(c => c.CartId == cartid));
             _context.SaveChanges();
         }
 
@@ -120,7 +126,7 @@ namespace NackaPizzaOnline.Services
                 .ThenInclude(cii => cii.Ingredient)
                 .Include(c => c.CartItems)
                 .ThenInclude(ci => ci.Dish)
-                .ThenInclude(d=>d.DishIngredients)
+                .ThenInclude(d => d.DishIngredients)
                 .FirstOrDefault(c => c.CartId == cartId);
         }
     }

@@ -10,6 +10,7 @@ using NackaPizzaOnline.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NackaPizzaOnline.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace NackaPizzaOnline.Controllers
 {
@@ -17,11 +18,13 @@ namespace NackaPizzaOnline.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly DishIngredientService _dishIngredientService;
+        private readonly CartService _cartService;
 
-        public HomeController(ApplicationDbContext context, DishIngredientService dishIngredientService)
+        public HomeController(ApplicationDbContext context, DishIngredientService dishIngredientService, CartService cartService)
         {
             _context = context;
             _dishIngredientService = dishIngredientService;
+            _cartService = cartService;
         }
         public IActionResult Index()
         {
@@ -31,6 +34,11 @@ namespace NackaPizzaOnline.Controllers
                 Dishes = _context.Dishes.Include(d => d.DishIngredients).ToList(),
                 Ingredients = _context.Ingredients.ToList()
             };
+            var session = HttpContext.Session.GetString("CartId");
+            if (session != null)
+            {
+                GetCartIfExsists(session);
+            }
             return View(model);
         }
 
@@ -44,6 +52,12 @@ namespace NackaPizzaOnline.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public ActionResult GetCartIfExsists(string cartId)
+        {
+            var cart = _cartService.GetCart(cartId);
+            return PartialView("_CartView",cart);
         }
     }
 }

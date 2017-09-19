@@ -28,6 +28,7 @@
                 }
             </table>
             <label asp-for="@Model.TotalAmount"></label>
+            <input asp-for="@Model.TotalAmount" hidden />
             @Html.DisplayFor(model => model.TotalAmount)
         </div>
     </div>

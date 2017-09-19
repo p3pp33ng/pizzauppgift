@@ -40,7 +40,10 @@ namespace NackaPizzaOnline.Services
                     .Include(c => c.CartItems)
                     .ThenInclude(ci => ci.Dish)
                     .ThenInclude(d => d.DishIngredients)
-                    .FirstOrDefault(c => c.CartId == cartId).CartItems
+                    .FirstOrDefault(c => c.CartId == cartId).CartItems,
+                AnonymousAddress = "",
+                AnonymousCity = "",
+                AnonymousZipCode = ""
             };
             _context.Orders.Add(order);
             _context.SaveChanges();

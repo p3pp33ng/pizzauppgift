@@ -70,17 +70,3 @@ function DeleteFromCart(cartId, cartIemId) {
         }
     });
 }
-
-//function GoToCheckOut(cart) {
-//    $.ajax({
-//        type: "GET",
-//        data: { "cart": JSON.parse(cart) },
-//        url: "Order/CheckOut",
-//        error: function () {
-//            alert("Något gick fel.");
-//        },
-//        success: function () {
-
-//        }
-//    });
-//}

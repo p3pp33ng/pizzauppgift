@@ -305,11 +305,17 @@ namespace NackaPizzaOnline.Migrations
 
                     b.Property<bool>("Anonymous");
 
-                    b.Property<string>("AnonymousAddress");
+                    b.Property<string>("AnonymousAddress")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("AnonymousCity");
+                    b.Property<string>("AnonymousCity")
+                        .IsRequired()
+                        .HasMaxLength(70);
 
-                    b.Property<string>("AnonymousZipCode");
+                    b.Property<string>("AnonymousZipCode")
+                        .IsRequired()
+                        .HasMaxLength(5);
 
                     b.Property<bool>("Paid");
 

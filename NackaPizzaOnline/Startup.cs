@@ -29,16 +29,16 @@ namespace NackaPizzaOnline
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //if (_env.IsProduction() || _env.IsStaging())
-            //{
-            //    services.AddDbContext<ApplicationDbContext>(options =>
-            //        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //}
-            //else
-            //{
+            if (_env.IsProduction() || _env.IsStaging())
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
+            else
+            {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseInMemoryDatabase("DefaultConnection"));
-            //}
+            }
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -96,8 +96,8 @@ namespace NackaPizzaOnline
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            //if (_env.IsProduction() || _env.IsStaging())
-            //    context.Database.Migrate();
+            if (_env.IsProduction() || _env.IsStaging())
+                context.Database.Migrate();
 
             DBInitializer.Initialize(context, userManager, roleManager);
         }
