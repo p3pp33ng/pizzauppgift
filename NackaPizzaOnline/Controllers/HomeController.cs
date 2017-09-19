@@ -33,31 +33,18 @@ namespace NackaPizzaOnline.Controllers
                 Categories = _context.Categories.ToList(),
                 Dishes = _context.Dishes.Include(d => d.DishIngredients).ToList(),
                 Ingredients = _context.Ingredients.ToList()
-            };
-            var session = HttpContext.Session.GetString("CartId");
-            if (session != null)
-            {
-                GetCartIfExsists(session);
-            }
+            };           
             return View(model);
         }
 
         public PartialViewResult GetDishInfoForModal(int id)
         {
-            var viewModel = _dishIngredientService.BuildCustomizeViewModel(id);
-
-            return PartialView("_CustomizeView", viewModel);
+            return PartialView("_CustomizeView", _dishIngredientService.BuildCustomizeViewModel(id));
         }
 
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public ActionResult GetCartIfExsists(string cartId)
-        {
-            var cart = _cartService.GetCart(cartId);
-            return PartialView("_CartView",cart);
-        }
+        }       
     }
 }

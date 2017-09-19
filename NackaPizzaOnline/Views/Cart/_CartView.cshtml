@@ -1,9 +1,7 @@
-﻿@using Microsoft.AspNetCore.Http
-@using NackaPizzaOnline.Services
+﻿@using NackaPizzaOnline.Services
 @model Cart
 @inject DishIngredientService DishService
 @inject CartService cartService
-@{var cartId = Context.Session.GetString("CartId"); }
 <h5>Varukorg</h5>
 @if (Model != null)
 {

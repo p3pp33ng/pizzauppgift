@@ -100,5 +100,12 @@ namespace NackaPizzaOnline.Controllers
            
             return PartialView("_CartView", cart);
         }
+
+        [HttpGet]
+        public ActionResult GetCartIfExsists(string cartId)
+        {
+            var cart = _cartService.GetCart(cartId);
+            return PartialView("_CartView", cart);
+        }
     }
 }

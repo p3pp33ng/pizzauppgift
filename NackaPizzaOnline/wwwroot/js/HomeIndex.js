@@ -1,8 +1,4 @@
 ﻿var modal = document.getElementById('ingredientmodal');
-//var btn = document.getElementById('ingredientsbtn');
-//var span = document.getElementsByClassName('close')[0];
-//var modalDishName = document.getElementById('modalDishName');
-
 
 function GetDishInfo(id) {
     $.ajax({
@@ -11,6 +7,9 @@ function GetDishInfo(id) {
         url: "Home/GetDishInfoForModal",
         success: function (response) {
             $('#ingredientmodal').html(response);
+        },
+        error: function () {
+            alert("Något gick fel i GetDishInfo");
         }
     });
 }
@@ -35,7 +34,7 @@ function BuyDishAfterCustomize(id) {
         data: { "id": id, "stringOfIngredients": JSON.stringify(listOfIngredients) },
         url: "Cart/AddDishToCartAfterCustomizing",
         error: function () {
-            alert('Något gick fel.');
+            alert('Något gick fel i BuyDishAfterCustomize');
         },
         success: function (response) {
 
@@ -43,13 +42,14 @@ function BuyDishAfterCustomize(id) {
         }
     });
 }
+
 function BuyDishNoCustomizing(id) {
     $.ajax({
         type: "GET",
         data: { "id": id },
         url: "Cart/AddDishWithoutCustomizing",
         error: function () {
-            alert('Något gick fel.');
+            alert('Något gick fel i BuyDishNoCustomizing');
         },
         success: function (response) {
             $('#cartview').html(response)
@@ -63,10 +63,32 @@ function DeleteFromCart(cartId, cartIemId) {
         data: { "cartId": cartId, "cartItemId": cartIemId },
         url: "Cart/RemoveFromCart",
         error: function () {
-            alert("Något gick fel.");
+            alert("Något gick fel i DeleteFromCart");
         },
         success: function (response) {
             $('#cartview').html(response)
         }
     });
+}
+
+function getCartIfExists() {
+    var id = document.getElementById('session').value;
+    return id;
+}
+
+if ($(document).ready()) {
+    var id = getCartIfExists();
+    if (id != null) {
+        $.ajax({
+            type: "GET",
+            data: { "cartId": id },
+            url: "Cart/GetCartIfExsists",
+            error: function () {
+                alert("Något gick fel i getCartIfExists");
+            },
+            success: function (response) {
+                $('#cartview').html(response);
+            }
+        });
+    }
 }
