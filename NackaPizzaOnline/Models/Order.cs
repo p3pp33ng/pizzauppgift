@@ -8,10 +8,10 @@ namespace NackaPizzaOnline.Models
 {
     public enum PayMethods
     {
-        CreditCard,
+        PayOnArrival,
         Invoice,
         Paypal,
-        PayOnArrival,
+        CreditCard,
     }
     public class Order
     {

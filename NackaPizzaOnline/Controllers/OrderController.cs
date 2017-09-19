@@ -51,7 +51,7 @@ namespace NackaPizzaOnline.Controllers
             if (ModelState.IsValid)
             {
                 if (_orderService.SaveOrderWhitAllData(order))
-                {
+                {                    
                     _cartService.RemoveCart(HttpContext.Session.GetString("CartId"));
                     HttpContext.Session.Remove(SessionCartId);
                 }
@@ -61,10 +61,15 @@ namespace NackaPizzaOnline.Controllers
                     var user = _context.Users.FirstOrDefault(u => u.Id == order.UserId);
                     ViewBag.UserAddress = user.Address;
                     ViewBag.UserZipCode = user.ZipCode;
-                    ViewBag.UserCity = user.City;
+                    ViewBag.UserCity = user.City;                    
+                }
+                if (order.PayMethod == PayMethods.CreditCard)
+                {
+                    ViewBag.OrderId = order.OrderId;
+                    return View("CreditCardView");
                 }
                 return View("BakeConfirmed", order);
-            }
+            }            
             var orderTwo = _context.Orders.Include(o => o.CartItems).First(o=>o.OrderId == order.OrderId);
             return View(orderTwo);
         }
@@ -73,6 +78,19 @@ namespace NackaPizzaOnline.Controllers
         public ActionResult GetAllOrders(string id)
         {
             return View(_orderService.GetAllOrdersForUser(id));
+        }
+
+        public ActionResult AllClear(int orderId)
+        {
+            var order = _context.Orders.Single(o=>o.OrderId == orderId);
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Id == order.UserId);
+                ViewBag.UserAddress = user.Address;
+                ViewBag.UserZipCode = user.ZipCode;
+                ViewBag.UserCity = user.City;
+            }
+            return View("BakeConfirmed", order);
         }
     }
 }

@@ -19,24 +19,7 @@
                                 <span>@Model.Ingredients[i].Text</span>
                             </td>
                         </tr>
-                    }        
-                        @*@foreach (var ingredient in Model.Ingredients)
-                        {
-                            <tr>
-                                <td>
-                                    @if (ingredient.Selected == true)
-                                    {
-                                        <label>@ingredient.Text</label>
-                                        <input type="checkbox" value="@ingredient.Value" name="@ingredient.Text" checked />
-                                    }
-                                    else
-                                    {
-                                        <label>@ingredient.Text</label>
-                                        <input type="checkbox" value="@ingredient.Value" name="@ingredient.Text" />
-                                    }
-                                </td>
-                            </tr>
-                        }*@                            
+                    }                
                 </table>
             </div>
             <div class="modal-footer">

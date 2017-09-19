@@ -3,7 +3,6 @@
 @model NackaPizzaOnline.Models.Order
 @inject DishIngredientService dishService
 @inject CalculateService calcService
-@*TODO Fixa så att man kan se alla maträtter och at man kan betala så att man får ett mail när man betalat.*@
 
 <h3>Din order</h3>
 
@@ -90,3 +89,7 @@
         <input class="btn btn-success" type="submit" value="Bekräfta beställning" />
     </div>
 </form>
+
+@section Scripts{     
+<script type="text/javascript" src="~/js/Order.js"></script>
+}

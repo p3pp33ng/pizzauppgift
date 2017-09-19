@@ -1,0 +1,33 @@
+﻿
+<h3>Vänligen mata in kortuppgifter</h3>
+
+<div class="col-md-4">
+    <div class="form-group">
+        <label>MasterCard</label>
+        <input type="radio" name="option"/><br />
+        <label>Visa</label>
+        <input  type="radio" name="option"/>
+    </div>
+    <div class="form-group">
+        <label>Kortnummer</label>
+        <input type="text"/>
+    </div>
+    <div class="form-group">
+        <label>Utgångsår</label>
+        <input type="text"/>
+    </div>
+    <div class="form-group">
+        <label>Utgångsmånad</label>
+        <input type="text"/>
+    </div>
+    <div class="form-group">
+        <label>CVC</label>
+        <input type="text"/>
+    </div>
+<div class="form-group">
+    <form asp-action="AllClear" asp-route-orderId="@ViewBag.OrderId">
+        <button class="btn btn-primary">Slutför köp</button>
+    </form>    
+</div>
+</div>
+
