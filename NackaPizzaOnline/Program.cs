@@ -19,6 +19,8 @@ namespace NackaPizzaOnline
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                //.CaptureStartupErrors(true)
+                //.UseSetting("detailedErrors", "true")
                 .UseKestrel()
                 .UseIISIntegration()
                 .UseStartup<Startup>()

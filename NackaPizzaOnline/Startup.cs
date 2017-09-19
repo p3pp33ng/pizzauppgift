@@ -99,6 +99,7 @@ namespace NackaPizzaOnline
             if (_env.IsProduction() || _env.IsStaging())
                 context.Database.Migrate();
 
+            //app.UseDeveloperExceptionPage();
             DBInitializer.Initialize(context, userManager, roleManager);
         }
     }

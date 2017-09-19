@@ -73,15 +73,15 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="AnonymousAddress"></label><br />
-                    <input value="@ViewBag.UserAddress" />
+                    <input asp-for="AnonymousAddress" value="@ViewBag.UserAddress" />
                 </div>
                 <div class="form-group">
                     <label asp-for="AnonymousZipCode"></label><br />
-                    <input value="@ViewBag.UserZipCode" />
+                    <input asp-for="AnonymousZipCode" value="@ViewBag.UserZipCode" />
                 </div>
                 <div class="form-group">
                     <label asp-for="AnonymousCity"></label><br />
-                    <input value="@ViewBag.UserCity" />
+                    <input asp-for="AnonymousCity" value="@ViewBag.UserCity" />
                 </div>
             </div>
         </div>

@@ -12,38 +12,41 @@ namespace NackaPizzaOnline.Data
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager)
         {
-            var userRole = new IdentityRole { Name = "User" };
-            IdentityResult userRoleResult = roleManager.CreateAsync(userRole).Result;
-            var aUser = new ApplicationUser
+            if (!context.Users.Any())
             {
-                UserName = "user@mail.com",
-                Email = "user@mail.com",
-                FirstName = "User",
-                LastName = "Usersson",
-                Address = "Usergatan 12",
-                ZipCode = "12345",
-                City = "Userton",
-                PhoneNumber = "07000000000"
-            };
-            IdentityResult result = userManager.CreateAsync(aUser, "Pa$$w0rd").Result;
-            userManager.AddToRoleAsync(aUser, userRole.Name);
+                var userRole = new IdentityRole { Name = "User" };
+                IdentityResult userRoleResult = roleManager.CreateAsync(userRole).Result;
+                var aUser = new ApplicationUser
+                {
+                    UserName = "user@mail.com",
+                    Email = "user@mail.com",
+                    FirstName = "User",
+                    LastName = "Usersson",
+                    Address = "Usergatan 12",
+                    ZipCode = "12345",
+                    City = "Userton",
+                    PhoneNumber = "07000000000"
+                };
 
-            var adminRole = new IdentityRole { Name = "Admin" };
-            IdentityResult roleResult = roleManager.CreateAsync(adminRole).Result;
-            var adminUser = new ApplicationUser
-            {
-                UserName = "admin@mail.com",
-                Email = "admin@mail.com",
-                FirstName = "Admin",
-                LastName = "Adminsson",
-                Address = "Admingatan 12",
-                ZipCode = "12345",
-                City = "Adminton",
-                PhoneNumber = "070562562562"
-            };
-            IdentityResult adminResult = userManager.CreateAsync(adminUser, "Adm1n$").Result;
-            userManager.AddToRoleAsync(adminUser, adminRole.Name);
+                IdentityResult result = userManager.CreateAsync(aUser, "Pa$$w0rd").Result;
+                userManager.AddToRoleAsync(aUser, userRole.Name);
 
+                var adminRole = new IdentityRole { Name = "Admin" };
+                IdentityResult roleResult = roleManager.CreateAsync(adminRole).Result;
+                var adminUser = new ApplicationUser
+                {
+                    UserName = "admin@mail.com",
+                    Email = "admin@mail.com",
+                    FirstName = "Admin",
+                    LastName = "Adminsson",
+                    Address = "Admingatan 12",
+                    ZipCode = "12345",
+                    City = "Adminton",
+                    PhoneNumber = "070562562562"
+                };
+                IdentityResult adminResult = userManager.CreateAsync(adminUser, "Adm1n$").Result;
+                userManager.AddToRoleAsync(adminUser, adminRole.Name);
+            }
 
             if (!context.Dishes.Any())
             {

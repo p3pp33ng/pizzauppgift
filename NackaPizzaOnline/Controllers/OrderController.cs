@@ -31,7 +31,7 @@ namespace NackaPizzaOnline.Controllers
         }
 
         [HttpGet]
-        public ActionResult CheckOut()
+        public ActionResult Checkout()
         {
             var cartId = HttpContext.Session.GetString("CartId");
             var order = _orderService.CreateOrderFromCart(cartId, HttpContext.User);
