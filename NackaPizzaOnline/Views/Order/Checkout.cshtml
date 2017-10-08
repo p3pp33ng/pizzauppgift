@@ -3,8 +3,10 @@
 @model NackaPizzaOnline.Models.Order
 @inject DishIngredientService dishService
 @inject CalculateService calcService
-
-<h3>Din order</h3>
+@section Style{ 
+<link href="~/css/CheckOutStyle.css" rel="stylesheet" />
+}
+<h3 class="checkout-text">Din order</h3>
 
 <form asp-controller="Order" asp-action="Checkout" method="post">
     <input asp-for="@Model.OrderId" hidden />

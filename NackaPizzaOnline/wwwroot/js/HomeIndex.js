@@ -17,8 +17,8 @@ function GetDishInfo(id) {
 function BuyDishAfterCustomize(id) {
     console.log(id);
     var listOfIngredients = [];
-    var that = this;
 
+    //Refactor this code
     var list = $('input[type="checkbox"]');
     for (var i = 0; i < list.length; i++) {
         if ($(list[i]).is(':checked')) {

@@ -6,11 +6,15 @@
 @{
     var ingredients = "";
 }
+@section Style{ 
+<link rel="stylesheet" href="~/css/MenyIndex.css" />
+}
 
-<h2>Meny</h2>
 
-<div class="col-md-8">
-    <table class="table">
+<h2 class="meny-text">Meny</h2>
+
+<div class="col-md-8 meny-table">
+    <table class="table table-condensed">
         @foreach (var item in Model.Dishes)
         {
             <tr>
@@ -55,7 +59,7 @@
     </table>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-4 cart-view">
     <div id="cartview"></div>
 </div>
 
