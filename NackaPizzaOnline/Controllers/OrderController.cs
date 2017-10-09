@@ -66,12 +66,31 @@ namespace NackaPizzaOnline.Controllers
                 if (order.PayMethod == PayMethods.CreditCard)
                 {
                     ViewBag.OrderId = order.OrderId;
-                    return View("CreditCardView");
+                    var creditCardModel = new CreditCardModel();
+                    return View("CreditCardView", creditCardModel);
                 }
                 return View("BakeConfirmed", order);
             }            
             var orderTwo = _context.Orders.Include(o => o.CartItems).First(o=>o.OrderId == order.OrderId);
             return View(orderTwo);
+        }
+
+        [HttpPost]
+        public ActionResult CheckCreditCard(CreditCardModel model, int orderId)
+        {
+            if (ModelState.IsValid)
+            {
+                var order = _context.Orders.FirstOrDefault(o=>o.OrderId == orderId);
+                if (!order.Anonymous)
+                {
+                    var user = _context.Users.FirstOrDefault(u => u.Id == order.UserId);
+                    ViewBag.UserAddress = user.Address;
+                    ViewBag.UserZipCode = user.ZipCode;
+                    ViewBag.UserCity = user.City;
+                }
+                return View("BakeConfirmed", order);
+            }
+            return View("CreditCardView", model);
         }
 
         [HttpPost]
