@@ -6,8 +6,9 @@
 
 <div class="col-md-10 creditcard-view">
     <div class="col-md-4">
-        <form asp-action="CheckCreditCard" asp-controller="Order" method="post" asp-route-orderId="@ViewBag.OrderId">
+        <form asp-action="CheckCreditCard" asp-controller="Order" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+            <input asp-for="OrderId" hidden />
                 <div class="form-group">
                     <label asp-for="CardNumber" class="control-label"></label><br />
                     <input asp-for="CardNumber" class="form-control" />
@@ -16,14 +17,17 @@
                 <div class="form-group">
                     <label asp-for="ExpireYear" class="control-label"></label><br />
                     <input asp-for="ExpireYear" class="form-control" />
+                    <span asp-validation-for="ExpireYear" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ExpireMonth" class="control-label"></label><br />
                     <input asp-for="ExpireMonth" class="form-control" />
+                    <span asp-validation-for="ExpireMonth" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Cvc" class="control-label"></label><br />
                     <input asp-for=" Cvc" class="form-control" />
+                    <span asp-validation-for="Cvc" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                    <input type="submit" value="Slutföra köpet" class="btn btn-primary" />

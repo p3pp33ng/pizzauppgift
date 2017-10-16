@@ -65,8 +65,9 @@ namespace NackaPizzaOnline.Controllers
                 }
                 if (order.PayMethod == PayMethods.CreditCard)
                 {
-                    ViewBag.OrderId = order.OrderId;
+                    //ViewBag.OrderId = order.OrderId;
                     var creditCardModel = new CreditCardModel();
+                    creditCardModel.OrderId = order.OrderId;
                     return View("CreditCardView", creditCardModel);
                 }
                 return View("BakeConfirmed", order);
@@ -76,11 +77,11 @@ namespace NackaPizzaOnline.Controllers
         }
 
         [HttpPost]
-        public ActionResult CheckCreditCard(CreditCardModel model, int orderId)
+        public ActionResult CheckCreditCard(CreditCardModel model)
         {
             if (ModelState.IsValid)
             {
-                var order = _context.Orders.FirstOrDefault(o=>o.OrderId == orderId);
+                var order = _context.Orders.FirstOrDefault(o=>o.OrderId == model.OrderId);
                 if (!order.Anonymous)
                 {
                     var user = _context.Users.FirstOrDefault(u => u.Id == order.UserId);

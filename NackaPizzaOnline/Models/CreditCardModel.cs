@@ -28,5 +28,7 @@ namespace NackaPizzaOnline.Models
         [Display(Name = "CVC")]
         [StringLength(maximumLength: 3, ErrorMessage = "{0} måste ha max {1} tecken och minimum {2} tecken.", MinimumLength = 3)]
         public string Cvc { get; set; }
+
+        public int OrderId { get; set; }
     }
 }
