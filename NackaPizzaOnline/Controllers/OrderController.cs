@@ -30,6 +30,8 @@ namespace NackaPizzaOnline.Controllers
             _userManager = userManager;
         }
 
+        //TODO Break out CheckOut to a own service.
+
         [HttpGet]
         public ActionResult Checkout()
         {
